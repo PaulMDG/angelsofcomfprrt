@@ -46,7 +46,7 @@ export function AdminShell({ email }: { email: string | null }) {
             return (
               <Link
                 key={n.to}
-                to={n.to}
+                to={n.to as any}
                 className={`block px-4 py-2.5 rounded text-[13px] tracking-[0.08em] transition-colors ${
                   active
                     ? "bg-[var(--gold)]/20 text-[var(--gold-light)]"
