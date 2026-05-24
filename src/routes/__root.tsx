@@ -75,14 +75,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Angels of Comfort" },
+      { name: "description", content: "Angels of Comfort offers premium in-home care services with a focus on dignity, trust, and compassion." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Angels of Comfort" },
+      { property: "og:description", content: "Angels of Comfort offers premium in-home care services with a focus on dignity, trust, and compassion." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Angels of Comfort" },
+      { name: "twitter:description", content: "Angels of Comfort offers premium in-home care services with a focus on dignity, trust, and compassion." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/G4nk8Ki590hArMdSGQqxXa6F5LF2/social-images/social-1779632121975-logo.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/G4nk8Ki590hArMdSGQqxXa6F5LF2/social-images/social-1779632121975-logo.webp" },
     ],
     links: [
       {
