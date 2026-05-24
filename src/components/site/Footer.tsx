@@ -1,11 +1,12 @@
+import { Link } from "@tanstack/react-router";
 import { MonogramAC, BotanicalSprig } from "./Botanical";
 
 const services: [string, string][] = [
-  ["Dementia Care", "/services/dementia-care"],
-  ["Companion Care", "/services/companion-care"],
-  ["Personal Care", "/services/personal-care"],
-  ["Respite Care", "/services/respite-care"],
-  ["Live-In Care", "/services/live-in-care"],
+  ["Dementia Care", "/services"],
+  ["Companion Care", "/services"],
+  ["Personal Care", "/services"],
+  ["Respite Care", "/services"],
+  ["Live-In Care", "/services"],
 ];
 const resources: [string, string][] = [
   ["Caregiver Burnout", "/resources"],
@@ -15,11 +16,11 @@ const resources: [string, string][] = [
   ["VA Benefits & Aid", "/resources"],
 ];
 const areas: [string, string][] = [
-  ["Baltimore County", "/service-areas"],
-  ["Towson", "/service-areas"],
-  ["Columbia", "/service-areas"],
-  ["Pikesville", "/service-areas"],
-  ["Ellicott City", "/service-areas"],
+  ["Baltimore County", "/about"],
+  ["Towson", "/about"],
+  ["Columbia", "/about"],
+  ["Pikesville", "/about"],
+  ["Ellicott City", "/about"],
 ];
 
 export function Footer() {
@@ -75,12 +76,8 @@ export function Footer() {
       <div style={{ background: "#080F1B" }} className="border-t border-[var(--gold)]/15">
         <div className="container-editorial py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--cream)] opacity-70">
           <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
-            <a href="/about">About Us</a>
-            <a href="/careers">Careers</a>
-            <a href="/privacy-policy">Privacy Policy</a>
-            <a href="/terms-of-use">Terms of Use</a>
-            <a href="/accessibility">Accessibility</a>
-            <a href="/sitemap">Sitemap</a>
+            <Link to="/about">About Us</Link>
+            <Link to="/consultation">Contact</Link>
           </div>
           <div>© 2026 Angels of Comfort Home Care. All rights reserved.</div>
         </div>
@@ -107,9 +104,9 @@ function FooterColumn({ title, links }: { title: string; links: [string, string]
       <ul className="space-y-2.5 text-sm text-[var(--cream)] opacity-90">
         {links.map(([label, href]) => (
           <li key={label}>
-            <a href={href} className="hover:text-[var(--gold-light)] transition-colors">
+            <Link to={href} className="hover:text-[var(--gold-light)] transition-colors">
               {label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
