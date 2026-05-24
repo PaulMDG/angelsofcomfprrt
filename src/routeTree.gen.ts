@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
 import { Route as AdminServicesIdRouteImport } from './routes/admin.services.$id'
 
@@ -78,6 +79,11 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFaqsRoute = AdminFaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
+  '/admin/faqs': typeof AdminFaqsRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/': typeof AdminIndexRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
+  '/admin/faqs': typeof AdminFaqsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin': typeof AdminIndexRoute
   '/admin/services/$id': typeof AdminServicesIdRoute
@@ -127,6 +135,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
+  '/admin/faqs': typeof AdminFaqsRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/': typeof AdminIndexRoute
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/resources'
     | '/services'
+    | '/admin/faqs'
     | '/admin/services'
     | '/admin/testimonials'
     | '/admin/'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/resources'
     | '/services'
+    | '/admin/faqs'
     | '/admin/testimonials'
     | '/admin'
     | '/admin/services/$id'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/resources'
     | '/services'
+    | '/admin/faqs'
     | '/admin/services'
     | '/admin/testimonials'
     | '/admin/'
@@ -269,6 +281,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/faqs': {
+      id: '/admin/faqs'
+      path: '/faqs'
+      fullPath: '/admin/faqs'
+      preLoaderRoute: typeof AdminFaqsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/services/': {
       id: '/admin/services/'
       path: '/'
@@ -301,12 +320,14 @@ const AdminServicesRouteWithChildren = AdminServicesRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminFaqsRoute: typeof AdminFaqsRoute
   AdminServicesRoute: typeof AdminServicesRouteWithChildren
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminFaqsRoute: AdminFaqsRoute,
   AdminServicesRoute: AdminServicesRouteWithChildren,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
   AdminIndexRoute: AdminIndexRoute,
