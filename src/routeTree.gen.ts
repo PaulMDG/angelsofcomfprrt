@@ -22,6 +22,7 @@ import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonia
 import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers'
 import { Route as AdminStaffRouteImport } from './routes/admin.staff'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminServiceAreasRouteImport } from './routes/admin.service-areas'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
 import { Route as AdminConsultationsRouteImport } from './routes/admin.consultations'
@@ -94,6 +95,11 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminServiceAreasRoute = AdminServiceAreasRouteImport.update({
+  id: '/service-areas',
+  path: '/service-areas',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMediaRoute = AdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/service-areas': typeof AdminServiceAreasRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/service-areas': typeof AdminServiceAreasRoute
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/service-areas': typeof AdminServiceAreasRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/media'
+    | '/admin/service-areas'
     | '/admin/services'
     | '/admin/staff'
     | '/admin/subscribers'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/media'
+    | '/admin/service-areas'
     | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/media'
+    | '/admin/service-areas'
     | '/admin/services'
     | '/admin/staff'
     | '/admin/subscribers'
@@ -355,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/service-areas': {
+      id: '/admin/service-areas'
+      path: '/service-areas'
+      fullPath: '/admin/service-areas'
+      preLoaderRoute: typeof AdminServiceAreasRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/media': {
       id: '/admin/media'
       path: '/media'
@@ -419,6 +438,7 @@ interface AdminRouteChildren {
   AdminConsultationsRoute: typeof AdminConsultationsRoute
   AdminFaqsRoute: typeof AdminFaqsRoute
   AdminMediaRoute: typeof AdminMediaRoute
+  AdminServiceAreasRoute: typeof AdminServiceAreasRoute
   AdminServicesRoute: typeof AdminServicesRouteWithChildren
   AdminStaffRoute: typeof AdminStaffRoute
   AdminSubscribersRoute: typeof AdminSubscribersRoute
@@ -431,6 +451,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminConsultationsRoute: AdminConsultationsRoute,
   AdminFaqsRoute: AdminFaqsRoute,
   AdminMediaRoute: AdminMediaRoute,
+  AdminServiceAreasRoute: AdminServiceAreasRoute,
   AdminServicesRoute: AdminServicesRouteWithChildren,
   AdminStaffRoute: AdminStaffRoute,
   AdminSubscribersRoute: AdminSubscribersRoute,
