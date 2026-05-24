@@ -3,53 +3,14 @@ import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { BotanicalSprig } from "@/components/site/Botanical";
 import { PageHeader } from "./PageHeader";
 import stillLife from "@/assets/services-stilllife.jpg";
-
-const services = [
-  {
-    name: "Dementia & Memory Care",
-    tagline: "Familiarity is medicine.",
-    desc: "For families navigating Alzheimer's and other memory-related conditions, our caregivers bring patience, structure, and deep respect. We focus on what your loved one can still do — and we protect what they cherish.",
-    includes: ["Specialized memory training", "Safe-at-home assessments", "Sundowning support", "Family education"],
-  },
-  {
-    name: "Companion Care",
-    tagline: "Loneliness is its own illness.",
-    desc: "Conversation. A shared meal. A drive to a favorite place. Companion care brings warmth and presence into the day — gently easing isolation and restoring small, ordinary joys.",
-    includes: ["Meaningful conversation", "Hobbies & games", "Light meal preparation", "Outings & errands"],
-  },
-  {
-    name: "Personal Care",
-    tagline: "Dignity, in every small moment.",
-    desc: "Help with bathing, dressing, mobility, and grooming — delivered with the kind of quiet respect that makes a difficult moment easier. Independence is preserved wherever possible.",
-    includes: ["Bathing & grooming", "Dressing assistance", "Mobility support", "Medication reminders"],
-  },
-  {
-    name: "Respite Care",
-    tagline: "You deserve to rest, too.",
-    desc: "Family caregivers carry a quiet weight. Respite care gives you back hours, days, or weeks — knowing your loved one is safe, supported, and genuinely cared for in your absence.",
-    includes: ["Hourly or overnight relief", "Vacation coverage", "Family-event support", "Recurring respite plans"],
-  },
-  {
-    name: "Live-In Care",
-    tagline: "Around-the-clock, at home.",
-    desc: "When your loved one needs continuous support, our live-in caregivers become a calm, consistent presence in the home — preserving routine, comfort, and connection.",
-    includes: ["24/7 in-home presence", "Overnight monitoring", "Daily routine management", "Consistent caregiver team"],
-  },
-  {
-    name: "Hospital Discharge Support",
-    tagline: "The first 30 days matter most.",
-    desc: "We bridge hospital to home with a coordinated plan — medication reminders, transportation, follow-up support, and gentle daily care during the most vulnerable stretch of recovery.",
-    includes: ["Discharge coordination", "Medication management", "Follow-up transportation", "Recovery monitoring"],
-  },
-  {
-    name: "Recovery & Post-Surgical Care",
-    tagline: "Healing happens at home.",
-    desc: "After surgery, illness, or injury, the body and the spirit both need rest. We provide attentive, focused care so your loved one can heal in the place that feels safest.",
-    includes: ["Mobility & wound watch", "Nutrition support", "Therapy reminders", "Comfort & companionship"],
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { fetchPublishedServices } from "@/lib/cms-services";
 
 export function ServicesPage() {
+  const { data: services = [] } = useQuery({
+    queryKey: ["public", "services"],
+    queryFn: fetchPublishedServices,
+  });
   return (
     <>
       <PageHeader
@@ -89,7 +50,7 @@ export function ServicesPage() {
 
             <div className="lg:col-span-8 space-y-10">
               {services.map((s, i) => (
-                <Reveal key={s.name} delay={i * 0.04}>
+                <Reveal key={s.id} delay={i * 0.04}>
                   <article className="border-t border-[var(--gold)]/30 pt-10 grid md:grid-cols-12 gap-8">
                     <div className="md:col-span-4">
                       <div className="text-[11px] tracking-[0.22em] uppercase text-[var(--gold)]">
@@ -105,7 +66,7 @@ export function ServicesPage() {
                     </div>
                     <div className="md:col-span-8">
                       <p className="text-[16px] leading-[1.8] text-[var(--text-body)] font-light">
-                        {s.desc}
+                        {s.description}
                       </p>
                       <ul className="mt-6 grid sm:grid-cols-2 gap-x-8 gap-y-2.5">
                         {s.includes.map((f) => (
@@ -118,6 +79,12 @@ export function ServicesPage() {
                           </li>
                         ))}
                       </ul>
+                      {s.body_html && (
+                        <div
+                          className="prose-editor mt-6 font-serif text-[17px] leading-[1.8] text-[var(--text-body)]"
+                          dangerouslySetInnerHTML={{ __html: s.body_html }}
+                        />
+                      )}
                     </div>
                   </article>
                 </Reveal>

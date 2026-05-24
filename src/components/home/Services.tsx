@@ -2,18 +2,14 @@ import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { BotanicalSprig } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
 import stillLife from "@/assets/services-stilllife.jpg";
-
-const services = [
-  { name: "Dementia Care", desc: "Specialized support for memory-related challenges with a focus on safety, structure, and meaningful connection." },
-  { name: "Respite Care", desc: "Relief for family caregivers. Take time to rest, recharge, and care for yourself — knowing your loved one is in good hands." },
-  { name: "Companion Care", desc: "Meaningful companionship that reduces loneliness and brings joy to everyday life." },
-  { name: "Personal Care", desc: "Respectful help with daily activities like bathing, dressing, and mobility — always preserving dignity and independence." },
-  { name: "Hospital Discharge Support", desc: "Smooth transitions from hospital to home with care coordination, medication reminders, and follow-up support." },
-  { name: "Live-In Care", desc: "24/7 support for those who need extra help throughout the day and night, in the comfort of home." },
-  { name: "Recovery Support", desc: "Compassionate assistance during recovery from illness, surgery, or injury — focused on healing, safety, and comfort." },
-];
+import { useQuery } from "@tanstack/react-query";
+import { fetchPublishedServices } from "@/lib/cms-services";
 
 export function Services() {
+  const { data: services = [] } = useQuery({
+    queryKey: ["public", "services"],
+    queryFn: fetchPublishedServices,
+  });
   return (
     <section className="bg-[var(--ivory)]">
       <div className="container-editorial section-pad grid lg:grid-cols-12 gap-16">
@@ -46,7 +42,7 @@ export function Services() {
           </Reveal>
           <div className="mt-8 divide-y divide-[var(--gold)]/25">
             {services.map((s, i) => (
-              <Reveal key={s.name} delay={i * 0.05}>
+              <Reveal key={s.id} delay={i * 0.05}>
                 <Link
                   to="/services"
                   className="group block py-7 transition-colors hover:bg-[var(--champagne)]/40 -mx-4 px-4 border-l-2 border-transparent hover:border-[var(--gold)]"
@@ -55,7 +51,7 @@ export function Services() {
                     style={{ fontSize: "26px" }}>
                     {s.name}
                   </h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-[var(--warm-gray)]">{s.desc}</p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-[var(--warm-gray)]">{s.description}</p>
                 </Link>
               </Reveal>
             ))}
