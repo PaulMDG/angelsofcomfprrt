@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers'
+import { Route as AdminStaffRouteImport } from './routes/admin.staff'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
@@ -83,6 +84,11 @@ const AdminSubscribersRoute = AdminSubscribersRouteImport.update({
   path: '/subscribers',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminStaffRoute = AdminStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminServicesRoute = AdminServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
+  '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/': typeof AdminIndexRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin': typeof AdminIndexRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
+  '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/': typeof AdminIndexRoute
@@ -194,6 +203,7 @@ export interface FileRouteTypes {
     | '/admin/faqs'
     | '/admin/media'
     | '/admin/services'
+    | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
     | '/admin/'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/media'
+    | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
     | '/admin'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/admin/faqs'
     | '/admin/media'
     | '/admin/services'
+    | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
     | '/admin/'
@@ -329,6 +341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSubscribersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/staff': {
+      id: '/admin/staff'
+      path: '/staff'
+      fullPath: '/admin/staff'
+      preLoaderRoute: typeof AdminStaffRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/services': {
       id: '/admin/services'
       path: '/services'
@@ -401,6 +420,7 @@ interface AdminRouteChildren {
   AdminFaqsRoute: typeof AdminFaqsRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminServicesRoute: typeof AdminServicesRouteWithChildren
+  AdminStaffRoute: typeof AdminStaffRoute
   AdminSubscribersRoute: typeof AdminSubscribersRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -412,6 +432,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminFaqsRoute: AdminFaqsRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminServicesRoute: AdminServicesRouteWithChildren,
+  AdminStaffRoute: AdminStaffRoute,
   AdminSubscribersRoute: AdminSubscribersRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
   AdminIndexRoute: AdminIndexRoute,
