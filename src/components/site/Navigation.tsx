@@ -202,53 +202,86 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              className="hidden lg:block border-t border-[var(--gold-light)]/15"
+              className="hidden lg:flex justify-center px-6"
             >
-              <div className="container-editorial py-12 grid grid-cols-12 gap-10">
-                <div className="col-span-3 pr-6 border-r border-[var(--gold-light)]/15">
-                  <div className="text-[10px] tracking-[0.28em] uppercase text-[var(--gold-light)] mb-4">
-                    {hovered}
+              <div
+                className="w-full max-w-[640px] grid grid-cols-2 gap-0 rounded-sm shadow-2xl"
+                style={{
+                  background: "#FAF8F4",
+                  boxShadow: "0 30px 60px -20px rgba(14, 27, 46, 0.35)",
+                }}
+              >
+                <div className="p-10 flex flex-col justify-between">
+                  <div>
+                    <svg
+                      width="42"
+                      height="42"
+                      viewBox="0 0 48 48"
+                      fill="none"
+                      stroke="var(--gold)"
+                      strokeWidth="1.2"
+                      className="mb-6"
+                    >
+                      <path d="M8 22L24 8l16 14v18a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V22z" />
+                      <path d="M24 30c-3-2.2-6-4-6-7a3 3 0 0 1 6-1.5A3 3 0 0 1 30 23c0 3-3 4.8-6 7z" />
+                    </svg>
+                    <p
+                      className="font-serif italic text-[17px] leading-[1.6] max-w-[220px]"
+                      style={{ color: "#3a3530" }}
+                    >
+                      {activeMega.tagline}{" "}
+                      <span className="not-italic">{activeMega.italic}</span>
+                    </p>
+                    <div
+                      className="mt-6 h-px w-12"
+                      style={{ background: "var(--gold)" }}
+                    />
                   </div>
-                  <h3 className="font-serif text-[28px] leading-[1.15] text-[var(--ivory)]">
-                    {activeMega.tagline}{" "}
-                    <em className="text-[var(--gold-light)] font-normal">{activeMega.italic}</em>
-                  </h3>
                   <Link
                     to={activeMega.cta.to}
                     onClick={() => setHovered(null)}
-                    className="inline-flex items-center gap-2 mt-6 text-[11px] tracking-[0.2em] uppercase text-[var(--gold-light)] hover:text-[var(--ivory)] transition-colors"
+                    className="inline-flex items-center gap-2 mt-8 text-[10px] tracking-[0.24em] uppercase font-medium hover:opacity-70 transition-opacity"
+                    style={{ color: "var(--gold)" }}
                   >
                     {activeMega.cta.label}
                     <span>→</span>
                   </Link>
                 </div>
-                {activeMega.columns.map((col) => (
-                  <div key={col.heading} className="col-span-3">
-                    <div className="text-[10px] tracking-[0.28em] uppercase text-[var(--gold-light)]/70 mb-5">
-                      {col.heading}
-                    </div>
-                    <ul className="space-y-4">
-                      {col.items.map((item) => (
-                        <li key={item.label}>
-                          <Link
-                            to={col.heading === "The Journal" || col.heading === "Guides" || col.heading === "Planning" ? "/resources" : "/services"}
-                            onClick={() => setHovered(null)}
-                            className="group block"
-                          >
-                            <div className="font-serif text-[17px] text-[var(--ivory)] group-hover:text-[var(--gold-light)] transition-colors leading-snug">
-                              {item.label}
-                            </div>
-                            {item.desc && (
-                              <div className="text-[12px] text-[var(--ivory)]/55 mt-1 leading-relaxed">
-                                {item.desc}
-                              </div>
-                            )}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+                <ul className="py-4 pr-4">
+                  {activeMega.columns.flatMap((col) => col.items).map((item, idx, arr) => (
+                    <li
+                      key={item.label}
+                      className={
+                        idx < arr.length - 1
+                          ? "border-b border-[#0e1b2e]/8"
+                          : ""
+                      }
+                    >
+                      <Link
+                        to={hovered === "Resources" ? "/resources" : "/services"}
+                        onClick={() => setHovered(null)}
+                        className="group flex items-center justify-between gap-4 px-4 py-4 text-[11px] tracking-[0.22em] uppercase font-medium transition-colors"
+                        style={{ color: "#0e1b2e" }}
+                      >
+                        <span className="group-hover:text-[var(--gold)] transition-colors">
+                          {item.label}
+                        </span>
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"
+                          style={{ color: "var(--gold)" }}
+                        >
+                          <path d="M9 6l6 6-6 6" />
+                        </svg>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </motion.div>
           )}
