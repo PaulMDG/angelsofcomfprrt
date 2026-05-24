@@ -21,8 +21,11 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers'
 import { Route as AdminStaffRouteImport } from './routes/admin.staff'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminServiceAreasRouteImport } from './routes/admin.service-areas'
+import { Route as AdminSeoRouteImport } from './routes/admin.seo'
+import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
 import { Route as AdminConsultationsRouteImport } from './routes/admin.consultations'
@@ -90,6 +93,11 @@ const AdminStaffRoute = AdminStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminServicesRoute = AdminServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -98,6 +106,16 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
 const AdminServiceAreasRoute = AdminServiceAreasRouteImport.update({
   id: '/service-areas',
   path: '/service-areas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSeoRoute = AdminSeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPagesRoute = AdminPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminMediaRoute = AdminMediaRouteImport.update({
@@ -144,8 +162,11 @@ export interface FileRoutesByFullPath {
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/pages': typeof AdminPagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/service-areas': typeof AdminServiceAreasRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -165,7 +186,10 @@ export interface FileRoutesByTo {
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/pages': typeof AdminPagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/service-areas': typeof AdminServiceAreasRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -187,8 +211,11 @@ export interface FileRoutesById {
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/pages': typeof AdminPagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/service-areas': typeof AdminServiceAreasRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -211,8 +238,11 @@ export interface FileRouteTypes {
     | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/media'
+    | '/admin/pages'
+    | '/admin/seo'
     | '/admin/service-areas'
     | '/admin/services'
+    | '/admin/settings'
     | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
@@ -232,7 +262,10 @@ export interface FileRouteTypes {
     | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/media'
+    | '/admin/pages'
+    | '/admin/seo'
     | '/admin/service-areas'
+    | '/admin/settings'
     | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
@@ -253,8 +286,11 @@ export interface FileRouteTypes {
     | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/media'
+    | '/admin/pages'
+    | '/admin/seo'
     | '/admin/service-areas'
     | '/admin/services'
+    | '/admin/settings'
     | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
@@ -360,6 +396,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminStaffRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/services': {
       id: '/admin/services'
       path: '/services'
@@ -372,6 +415,20 @@ declare module '@tanstack/react-router' {
       path: '/service-areas'
       fullPath: '/admin/service-areas'
       preLoaderRoute: typeof AdminServiceAreasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/seo': {
+      id: '/admin/seo'
+      path: '/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AdminSeoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pages': {
+      id: '/admin/pages'
+      path: '/pages'
+      fullPath: '/admin/pages'
+      preLoaderRoute: typeof AdminPagesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/media': {
@@ -438,8 +495,11 @@ interface AdminRouteChildren {
   AdminConsultationsRoute: typeof AdminConsultationsRoute
   AdminFaqsRoute: typeof AdminFaqsRoute
   AdminMediaRoute: typeof AdminMediaRoute
+  AdminPagesRoute: typeof AdminPagesRoute
+  AdminSeoRoute: typeof AdminSeoRoute
   AdminServiceAreasRoute: typeof AdminServiceAreasRoute
   AdminServicesRoute: typeof AdminServicesRouteWithChildren
+  AdminSettingsRoute: typeof AdminSettingsRoute
   AdminStaffRoute: typeof AdminStaffRoute
   AdminSubscribersRoute: typeof AdminSubscribersRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
@@ -451,8 +511,11 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminConsultationsRoute: AdminConsultationsRoute,
   AdminFaqsRoute: AdminFaqsRoute,
   AdminMediaRoute: AdminMediaRoute,
+  AdminPagesRoute: AdminPagesRoute,
+  AdminSeoRoute: AdminSeoRoute,
   AdminServiceAreasRoute: AdminServiceAreasRoute,
   AdminServicesRoute: AdminServicesRouteWithChildren,
+  AdminSettingsRoute: AdminSettingsRoute,
   AdminStaffRoute: AdminStaffRoute,
   AdminSubscribersRoute: AdminSubscribersRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
@@ -474,3 +537,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
