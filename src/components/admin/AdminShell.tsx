@@ -2,7 +2,22 @@ import { Link, Outlet, useRouterState, useNavigate } from "@tanstack/react-route
 import { supabase } from "@/integrations/supabase/client";
 import { MonogramAC } from "@/components/site/Botanical";
 
-const navItems = [{ to: "/admin/services", label: "Services" }];
+type NavItem = { to: string; label: string; exact?: boolean };
+const navItems: NavItem[] = [
+  { to: "/admin", label: "Dashboard", exact: true },
+  { to: "/admin/pages", label: "Pages" },
+  { to: "/admin/services", label: "Services" },
+  { to: "/admin/blog", label: "Blog" },
+  { to: "/admin/testimonials", label: "Testimonials" },
+  { to: "/admin/faqs", label: "FAQs" },
+  { to: "/admin/consultations", label: "Consultations" },
+  { to: "/admin/subscribers", label: "Subscribers" },
+  { to: "/admin/media", label: "Media" },
+  { to: "/admin/seo", label: "SEO" },
+  { to: "/admin/service-areas", label: "Service Areas" },
+  { to: "/admin/staff", label: "Staff" },
+  { to: "/admin/settings", label: "Settings" },
+];
 
 export function AdminShell({ email }: { email: string | null }) {
   const navigate = useNavigate();
@@ -25,13 +40,13 @@ export function AdminShell({ email }: { email: string | null }) {
             </div>
           </div>
         </Link>
-        <nav className="flex-1 px-3 py-6 space-y-1">
+        <nav className="flex-1 px-3 py-6 space-y-0.5 overflow-y-auto">
           {navItems.map((n) => {
-            const active = pathname.startsWith(n.to);
+            const active = n.exact ? pathname === n.to : pathname.startsWith(n.to);
             return (
               <Link
                 key={n.to}
-                to={n.to}
+                to={n.to as any}
                 className={`block px-4 py-2.5 rounded text-[13px] tracking-[0.08em] transition-colors ${
                   active
                     ? "bg-[var(--gold)]/20 text-[var(--gold-light)]"
