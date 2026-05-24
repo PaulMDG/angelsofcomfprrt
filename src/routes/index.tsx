@@ -1,26 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Hero } from "@/components/home/Hero";
+import { Reassurance } from "@/components/home/Reassurance";
+import { Services } from "@/components/home/Services";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Angels of Comfort — Compassionate In-Home Care in Maryland" },
+      { name: "description", content: "Licensed Maryland in-home care for families. Dementia, companion, personal, respite, and live-in care delivered with dignity and warmth." },
+      { property: "og:title", content: "Angels of Comfort — In-Home Care in Maryland" },
+      { property: "og:description", content: "Compassionate in-home care for Maryland families. Care that feels like home." },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <>
+      <Hero />
+      <Reassurance />
+      <Services />
+    </>
+  );
 }
