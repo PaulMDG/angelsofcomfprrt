@@ -14,7 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      consultations: {
+        Row: {
+          care_for: string | null
+          care_types: string[] | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          message: string | null
+          phone: string
+          relationship: string | null
+          timeline: string | null
+          zip: string | null
+        }
+        Insert: {
+          care_for?: string | null
+          care_types?: string[] | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          message?: string | null
+          phone: string
+          relationship?: string | null
+          timeline?: string | null
+          zip?: string | null
+        }
+        Update: {
+          care_for?: string | null
+          care_types?: string[] | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          message?: string | null
+          phone?: string
+          relationship?: string | null
+          timeline?: string | null
+          zip?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
