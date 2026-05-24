@@ -21,6 +21,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
+import { Route as AdminConsultationsRouteImport } from './routes/admin.consultations'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
 import { Route as AdminServicesIdRouteImport } from './routes/admin.services.$id'
 
@@ -84,6 +85,11 @@ const AdminFaqsRoute = AdminFaqsRouteImport.update({
   path: '/faqs',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminConsultationsRoute = AdminConsultationsRouteImport.update({
+  id: '/consultations',
+  path: '/consultations',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
+  '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
+  '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin': typeof AdminIndexRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
+  '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/resources'
     | '/services'
+    | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/services'
     | '/admin/testimonials'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/resources'
     | '/services'
+    | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/testimonials'
     | '/admin'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/resources'
     | '/services'
+    | '/admin/consultations'
     | '/admin/faqs'
     | '/admin/services'
     | '/admin/testimonials'
@@ -288,6 +300,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFaqsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/consultations': {
+      id: '/admin/consultations'
+      path: '/consultations'
+      fullPath: '/admin/consultations'
+      preLoaderRoute: typeof AdminConsultationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/services/': {
       id: '/admin/services/'
       path: '/'
@@ -320,6 +339,7 @@ const AdminServicesRouteWithChildren = AdminServicesRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminConsultationsRoute: typeof AdminConsultationsRoute
   AdminFaqsRoute: typeof AdminFaqsRoute
   AdminServicesRoute: typeof AdminServicesRouteWithChildren
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
@@ -327,6 +347,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminConsultationsRoute: AdminConsultationsRoute,
   AdminFaqsRoute: AdminFaqsRoute,
   AdminServicesRoute: AdminServicesRouteWithChildren,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
