@@ -3,16 +3,96 @@ import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { MonogramAC } from "./Botanical";
 
-const navLinks = [
-  { to: "/services", label: "Services" },
+type MegaColumn = {
+  heading: string;
+  blurb?: string;
+  items: { label: string; desc?: string; to?: string }[];
+};
+
+type NavItem = {
+  to: string;
+  label: string;
+  mega?: {
+    tagline: string;
+    italic: string;
+    columns: MegaColumn[];
+    cta: { label: string; to: string };
+  };
+};
+
+const servicesMega: NavItem["mega"] = {
+  tagline: "Care for every stage of",
+  italic: "the journey.",
+  columns: [
+    {
+      heading: "Daily Living",
+      items: [
+        { label: "Companion Care", desc: "Conversation, presence, gentle company." },
+        { label: "Personal Care", desc: "Bathing, grooming, dignity preserved." },
+        { label: "Respite Care", desc: "Rest for the family who carries the weight." },
+      ],
+    },
+    {
+      heading: "Specialized Care",
+      items: [
+        { label: "Dementia & Memory Care", desc: "Familiarity is medicine." },
+        { label: "Live-In Care", desc: "A calm, continuous presence at home." },
+      ],
+    },
+    {
+      heading: "Recovery",
+      items: [
+        { label: "Hospital Discharge Support", desc: "The first 30 days matter most." },
+        { label: "Post-Surgical Care", desc: "Healing happens at home." },
+      ],
+    },
+  ],
+  cta: { label: "Explore all services", to: "/services" },
+};
+
+const resourcesMega: NavItem["mega"] = {
+  tagline: "Quiet guidance for",
+  italic: "hard moments.",
+  columns: [
+    {
+      heading: "The Journal",
+      items: [
+        { label: "When the caregiver needs care", desc: "A guide to burnout." },
+        { label: "The first signs we missed", desc: "A daughter's letter on dementia." },
+        { label: "Talking to a parent about help", desc: "A practical script." },
+      ],
+    },
+    {
+      heading: "Guides",
+      items: [
+        { label: "Hospital Discharge", desc: "The first 30 days at home." },
+        { label: "Sundowning", desc: "Why evenings are hardest." },
+        { label: "Designing a safer home", desc: "Without it feeling clinical." },
+      ],
+    },
+    {
+      heading: "Planning",
+      items: [
+        { label: "VA Benefits & Insurance", desc: "Questions worth asking." },
+        { label: "When Siblings Disagree", desc: "Finding common ground." },
+        { label: "Comfort Care at Home", desc: "What families wish they'd known." },
+      ],
+    },
+  ],
+  cta: { label: "Read the journal", to: "/resources" },
+};
+
+const navLinks: NavItem[] = [
+  { to: "/services", label: "Services", mega: servicesMega },
   { to: "/family-portal", label: "Family Portal" },
-  { to: "/resources", label: "Resources" },
+  { to: "/resources", label: "Resources", mega: resourcesMega },
   { to: "/about", label: "About Us" },
 ];
 
 export function Navigation({ overHero = true }: { overHero?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 80);
@@ -22,16 +102,18 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
   }, []);
 
   const isDark = overHero && !scrolled;
+  const activeMega = navLinks.find((l) => l.label === hovered && l.mega)?.mega;
 
   return (
     <>
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          background: scrolled || !overHero ? "rgba(14, 27, 46, 0.96)" : "transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(184, 147, 90, 0.15)" : "1px solid transparent",
+          background: scrolled || !overHero || activeMega ? "rgba(14, 27, 46, 0.96)" : "transparent",
+          backdropFilter: scrolled || activeMega ? "blur(12px)" : "none",
+          borderBottom: scrolled || activeMega ? "1px solid rgba(184, 147, 90, 0.15)" : "1px solid transparent",
         }}
+        onMouseLeave={() => setHovered(null)}
       >
         <div className="container-editorial flex items-center justify-between py-5">
           <Link to="/" className="flex items-center gap-3 group">
@@ -54,15 +136,36 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
 
           <nav className="hidden lg:flex items-center gap-10">
             {navLinks.map((l) => (
-              <Link
+              <div
                 key={l.to}
-                to={l.to}
-                className="text-[12px] tracking-[0.16em] uppercase font-medium transition-colors"
-                style={{ color: "#FAF8F4" }}
-                activeProps={{ style: { color: "var(--gold-light)" } }}
+                onMouseEnter={() => setHovered(l.mega ? l.label : null)}
+                className="relative py-2"
               >
-                {l.label}
-              </Link>
+                <Link
+                  to={l.to}
+                  className="text-[12px] tracking-[0.16em] uppercase font-medium transition-colors flex items-center gap-1.5"
+                  style={{ color: hovered === l.label ? "var(--gold-light)" : "#FAF8F4" }}
+                  activeProps={{ style: { color: "var(--gold-light)" } }}
+                >
+                  {l.label}
+                  {l.mega && (
+                    <svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 10 6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                      style={{
+                        transform: hovered === l.label ? "rotate(180deg)" : "rotate(0)",
+                        transition: "transform 0.3s",
+                      }}
+                    >
+                      <path d="M1 1l4 4 4-4" />
+                    </svg>
+                  )}
+                </Link>
+              </div>
             ))}
           </nav>
 
@@ -94,6 +197,66 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
             </div>
           </button>
         </div>
+
+        <AnimatePresence>
+          {activeMega && (
+            <motion.div
+              key={hovered}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+              className="hidden lg:block border-t border-[var(--gold-light)]/15"
+            >
+              <div className="container-editorial py-12 grid grid-cols-12 gap-10">
+                <div className="col-span-3 pr-6 border-r border-[var(--gold-light)]/15">
+                  <div className="text-[10px] tracking-[0.28em] uppercase text-[var(--gold-light)] mb-4">
+                    {hovered}
+                  </div>
+                  <h3 className="font-serif text-[28px] leading-[1.15] text-[var(--ivory)]">
+                    {activeMega.tagline}{" "}
+                    <em className="text-[var(--gold-light)] font-normal">{activeMega.italic}</em>
+                  </h3>
+                  <Link
+                    to={activeMega.cta.to}
+                    onClick={() => setHovered(null)}
+                    className="inline-flex items-center gap-2 mt-6 text-[11px] tracking-[0.2em] uppercase text-[var(--gold-light)] hover:text-[var(--ivory)] transition-colors"
+                  >
+                    {activeMega.cta.label}
+                    <span>→</span>
+                  </Link>
+                </div>
+                {activeMega.columns.map((col) => (
+                  <div key={col.heading} className="col-span-3">
+                    <div className="text-[10px] tracking-[0.28em] uppercase text-[var(--gold-light)]/70 mb-5">
+                      {col.heading}
+                    </div>
+                    <ul className="space-y-4">
+                      {col.items.map((item) => (
+                        <li key={item.label}>
+                          <Link
+                            to={col.heading === "The Journal" || col.heading === "Guides" || col.heading === "Planning" ? "/resources" : "/services"}
+                            onClick={() => setHovered(null)}
+                            className="group block"
+                          >
+                            <div className="font-serif text-[17px] text-[var(--ivory)] group-hover:text-[var(--gold-light)] transition-colors leading-snug">
+                              {item.label}
+                            </div>
+                            {item.desc && (
+                              <div className="text-[12px] text-[var(--ivory)]/55 mt-1 leading-relaxed">
+                                {item.desc}
+                              </div>
+                            )}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <AnimatePresence>
