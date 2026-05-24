@@ -2,7 +2,8 @@ import { Link, Outlet, useRouterState, useNavigate } from "@tanstack/react-route
 import { supabase } from "@/integrations/supabase/client";
 import { MonogramAC } from "@/components/site/Botanical";
 
-const navItems = [
+type NavItem = { to: string; label: string; exact?: boolean };
+const navItems: NavItem[] = [
   { to: "/admin", label: "Dashboard", exact: true },
   { to: "/admin/pages", label: "Pages" },
   { to: "/admin/services", label: "Services" },
@@ -16,7 +17,7 @@ const navItems = [
   { to: "/admin/service-areas", label: "Service Areas" },
   { to: "/admin/staff", label: "Staff" },
   { to: "/admin/settings", label: "Settings" },
-] as const;
+];
 
 export function AdminShell({ email }: { email: string | null }) {
   const navigate = useNavigate();
