@@ -3,18 +3,15 @@ import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { BotanicalSprig } from "@/components/site/Botanical";
 import { AnimatePresence, motion } from "framer-motion";
 import faqImg from "@/assets/faq-books.jpg";
-
-const faqs = [
-  { q: "How quickly can care begin?", a: "In most cases, we can begin care within 48–72 hours of your initial consultation. Urgent situations are accommodated whenever possible." },
-  { q: "Are your caregivers licensed and insured?", a: "Yes. Angels of Comfort is fully licensed by the Maryland RSA. Every caregiver is background-checked, trained, bonded, and insured." },
-  { q: "How are caregivers matched to my loved one?", a: "We match based on personality, language, interests, and care needs — and we welcome your input. Consistency of caregiver is one of our highest priorities." },
-  { q: "What if our needs change over time?", a: "Care plans are reviewed regularly. As needs evolve, we adjust hours, services, and support — seamlessly and without disruption." },
-  { q: "Do you accept long-term care insurance?", a: "We work with most long-term care insurance plans and offer billing assistance. We also accept private pay and certain Medicaid waivers." },
-  { q: "Where in Maryland do you serve?", a: "We serve families throughout Montgomery, Howard, Prince George's, Frederick, and surrounding counties. Reach out to confirm availability in your area." },
-];
+import { useQuery } from "@tanstack/react-query";
+import { fetchPublishedFaqs } from "@/lib/cms";
 
 export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
+  const { data: faqs = [] } = useQuery({
+    queryKey: ["public", "faqs"],
+    queryFn: fetchPublishedFaqs,
+  });
   return (
     <section className="bg-[var(--cream)]">
       <div className="container-editorial section-pad grid lg:grid-cols-12 gap-16">
@@ -39,7 +36,7 @@ export function FAQ() {
             {faqs.map((f, i) => {
               const isOpen = open === i;
               return (
-                <li key={f.q}>
+                <li key={f.id}>
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
                     className="w-full flex items-start justify-between gap-6 py-7 text-left group"
@@ -47,7 +44,7 @@ export function FAQ() {
                   >
                     <span className="font-serif text-[var(--navy-deep)] group-hover:text-[var(--gold-muted)] transition-colors"
                       style={{ fontSize: "24px" }}>
-                      {f.q}
+                      {f.question}
                     </span>
                     <span className="mt-2 shrink-0 w-8 h-8 rounded-full border border-[var(--gold)]/50 flex items-center justify-center text-[var(--gold)] transition-transform duration-500"
                       style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0)" }}>
@@ -66,7 +63,7 @@ export function FAQ() {
                         className="overflow-hidden"
                       >
                         <p className="pb-7 pr-12 text-[16px] leading-[1.8] text-[var(--text-body)] font-light max-w-2xl">
-                          {f.a}
+                          {f.answer}
                         </p>
                       </motion.div>
                     )}
