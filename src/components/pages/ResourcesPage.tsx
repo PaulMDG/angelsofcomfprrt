@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { BotanicalSprig } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
@@ -5,44 +6,48 @@ import { PageHeader } from "./PageHeader";
 import featured from "@/assets/resources-featured.jpg";
 import journal from "@/assets/testimonials-journal.jpg";
 import faqImg from "@/assets/faq-books.jpg";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPublishedBlog } from "@/lib/cms";
+import { supabase } from "@/integrations/supabase/client";
 
-const articles = [
-  {
-    img: featured,
-    cat: "Caregiving",
-    title: "When the caregiver needs care: a quiet guide to burnout.",
-    excerpt:
-      "Loving someone is not the same as carrying everything alone. A gentle conversation about the warning signs — and what to do when you notice them.",
-    read: "8 min read",
-  },
-  {
-    img: journal,
-    cat: "Dementia",
-    title: "The first signs we missed — a daughter's letter.",
-    excerpt:
-      "What dementia looks like before it has a name. A family's story about the small changes that meant more than we knew.",
-    read: "6 min read",
-  },
-  {
-    img: faqImg,
-    cat: "Conversations",
-    title: "How to talk to a parent about accepting help.",
-    excerpt:
-      "A practical script — born from a thousand hard conversations — for the day you sit down to talk about care.",
-    read: "10 min read",
-  },
-];
-
-const more = [
-  ["Hospital Discharge", "The first 30 days at home: a recovery checklist."],
-  ["Memory Care", "Sundowning: why evenings are hardest, and how to soften them."],
-  ["Finances", "VA benefits, long-term care insurance, and the questions to ask."],
-  ["Daily Life", "Designing a safer home — without it feeling like a hospital."],
-  ["End-of-Life", "Comfort care at home: what families wish they had known."],
-  ["Family", "When siblings disagree about care: finding common ground."],
-];
+const fallbackImages = [featured, journal, faqImg];
 
 export function ResourcesPage() {
+  const { data: posts = [] } = useQuery({
+    queryKey: ["public", "blog"],
+    queryFn: fetchPublishedBlog,
+  });
+  const articles = posts.slice(0, 3).map((p, i) => ({
+    img: p.cover_image_url || fallbackImages[i % fallbackImages.length],
+    cat: p.tags?.[0] || "Journal",
+    title: p.title,
+    excerpt: p.excerpt || "",
+    read: p.read_minutes ? `${p.read_minutes} min read` : "",
+  }));
+  const more = posts.slice(3).map((p) => [p.tags?.[0] || "Journal", p.title] as const);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
+
+  async function subscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    const { error } = await supabase.from("subscribers").insert({ email, source: "resources" });
+    setStatus(error ? "error" : "ok");
+    if (!error) setEmail("");
+  }
+
+  if (!articles.length) {
+    return (
+      <PageHeader
+        eyebrow="Our Journal"
+        title="Thoughtful resources for"
+        italic="difficult moments."
+        intro="Written by our caregivers and clinical leads, for the families navigating questions that don't have easy answers."
+      />
+    );
+  }
+
   return (
     <>
       <PageHeader
@@ -159,17 +164,25 @@ export function ResourcesPage() {
             <p className="mt-6 text-[var(--cream)]/80 font-light leading-[1.8]">
               One thoughtful piece per month. No marketing, no noise. Unsubscribe whenever you like.
             </p>
-            <form className="mt-10 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <form onSubmit={subscribe} className="mt-10 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input
                 type="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 className="flex-1 bg-transparent border border-[var(--gold-light)]/40 px-5 py-3 text-[var(--ivory)] placeholder:text-[var(--cream)]/40 focus:outline-none focus:border-[var(--gold-light)] rounded-[2px]"
               />
-              <button type="submit" className="btn-outline btn-outline-light">
-                Subscribe
+              <button type="submit" disabled={status === "loading"} className="btn-outline btn-outline-light">
+                {status === "loading" ? "…" : "Subscribe"}
               </button>
             </form>
+            {status === "ok" && (
+              <p className="mt-4 text-[13px] text-[var(--gold-light)]">Thank you — we'll be in touch.</p>
+            )}
+            {status === "error" && (
+              <p className="mt-4 text-[13px] text-[var(--cream)]/70">Something went wrong. Please try again.</p>
+            )}
           </Reveal>
         </div>
       </section>
