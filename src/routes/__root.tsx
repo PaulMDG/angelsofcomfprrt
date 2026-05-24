@@ -12,22 +12,32 @@ import appCss from "../styles.css?url";
 import { Navigation } from "@/components/site/Navigation";
 import { Footer } from "@/components/site/Footer";
 import { useRouterState } from "@tanstack/react-router";
+import { BotanicalSprig, MonogramAC } from "@/components/site/Botanical";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <div
+      className="flex min-h-screen items-center justify-center px-4"
+      style={{ background: "var(--navy-deep)", color: "var(--ivory)" }}
+    >
+      <div className="max-w-lg text-center">
+        <MonogramAC className="w-12 h-12 mx-auto text-[var(--gold-light)] opacity-60" />
+        <h1
+          className="mt-8 font-serif font-medium"
+          style={{ fontSize: "clamp(48px, 6vw, 96px)", color: "var(--ivory)" }}
+        >
+          404
+        </h1>
+        <div className="divider-gold mx-auto mt-6" />
+        <h2 className="mt-6 font-serif text-2xl" style={{ color: "var(--ivory)" }}>
+          This page has moved on
+        </h2>
+        <p className="mt-4 text-[15px] leading-relaxed opacity-80 max-w-sm mx-auto">
+          Like the seasons, things change. The page you're looking for isn't here anymore, but our care for your family never wavers.
         </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
+        <div className="mt-10">
+          <Link to="/" className="btn-outline btn-outline-light">
+            Return Home
           </Link>
         </div>
       </div>
@@ -40,29 +50,30 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+    <div
+      className="flex min-h-screen items-center justify-center px-4"
+      style={{ background: "var(--cream)", color: "var(--navy-deep)" }}
+    >
+      <div className="max-w-lg text-center">
+        <BotanicalSprig className="w-16 h-6 mx-auto text-[var(--gold)]" />
+        <h1 className="mt-8 font-serif text-3xl" style={{ color: "var(--navy-deep)" }}>
+          Something went wrong
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+        <p className="mt-4 text-[15px] leading-relaxed opacity-80 max-w-sm mx-auto">
+          We're sorry — this page didn't load properly. Please try again, or return home and we'll make sure everything is ready for you.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="btn-primary"
           >
-            Try again
+            Try Again
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
+          <a href="/" className="btn-outline">
+            Go Home
           </a>
         </div>
       </div>
