@@ -130,14 +130,15 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const overHero = pathname === "/";
+  const isChrome = !(pathname.startsWith("/admin") || pathname === "/login");
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Navigation overHero={overHero} />
+      {isChrome && <Navigation overHero={overHero} />}
       <main className="min-h-screen">
         <Outlet />
       </main>
-      <Footer />
+      {isChrome && <Footer />}
     </QueryClientProvider>
   );
 }
