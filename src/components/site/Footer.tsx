@@ -1,21 +1,21 @@
 import { Link } from "@tanstack/react-router";
 import { MonogramAC, BotanicalSprig } from "./Botanical";
 
-const services = [
+const services: [string, string][] = [
   ["Dementia Care", "/services/dementia-care"],
   ["Companion Care", "/services/companion-care"],
   ["Personal Care", "/services/personal-care"],
   ["Respite Care", "/services/respite-care"],
   ["Live-In Care", "/services/live-in-care"],
 ];
-const resources = [
+const resources: [string, string][] = [
   ["Caregiver Burnout", "/resources"],
   ["Signs Your Parent Needs Help", "/resources"],
   ["Dementia Support", "/resources"],
   ["Recovery at Home", "/resources"],
   ["VA Benefits & Aid", "/resources"],
 ];
-const areas = [
+const areas: [string, string][] = [
   ["Baltimore County", "/service-areas"],
   ["Towson", "/service-areas"],
   ["Columbia", "/service-areas"],
