@@ -21,6 +21,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
 import { Route as AdminConsultationsRouteImport } from './routes/admin.consultations'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
@@ -86,6 +87,11 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMediaRoute = AdminMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminFaqsRoute = AdminFaqsRouteImport.update({
   id: '/faqs',
   path: '/faqs',
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/media': typeof AdminMediaRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/media': typeof AdminMediaRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin': typeof AdminIndexRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/media': typeof AdminMediaRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/admin/consultations'
     | '/admin/faqs'
+    | '/admin/media'
     | '/admin/services'
     | '/admin/subscribers'
     | '/admin/testimonials'
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/admin/consultations'
     | '/admin/faqs'
+    | '/admin/media'
     | '/admin/subscribers'
     | '/admin/testimonials'
     | '/admin'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/admin/consultations'
     | '/admin/faqs'
+    | '/admin/media'
     | '/admin/services'
     | '/admin/subscribers'
     | '/admin/testimonials'
@@ -312,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/media': {
+      id: '/admin/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/faqs': {
       id: '/admin/faqs'
       path: '/faqs'
@@ -360,6 +379,7 @@ const AdminServicesRouteWithChildren = AdminServicesRoute._addFileChildren(
 interface AdminRouteChildren {
   AdminConsultationsRoute: typeof AdminConsultationsRoute
   AdminFaqsRoute: typeof AdminFaqsRoute
+  AdminMediaRoute: typeof AdminMediaRoute
   AdminServicesRoute: typeof AdminServicesRouteWithChildren
   AdminSubscribersRoute: typeof AdminSubscribersRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
@@ -369,6 +389,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminConsultationsRoute: AdminConsultationsRoute,
   AdminFaqsRoute: AdminFaqsRoute,
+  AdminMediaRoute: AdminMediaRoute,
   AdminServicesRoute: AdminServicesRouteWithChildren,
   AdminSubscribersRoute: AdminSubscribersRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
