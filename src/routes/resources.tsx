@@ -1,14 +1,22 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { ResourcesPage } from "@/components/pages/ResourcesPage";
+
 export const Route = createFileRoute("/resources")({
-  head: () => ({ meta: [{ title: "Journal — Angels of Comfort" }, { name: "description", content: "Thoughtful resources for families navigating care." }], links: [{ rel: "canonical", href: "/resources" }] }),
-  component: () => (
-    <div className="bg-[var(--ivory)] pt-40 pb-32 min-h-screen">
-      <div className="container-editorial text-center max-w-2xl mx-auto">
-        <div className="eyebrow eyebrow-center justify-center">Our Journal</div>
-        <h1 className="mt-6 font-serif text-5xl md:text-6xl text-[var(--navy-deep)]">Thoughtful resources for <span className="gold-italic">difficult moments.</span></h1>
-        <p className="editorial-body mt-6">Articles coming soon.</p>
-        <Link to="/" className="link-gold mt-10 inline-flex">← Back home</Link>
-      </div>
-    </div>
-  ),
+  head: () => ({
+    meta: [
+      { title: "Journal — Thoughtful Care Resources | Angels of Comfort" },
+      {
+        name: "description",
+        content:
+          "Honest, gentle guidance for families navigating dementia, caregiver burnout, hospital transitions, and the conversations that come with caring for someone you love.",
+      },
+      { property: "og:title", content: "Journal — Angels of Comfort" },
+      {
+        property: "og:description",
+        content: "Resources, written with care, for the families we serve.",
+      },
+    ],
+    links: [{ rel: "canonical", href: "/resources" }],
+  }),
+  component: ResourcesPage,
 });

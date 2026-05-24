@@ -31,8 +31,8 @@ export function CTA() {
               style={{ background: "var(--gold)", color: "var(--navy-deep)", borderColor: "var(--gold)" }}>
               Schedule a Consultation
             </Link>
-            <a href="tel:+13015550100" className="btn-outline btn-outline-light">
-              Call (301) 555-0100
+            <a href="tel:2404263304" className="btn-outline btn-outline-light">
+              Call (240) 426-3304
             </a>
           </div>
           <p className="mt-10 text-[13px] tracking-[0.18em] uppercase text-[var(--gold-light)]/80">
