@@ -21,29 +21,18 @@ type NavItem = {
 };
 
 const servicesMega: NavItem["mega"] = {
-  tagline: "Care for every stage of",
-  italic: "the journey.",
+  tagline: "Thoughtful in-home support designed to bring comfort, dignity, and peace of mind to",
+  italic: "Maryland families.",
   columns: [
     {
-      heading: "Daily Living",
+      heading: "Services",
       items: [
+        { label: "Dementia Care" },
+        { label: "Respite Care" },
         { label: "Companion Care", desc: "Conversation, presence, gentle company." },
         { label: "Personal Care", desc: "Bathing, grooming, dignity preserved." },
-        { label: "Respite Care", desc: "Rest for the family who carries the weight." },
-      ],
-    },
-    {
-      heading: "Specialized Care",
-      items: [
-        { label: "Dementia & Memory Care", desc: "Familiarity is medicine." },
-        { label: "Live-In Care", desc: "A calm, continuous presence at home." },
-      ],
-    },
-    {
-      heading: "Recovery",
-      items: [
-        { label: "Hospital Discharge Support", desc: "The first 30 days matter most." },
-        { label: "Post-Surgical Care", desc: "Healing happens at home." },
+        { label: "Live-In Care" },
+        { label: "Hospital Discharge Support" },
       ],
     },
   ],
@@ -103,15 +92,22 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
 
   const isDark = overHero && !scrolled;
   const activeMega = navLinks.find((l) => l.label === hovered && l.mega)?.mega;
+  const isServicesMega = hovered === "Services";
 
   return (
     <>
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          background: scrolled || !overHero || activeMega ? "rgba(14, 27, 46, 0.96)" : "transparent",
-          backdropFilter: scrolled || activeMega ? "blur(12px)" : "none",
-          borderBottom: scrolled || activeMega ? "1px solid rgba(184, 147, 90, 0.15)" : "1px solid transparent",
+          background:
+            scrolled || !overHero || (activeMega && !isServicesMega)
+              ? "rgba(14, 27, 46, 0.96)"
+              : "transparent",
+          backdropFilter: scrolled || (activeMega && !isServicesMega) ? "blur(12px)" : "none",
+          borderBottom:
+            scrolled || (activeMega && !isServicesMega)
+              ? "1px solid rgba(184, 147, 90, 0.15)"
+              : "1px solid transparent",
         }}
         onMouseLeave={() => setHovered(null)}
       >
