@@ -1,14 +1,22 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { AboutPage } from "@/components/pages/AboutPage";
+
 export const Route = createFileRoute("/about")({
-  head: () => ({ meta: [{ title: "About — Angels of Comfort" }, { name: "description", content: "Our story and mission — dignity and warmth in Maryland in-home care." }], links: [{ rel: "canonical", href: "/about" }] }),
-  component: () => (
-    <div className="bg-[var(--ivory)] pt-40 pb-32 min-h-screen">
-      <div className="container-editorial text-center max-w-2xl mx-auto">
-        <div className="eyebrow eyebrow-center justify-center">About Us</div>
-        <h1 className="mt-6 font-serif text-5xl md:text-6xl text-[var(--navy-deep)]">Built on <span className="gold-italic">trust.</span></h1>
-        <p className="editorial-body mt-6">Our story page is coming soon.</p>
-        <Link to="/consultation" className="btn-primary mt-10 inline-flex">Talk With Our Care Team</Link>
-      </div>
-    </div>
-  ),
+  head: () => ({
+    meta: [
+      { title: "About Angels of Comfort — Our Story & Promise" },
+      {
+        name: "description",
+        content:
+          "A Maryland family business built on dignity, warmth, trust, and devotion. Meet the team behind Angels of Comfort in-home care.",
+      },
+      { property: "og:title", content: "About Angels of Comfort" },
+      {
+        property: "og:description",
+        content: "Built on trust. Devoted to families.",
+      },
+    ],
+    links: [{ rel: "canonical", href: "/about" }],
+  }),
+  component: AboutPage,
 });

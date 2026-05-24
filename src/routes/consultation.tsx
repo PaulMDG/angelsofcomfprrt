@@ -1,16 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BotanicalSprig } from "@/components/site/Botanical";
+import { ConsultationPage } from "@/components/pages/ConsultationPage";
+
 export const Route = createFileRoute("/consultation")({
-  head: () => ({ meta: [{ title: "Schedule a Consultation — Angels of Comfort" }, { name: "description", content: "Let's talk about care for your loved one." }], links: [{ rel: "canonical", href: "/consultation" }] }),
-  component: () => (
-    <div className="bg-[var(--ivory)] pt-40 pb-32 min-h-screen">
-      <div className="container-editorial text-center max-w-2xl mx-auto">
-        <div className="eyebrow eyebrow-center justify-center">Schedule a Conversation</div>
-        <h1 className="mt-6 font-serif text-5xl md:text-6xl text-[var(--navy-deep)] leading-[1.05]">Let's talk about care for your <span className="gold-italic">loved one.</span></h1>
-        <BotanicalSprig className="w-32 h-10 text-[var(--gold)] mx-auto mt-8" />
-        <p className="editorial-body mt-6">The full consultation form is coming soon. For now, please call us.</p>
-        <a href="tel:2404263304" className="btn-primary mt-10 inline-flex">Call (240) 426-3304</a>
-      </div>
-    </div>
-  ),
+  head: () => ({
+    meta: [
+      { title: "Schedule a Free Consultation — Angels of Comfort" },
+      {
+        name: "description",
+        content:
+          "Begin with a free, no-obligation conversation about in-home care for your loved one. A Maryland care advisor will respond within one business day.",
+      },
+      { property: "og:title", content: "Schedule a Free Consultation — Angels of Comfort" },
+      {
+        property: "og:description",
+        content: "Tell us about your loved one. We'll listen, then guide you.",
+      },
+    ],
+    links: [{ rel: "canonical", href: "/consultation" }],
+  }),
+  component: ConsultationPage,
 });
