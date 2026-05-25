@@ -167,6 +167,56 @@ export type Database = {
         }
         Relationships: []
       }
+      nav_items: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          link_type: string
+          menu_key: string
+          open_in_new_tab: boolean
+          parent_id: string | null
+          published: boolean
+          sort_order: number
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label: string
+          link_type?: string
+          menu_key?: string
+          open_in_new_tab?: boolean
+          parent_id?: string | null
+          published?: boolean
+          sort_order?: number
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          link_type?: string
+          menu_key?: string
+          open_in_new_tab?: boolean
+          parent_id?: string | null
+          published?: boolean
+          sort_order?: number
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_items_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "nav_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pages: {
         Row: {
           created_at: string
@@ -278,7 +328,10 @@ export type Database = {
           id: string
           includes: string[]
           name: string
+          nav_label: string | null
+          nav_sort: number
           published: boolean
+          show_in_nav: boolean
           slug: string
           sort_order: number
           tagline: string | null
@@ -292,7 +345,10 @@ export type Database = {
           id?: string
           includes?: string[]
           name: string
+          nav_label?: string | null
+          nav_sort?: number
           published?: boolean
+          show_in_nav?: boolean
           slug: string
           sort_order?: number
           tagline?: string | null
@@ -306,7 +362,10 @@ export type Database = {
           id?: string
           includes?: string[]
           name?: string
+          nav_label?: string | null
+          nav_sort?: number
           published?: boolean
+          show_in_nav?: boolean
           slug?: string
           sort_order?: number
           tagline?: string | null
