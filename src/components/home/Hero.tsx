@@ -17,14 +17,14 @@ export function Hero() {
         <img
           src={heroImg}
           alt="A caregiver and elderly woman sitting together in a sunlit living room"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-[70%_center]"
           fetchPriority="high"
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(95deg, rgba(14,27,46,0.95) 0%, rgba(14,27,46,0.82) 35%, rgba(14,27,46,0.35) 65%, rgba(14,27,46,0.15) 100%)",
+              "linear-gradient(95deg, rgba(14,27,46,0.96) 0%, rgba(14,27,46,0.88) 30%, rgba(14,27,46,0.55) 55%, rgba(14,27,46,0.1) 100%)",
           }}
         />
         <div
@@ -39,27 +39,39 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-            className="eyebrow text-[var(--gold-light)] mb-8"
+            className="eyebrow text-[var(--gold-light)]"
           >
             Maryland Licensed In-Home Care
           </motion.div>
+          <motion.div
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            className="mt-5 h-px w-16 bg-[var(--gold)] origin-left"
+          />
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className="font-serif text-[var(--ivory)] leading-[1.02] tracking-[-0.02em] font-medium"
+            className="mt-8 font-serif text-[var(--ivory)] leading-[1.02] tracking-[-0.02em] font-medium"
             style={{ fontSize: "clamp(48px, 7vw, 96px)" }}
           >
             Care that<br />
             feels like <span className="gold-italic">home.</span>
           </motion.h1>
+          <motion.div
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.45, ease: [0.4, 0, 0.2, 1] }}
+            className="mt-8 h-px w-16 bg-[var(--gold)] origin-left"
+          />
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-8 text-[18px] leading-[1.7] text-[var(--cream)] max-w-[520px] font-light"
+            className="mt-6 text-[18px] leading-[1.7] text-[var(--cream)] max-w-[520px] font-light"
           >
             Compassionate in-home care for Maryland families. Support your loved one with dignity,
             understanding, and a familiar face — every day.

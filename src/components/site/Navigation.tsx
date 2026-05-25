@@ -3,12 +3,18 @@ import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { MonogramAC } from "./Botanical";
 import { useQuery } from "@tanstack/react-query";
-import { fetchPublishedServices } from "@/lib/cms-services";
+import { fetchNavServices } from "@/lib/cms-services";
 
 type MegaColumn = {
   heading: string;
   blurb?: string;
-  items: { label: string; desc?: string; to?: "/services" | "/resources"; hash?: string }[];
+  items: {
+    label: string;
+    desc?: string;
+    to?: "/services" | "/resources" | "/services/$slug";
+    params?: { slug: string };
+    hash?: string;
+  }[];
 };
 
 type NavItem = {
@@ -66,9 +72,9 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
   const [hovered, setHovered] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
-  const { data: services = [] } = useQuery({
+  const { data: services = [], isLoading: servicesLoading } = useQuery({
     queryKey: ["public", "services", "nav"],
-    queryFn: fetchPublishedServices,
+    queryFn: fetchNavServices,
     staleTime: 60_000,
   });
 
@@ -78,10 +84,10 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
       {
         heading: "Services",
         items: services.map((s) => ({
-          label: s.name,
+          label: s.nav_label || s.name,
           desc: s.tagline ?? undefined,
-          to: "/services" as const,
-          hash: s.slug,
+          to: "/services/$slug" as const,
+          params: { slug: s.slug },
         })),
       },
     ],
@@ -259,7 +265,26 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                   </Link>
                 </div>
                 <ul className="py-4 pr-4">
-                  {activeMega.columns.flatMap((col) => col.items).map((item, idx, arr) => (
+                  {isServicesMega && servicesLoading && services.length === 0 ? (
+                    <li className="p-4 space-y-3">
+                      {[0, 1, 2, 3].map((i) => (
+                        <div key={i} className="flex items-center justify-between gap-4 py-3 border-b border-[#0e1b2e]/8 last:border-0">
+                          <div className="h-3 rounded bg-[#0e1b2e]/10 animate-pulse" style={{ width: `${60 + (i * 7) % 30}%` }} />
+                          <div className="h-3 w-3 rounded-full bg-[#0e1b2e]/10 animate-pulse" />
+                        </div>
+                      ))}
+                    </li>
+                  ) : isServicesMega && !servicesLoading && services.length === 0 ? (
+                    <li className="p-8 text-center">
+                      <p className="text-[12px] tracking-[0.18em] uppercase text-[#0e1b2e]/60 font-medium">
+                        No services yet
+                      </p>
+                      <p className="mt-2 text-[13px] text-[#0e1b2e]/50 italic font-serif">
+                        Add services from the admin to populate this menu.
+                      </p>
+                    </li>
+                  ) : (
+                    activeMega.columns.flatMap((col) => col.items).map((item, idx, arr) => (
                     <motion.li
                       key={item.label}
                       initial={{ opacity: 0, x: 8 }}
@@ -273,7 +298,9 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                     >
                       <Link
                         to={item.to ?? (hovered === "Resources" ? "/resources" : "/services")}
+                        params={item.params as any}
                         hash={item.hash}
+                        preload="intent"
                         onClick={() => setHovered(null)}
                         className="group relative flex items-center justify-between gap-4 px-4 py-4 text-[11px] tracking-[0.22em] uppercase font-medium transition-colors overflow-hidden"
                         style={{ color: "#0e1b2e" }}
@@ -296,7 +323,8 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                         </svg>
                       </Link>
                     </motion.li>
-                  ))}
+                  ))
+                  )}
                 </ul>
               </div>
             </motion.div>
@@ -373,21 +401,35 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                                   {l.mega.cta.label} →
                                 </Link>
                               </li>
-                              {l.mega.columns.flatMap((c) => c.items).map((item) => (
+                              {l.label === "Services" && servicesLoading && services.length === 0 ? (
+                                [0, 1, 2].map((i) => (
+                                  <li key={`sk-${i}`} className="py-3 pl-5">
+                                    <div className="h-4 rounded bg-white/10 animate-pulse" style={{ width: `${55 + i * 10}%` }} />
+                                  </li>
+                                ))
+                              ) : l.label === "Services" && !servicesLoading && services.length === 0 ? (
+                                <li className="py-3 pl-5 text-[13px] italic text-[var(--ivory)]/50 font-serif">
+                                  No services yet.
+                                </li>
+                              ) : (
+                                l.mega.columns.flatMap((c) => c.items).map((item) => (
                                 <li key={item.label}>
                                   <Link
                                     to={
                                       item.to ??
                                       (l.label === "Resources" ? "/resources" : "/services")
                                     }
+                                    params={item.params as any}
                                     hash={item.hash}
+                                    preload="intent"
                                     onClick={() => setOpen(false)}
                                     className="block py-3 pl-5 text-[15px] text-[var(--ivory)]/85 hover:text-[var(--gold-light)] transition-colors"
                                   >
                                     {item.label}
                                   </Link>
                                 </li>
-                              ))}
+                              ))
+                              )}
                             </ul>
                           </motion.div>
                         )}

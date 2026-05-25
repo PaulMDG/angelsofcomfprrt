@@ -11,6 +11,9 @@ export type Service = {
   cover_image_url: string | null;
   sort_order: number;
   published: boolean;
+  show_in_nav: boolean;
+  nav_label: string | null;
+  nav_sort: number;
   created_at: string;
   updated_at: string;
 };
@@ -23,6 +26,29 @@ export async function fetchPublishedServices(): Promise<Service[]> {
     .order("sort_order", { ascending: true });
   if (error) throw error;
   return (data ?? []) as Service[];
+}
+
+export async function fetchNavServices(): Promise<Service[]> {
+  const { data, error } = await supabase
+    .from("services")
+    .select("*")
+    .eq("published", true)
+    .eq("show_in_nav", true)
+    .order("nav_sort", { ascending: true })
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as Service[];
+}
+
+export async function fetchServiceBySlug(slug: string): Promise<Service | null> {
+  const { data, error } = await supabase
+    .from("services")
+    .select("*")
+    .eq("slug", slug)
+    .eq("published", true)
+    .maybeSingle();
+  if (error) throw error;
+  return (data as Service | null) ?? null;
 }
 
 export async function fetchAllServices(): Promise<Service[]> {
