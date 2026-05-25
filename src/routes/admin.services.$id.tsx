@@ -13,11 +13,13 @@ type Form = {
   name: string; slug: string; tagline: string; description: string;
   includes: string; body_html: string; cover_image_url: string;
   sort_order: number; published: boolean;
+  show_in_nav: boolean; nav_label: string; nav_sort: number;
 };
 
 const empty: Form = {
   name: "", slug: "", tagline: "", description: "", includes: "",
   body_html: "", cover_image_url: "", sort_order: 100, published: true,
+  show_in_nav: true, nav_label: "", nav_sort: 0,
 };
 
 function toForm(s: Service): Form {
@@ -26,6 +28,7 @@ function toForm(s: Service): Form {
     description: s.description ?? "", includes: (s.includes ?? []).join("\n"),
     body_html: s.body_html ?? "", cover_image_url: s.cover_image_url ?? "",
     sort_order: s.sort_order, published: s.published,
+    show_in_nav: s.show_in_nav, nav_label: s.nav_label ?? "", nav_sort: s.nav_sort,
   };
 }
 
@@ -82,6 +85,9 @@ function ServiceEditor() {
         cover_image_url: form.cover_image_url.trim() || null,
         sort_order: Number(form.sort_order) || 0,
         published: form.published,
+        show_in_nav: form.show_in_nav,
+        nav_label: form.nav_label.trim() || null,
+        nav_sort: Number(form.nav_sort) || 0,
       };
       if (isNew) {
         const { data, error } = await supabase.from("services").insert(payload).select("id").single();
@@ -162,6 +168,31 @@ function ServiceEditor() {
               </span>
             </label>
           </Field>
+        </div>
+
+        <div className="border-t border-[var(--gold)]/20 pt-7">
+          <div className="text-[10px] tracking-[0.28em] uppercase text-[var(--gold-muted)] mb-4">Navigation assignment</div>
+          <div className="grid grid-cols-2 gap-5">
+            <Field label="Show in main navigation">
+              <label className="flex items-center gap-3 mt-3">
+                <input type="checkbox" checked={form.show_in_nav}
+                  onChange={(e) => set("show_in_nav", e.target.checked)} />
+                <span className="text-[14px] text-[var(--navy-deep)]">
+                  {form.show_in_nav ? "Visible in the Services dropdown" : "Hidden from navigation"}
+                </span>
+              </label>
+            </Field>
+            <Field label="Nav sort" hint="Order inside the Services menu. Lower = first.">
+              <input type="number" className="form-input w-full" value={form.nav_sort}
+                onChange={(e) => set("nav_sort", Number(e.target.value))} />
+            </Field>
+          </div>
+          <div className="mt-5">
+            <Field label="Nav label (optional)" hint="Override the name shown in the navigation. Leave blank to use the service name.">
+              <input className="form-input w-full" value={form.nav_label}
+                onChange={(e) => set("nav_label", e.target.value)} placeholder={form.name} />
+            </Field>
+          </div>
         </div>
 
         {err && <div className="text-[13px] text-red-700 bg-red-50 border border-red-200 rounded px-3 py-2">{err}</div>}
