@@ -63,6 +63,14 @@ export function ServicesPage() {
                         {s.name}
                       </h3>
                       <p className="mt-3 font-serif italic text-[var(--gold-muted)]">{s.tagline}</p>
+                      <Link
+                        to="/services/$slug"
+                        params={{ slug: s.slug }}
+                        preload="intent"
+                        className="mt-5 inline-flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase text-[var(--gold)] hover:text-[var(--navy-deep)] transition-colors"
+                      >
+                        Read more <span>→</span>
+                      </Link>
                     </div>
                     <div className="md:col-span-8">
                       <p className="text-[16px] leading-[1.8] text-[var(--text-body)] font-light">
