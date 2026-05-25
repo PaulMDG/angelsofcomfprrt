@@ -7,6 +7,7 @@ const navItems: NavItem[] = [
   { to: "/admin", label: "Dashboard", exact: true },
   { to: "/admin/pages", label: "Pages" },
   { to: "/admin/services", label: "Services" },
+  { to: "/admin/navigation", label: "Navigation" },
   { to: "/admin/blog", label: "Blog" },
   { to: "/admin/testimonials", label: "Testimonials" },
   { to: "/admin/faqs", label: "FAQs" },
