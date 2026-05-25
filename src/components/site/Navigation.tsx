@@ -401,21 +401,35 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                                   {l.mega.cta.label} →
                                 </Link>
                               </li>
-                              {l.mega.columns.flatMap((c) => c.items).map((item) => (
+                              {l.label === "Services" && servicesLoading && services.length === 0 ? (
+                                [0, 1, 2].map((i) => (
+                                  <li key={`sk-${i}`} className="py-3 pl-5">
+                                    <div className="h-4 rounded bg-white/10 animate-pulse" style={{ width: `${55 + i * 10}%` }} />
+                                  </li>
+                                ))
+                              ) : l.label === "Services" && !servicesLoading && services.length === 0 ? (
+                                <li className="py-3 pl-5 text-[13px] italic text-[var(--ivory)]/50 font-serif">
+                                  No services yet.
+                                </li>
+                              ) : (
+                                l.mega.columns.flatMap((c) => c.items).map((item) => (
                                 <li key={item.label}>
                                   <Link
                                     to={
                                       item.to ??
                                       (l.label === "Resources" ? "/resources" : "/services")
                                     }
+                                    params={item.params as any}
                                     hash={item.hash}
+                                    preload="intent"
                                     onClick={() => setOpen(false)}
                                     className="block py-3 pl-5 text-[15px] text-[var(--ivory)]/85 hover:text-[var(--gold-light)] transition-colors"
                                   >
                                     {item.label}
                                   </Link>
                                 </li>
-                              ))}
+                              ))
+                              )}
                             </ul>
                           </motion.div>
                         )}
