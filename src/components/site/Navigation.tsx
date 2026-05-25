@@ -8,7 +8,7 @@ import { fetchPublishedServices } from "@/lib/cms-services";
 type MegaColumn = {
   heading: string;
   blurb?: string;
-  items: { label: string; desc?: string; to?: string }[];
+  items: { label: string; desc?: string; to?: "/services" | "/resources"; hash?: string }[];
 };
 
 type NavItem = {
@@ -80,7 +80,8 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
         items: services.map((s) => ({
           label: s.name,
           desc: s.tagline ?? undefined,
-          to: `/services#${s.slug}`,
+          to: "/services" as const,
+          hash: s.slug,
         })),
       },
     ],
@@ -272,6 +273,7 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                     >
                       <Link
                         to={item.to ?? (hovered === "Resources" ? "/resources" : "/services")}
+                        hash={item.hash}
                         onClick={() => setHovered(null)}
                         className="group relative flex items-center justify-between gap-4 px-4 py-4 text-[11px] tracking-[0.22em] uppercase font-medium transition-colors overflow-hidden"
                         style={{ color: "#0e1b2e" }}
@@ -378,6 +380,7 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                                       item.to ??
                                       (l.label === "Resources" ? "/resources" : "/services")
                                     }
+                                    hash={item.hash}
                                     onClick={() => setOpen(false)}
                                     className="block py-3 pl-5 text-[15px] text-[var(--ivory)]/85 hover:text-[var(--gold-light)] transition-colors"
                                   >
