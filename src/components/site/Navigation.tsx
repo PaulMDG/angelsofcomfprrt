@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { MonogramAC } from "./Botanical";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPublishedServices } from "@/lib/cms-services";
 
 type MegaColumn = {
   heading: string;
   blurb?: string;
-  items: { label: string; desc?: string; to?: string }[];
+  items: { label: string; desc?: string; to?: "/services" | "/resources"; hash?: string }[];
 };
 
 type NavItem = {
@@ -20,23 +22,10 @@ type NavItem = {
   };
 };
 
-const servicesMega: NavItem["mega"] = {
+const servicesMegaBase = {
   tagline: "Thoughtful in-home support designed to bring comfort, dignity, and peace of mind to",
   italic: "Maryland families.",
-  columns: [
-    {
-      heading: "Services",
-      items: [
-        { label: "Dementia Care" },
-        { label: "Respite Care" },
-        { label: "Companion Care", desc: "Conversation, presence, gentle company." },
-        { label: "Personal Care", desc: "Bathing, grooming, dignity preserved." },
-        { label: "Live-In Care" },
-        { label: "Hospital Discharge Support" },
-      ],
-    },
-  ],
-  cta: { label: "Explore all services", to: "/services" },
+  cta: { label: "Explore all services", to: "/services" as const },
 };
 
 const resourcesMega: NavItem["mega"] = {
@@ -71,17 +60,39 @@ const resourcesMega: NavItem["mega"] = {
   cta: { label: "Read the journal", to: "/resources" },
 };
 
-const navLinks: NavItem[] = [
-  { to: "/services", label: "Services", mega: servicesMega },
-  { to: "/family-portal", label: "Family Portal" },
-  { to: "/resources", label: "Resources", mega: resourcesMega },
-  { to: "/about", label: "About Us" },
-];
-
 export function Navigation({ overHero = true }: { overHero?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+
+  const { data: services = [] } = useQuery({
+    queryKey: ["public", "services", "nav"],
+    queryFn: fetchPublishedServices,
+    staleTime: 60_000,
+  });
+
+  const servicesMega: NavItem["mega"] = {
+    ...servicesMegaBase,
+    columns: [
+      {
+        heading: "Services",
+        items: services.map((s) => ({
+          label: s.name,
+          desc: s.tagline ?? undefined,
+          to: "/services" as const,
+          hash: s.slug,
+        })),
+      },
+    ],
+  };
+
+  const navLinks: NavItem[] = [
+    { to: "/services", label: "Services", mega: servicesMega },
+    { to: "/family-portal", label: "Family Portal" },
+    { to: "/resources", label: "Resources", mega: resourcesMega },
+    { to: "/about", label: "About Us" },
+  ];
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 80);
@@ -249,8 +260,11 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                 </div>
                 <ul className="py-4 pr-4">
                   {activeMega.columns.flatMap((col) => col.items).map((item, idx, arr) => (
-                    <li
+                    <motion.li
                       key={item.label}
+                      initial={{ opacity: 0, x: 8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.25, delay: 0.05 + idx * 0.04, ease: [0.4, 0, 0.2, 1] }}
                       className={
                         idx < arr.length - 1
                           ? "border-b border-[#0e1b2e]/8"
@@ -258,12 +272,14 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                       }
                     >
                       <Link
-                        to={hovered === "Resources" ? "/resources" : "/services"}
+                        to={item.to ?? (hovered === "Resources" ? "/resources" : "/services")}
+                        hash={item.hash}
                         onClick={() => setHovered(null)}
-                        className="group flex items-center justify-between gap-4 px-4 py-4 text-[11px] tracking-[0.22em] uppercase font-medium transition-colors"
+                        className="group relative flex items-center justify-between gap-4 px-4 py-4 text-[11px] tracking-[0.22em] uppercase font-medium transition-colors overflow-hidden"
                         style={{ color: "#0e1b2e" }}
                       >
-                        <span className="group-hover:text-[var(--gold)] transition-colors">
+                        <span className="absolute inset-y-0 left-0 w-[2px] bg-[var(--gold)] scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-300" />
+                        <span className="relative group-hover:text-[var(--gold)] group-hover:translate-x-1 transition-all duration-300">
                           {item.label}
                         </span>
                         <svg
@@ -273,13 +289,13 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="1.5"
-                          className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"
+                          className="relative opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300"
                           style={{ color: "var(--gold)" }}
                         >
                           <path d="M9 6l6 6-6 6" />
                         </svg>
                       </Link>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </div>
@@ -316,13 +332,76 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + i * 0.08 }}
                 >
-                  <Link
-                    to={l.to}
-                    onClick={() => setOpen(false)}
-                    className="font-serif text-4xl text-[var(--ivory)] block"
-                  >
-                    {l.label}
-                  </Link>
+                  {l.mega ? (
+                    <div>
+                      <button
+                        onClick={() =>
+                          setMobileExpanded(mobileExpanded === l.label ? null : l.label)
+                        }
+                        className="font-serif text-4xl text-[var(--ivory)] flex items-center gap-3 w-full"
+                      >
+                        {l.label}
+                        <motion.svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 10 6"
+                          fill="none"
+                          stroke="var(--gold-light)"
+                          strokeWidth="1.2"
+                          animate={{ rotate: mobileExpanded === l.label ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <path d="M1 1l4 4 4-4" />
+                        </motion.svg>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {mobileExpanded === l.label && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                            className="overflow-hidden"
+                          >
+                            <ul className="mt-4 pl-1 border-l border-[var(--gold)]/30">
+                              <li>
+                                <Link
+                                  to={l.to}
+                                  onClick={() => setOpen(false)}
+                                  className="block py-3 pl-5 text-[11px] tracking-[0.22em] uppercase text-[var(--gold-light)]"
+                                >
+                                  {l.mega.cta.label} →
+                                </Link>
+                              </li>
+                              {l.mega.columns.flatMap((c) => c.items).map((item) => (
+                                <li key={item.label}>
+                                  <Link
+                                    to={
+                                      item.to ??
+                                      (l.label === "Resources" ? "/resources" : "/services")
+                                    }
+                                    hash={item.hash}
+                                    onClick={() => setOpen(false)}
+                                    className="block py-3 pl-5 text-[15px] text-[var(--ivory)]/85 hover:text-[var(--gold-light)] transition-colors"
+                                  >
+                                    {item.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Link
+                      to={l.to}
+                      onClick={() => setOpen(false)}
+                      className="font-serif text-4xl text-[var(--ivory)] block"
+                    >
+                      {l.label}
+                    </Link>
+                  )}
                 </motion.div>
               ))}
             </nav>
