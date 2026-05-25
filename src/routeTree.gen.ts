@@ -18,6 +18,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers'
 import { Route as AdminStaffRouteImport } from './routes/admin.staff'
@@ -77,6 +78,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ServicesRoute,
 } as any)
 const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
   id: '/testimonials',
@@ -157,7 +163,7 @@ export interface FileRoutesByFullPath {
   '/family-portal': typeof FamilyPortalRoute
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/admin/blog': typeof AdminBlogRoute
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -170,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/services/$id': typeof AdminServicesIdRoute
   '/admin/services/': typeof AdminServicesIndexRoute
@@ -181,7 +188,7 @@ export interface FileRoutesByTo {
   '/family-portal': typeof FamilyPortalRoute
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/admin/blog': typeof AdminBlogRoute
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/services/$id': typeof AdminServicesIdRoute
   '/admin/services': typeof AdminServicesIndexRoute
@@ -206,7 +214,7 @@ export interface FileRoutesById {
   '/family-portal': typeof FamilyPortalRoute
   '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/admin/blog': typeof AdminBlogRoute
   '/admin/consultations': typeof AdminConsultationsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -219,6 +227,7 @@ export interface FileRoutesById {
   '/admin/staff': typeof AdminStaffRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/services/$id': typeof AdminServicesIdRoute
   '/admin/services/': typeof AdminServicesIndexRoute
@@ -246,6 +255,7 @@ export interface FileRouteTypes {
     | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
+    | '/services/$slug'
     | '/admin/'
     | '/admin/services/$id'
     | '/admin/services/'
@@ -269,6 +279,7 @@ export interface FileRouteTypes {
     | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
+    | '/services/$slug'
     | '/admin'
     | '/admin/services/$id'
     | '/admin/services'
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '/admin/staff'
     | '/admin/subscribers'
     | '/admin/testimonials'
+    | '/services/$slug'
     | '/admin/'
     | '/admin/services/$id'
     | '/admin/services/'
@@ -307,7 +319,7 @@ export interface RootRouteChildren {
   FamilyPortalRoute: typeof FamilyPortalRoute
   LoginRoute: typeof LoginRoute
   ResourcesRoute: typeof ResourcesRoute
-  ServicesRoute: typeof ServicesRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -374,6 +386,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof ServicesRoute
     }
     '/admin/testimonials': {
       id: '/admin/testimonials'
@@ -524,6 +543,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface ServicesRouteChildren {
+  ServicesSlugRoute: typeof ServicesSlugRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesSlugRoute: ServicesSlugRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -532,8 +563,18 @@ const rootRouteChildren: RootRouteChildren = {
   FamilyPortalRoute: FamilyPortalRoute,
   LoginRoute: LoginRoute,
   ResourcesRoute: ResourcesRoute,
-  ServicesRoute: ServicesRoute,
+  ServicesRoute: ServicesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
