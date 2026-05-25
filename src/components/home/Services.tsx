@@ -44,7 +44,9 @@ export function Services() {
             {services.map((s, i) => (
               <Reveal key={s.id} delay={i * 0.05}>
                 <Link
-                  to="/services"
+                  to="/services/$slug"
+                  params={{ slug: s.slug }}
+                  preload="intent"
                   className="group block py-7 transition-colors hover:bg-[var(--champagne)]/40 -mx-4 px-4 border-l-2 border-transparent hover:border-[var(--gold)]"
                 >
                   <h3 className="font-serif text-[var(--navy-deep)] group-hover:text-[var(--gold-muted)] transition-colors"
