@@ -5,6 +5,7 @@ import { MonogramAC } from "./Botanical";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchNavServices } from "@/lib/cms-services";
 import { supabase } from "@/integrations/supabase/client";
+import { useLogo } from "@/lib/site-settings";
 
 type MegaColumn = {
   heading: string;
@@ -74,6 +75,9 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
+  const { data: logo } = useLogo();
+  const wordmark = logo?.wordmark || "Angels of Comfort";
+  const tagline = logo?.tagline || "In-Home Care";
 
   const { data: services = [], isLoading: servicesLoading } = useQuery({
     queryKey: ["public", "services", "nav"],
@@ -151,19 +155,27 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
       >
         <div className="container-editorial flex items-center justify-between py-5">
           <Link to="/" className="flex items-center gap-3 group">
-            <MonogramAC className="w-10 h-10 text-[var(--gold-light)]" />
+            {logo?.url ? (
+              <img
+                src={logo.url}
+                alt={logo.alt || wordmark}
+                className="h-10 w-auto max-w-[160px] object-contain"
+              />
+            ) : (
+              <MonogramAC className="w-10 h-10 text-[var(--gold-light)]" />
+            )}
             <div className="leading-tight">
               <div
                 className="font-serif text-[18px] font-semibold tracking-wide"
                 style={{ color: isDark ? "#FAF8F4" : "#FAF8F4" }}
               >
-                Angels of Comfort
+                {wordmark}
               </div>
               <div
                 className="text-[9px] tracking-[0.28em] uppercase"
                 style={{ color: "var(--gold-light)" }}
               >
-                In-Home Care
+                {tagline}
               </div>
             </div>
           </Link>
@@ -364,8 +376,12 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
           >
             <div className="container-editorial flex items-center justify-between py-5">
               <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
-                <MonogramAC className="w-9 h-9 text-[var(--gold-light)]" />
-                <span className="font-serif text-lg text-[var(--ivory)]">Angels of Comfort</span>
+                {logo?.url ? (
+                  <img src={logo.url} alt={logo.alt || wordmark} className="h-9 w-auto max-w-[140px] object-contain" />
+                ) : (
+                  <MonogramAC className="w-9 h-9 text-[var(--gold-light)]" />
+                )}
+                <span className="font-serif text-lg text-[var(--ivory)]">{wordmark}</span>
               </Link>
               <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2 -mr-2">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" strokeWidth="1.2">
