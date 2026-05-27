@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { MonogramAC } from "./Botanical";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchNavServices } from "@/lib/cms-services";
+import { supabase } from "@/integrations/supabase/client";
 
 type MegaColumn = {
   heading: string;
@@ -72,11 +73,31 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
   const [hovered, setHovered] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
+  const queryClient = useQueryClient();
+
   const { data: services = [], isLoading: servicesLoading } = useQuery({
     queryKey: ["public", "services", "nav"],
     queryFn: fetchNavServices,
     staleTime: 60_000,
   });
+
+  // Live-update the megamenu when services are toggled in the admin
+  useEffect(() => {
+    const channel = supabase
+      .channel("nav-services")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "services" },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["public", "services", "nav"] });
+          queryClient.invalidateQueries({ queryKey: ["public", "services"] });
+        },
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
 
   const servicesMega: NavItem["mega"] = {
     ...servicesMegaBase,

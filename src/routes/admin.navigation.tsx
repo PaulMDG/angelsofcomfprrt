@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchAllNavItems, type NavItem } from "@/lib/nav";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 
 export const Route = createFileRoute("/admin/navigation")({
   component: NavigationManager,
@@ -31,6 +32,27 @@ const emptyDraft = (menu_key: string): Draft => ({
   open_in_new_tab: false, sort_order: 100, published: true,
 });
 
+const urlSchema = z
+  .string()
+  .trim()
+  .min(1, "URL is required")
+  .max(2048, "URL is too long")
+  .refine(
+    (v) =>
+      v.startsWith("/") ||
+      v.startsWith("#") ||
+      /^https?:\/\/[^\s]+\.[^\s]+/i.test(v) ||
+      /^mailto:[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(v) ||
+      /^tel:\+?[0-9()\-.\s]+$/i.test(v),
+    "Enter a valid URL (starts with /, #, https://, mailto:, or tel:)",
+  );
+
+const draftSchema = z.object({
+  label: z.string().trim().min(1, "Label is required").max(80, "Keep label under 80 characters"),
+  url: urlSchema,
+  sort_order: z.number().int().min(0).max(9999),
+});
+
 function NavigationManager() {
   const qc = useQueryClient();
   const [menuKey, setMenuKey] = useState("header");
@@ -51,14 +73,23 @@ function NavigationManager() {
     e.preventDefault();
     if (!editing) return;
     setErr(null);
+    const parsed = draftSchema.safeParse({
+      label: editing.label,
+      url: editing.url,
+      sort_order: Number(editing.sort_order) || 0,
+    });
+    if (!parsed.success) {
+      setErr(parsed.error.issues.map((i) => i.message).join(" · "));
+      return;
+    }
     try {
       const payload = {
         menu_key: editing.menu_key,
-        label: editing.label.trim(),
-        url: editing.url.trim(),
+        label: parsed.data.label,
+        url: parsed.data.url,
         link_type: editing.link_type,
         open_in_new_tab: editing.open_in_new_tab,
-        sort_order: Number(editing.sort_order) || 0,
+        sort_order: parsed.data.sort_order,
         published: editing.published,
       };
       if (editing.id) {
