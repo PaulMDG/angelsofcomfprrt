@@ -376,8 +376,12 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
           >
             <div className="container-editorial flex items-center justify-between py-5">
               <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
-                <MonogramAC className="w-9 h-9 text-[var(--gold-light)]" />
-                <span className="font-serif text-lg text-[var(--ivory)]">Angels of Comfort</span>
+                {logo?.url ? (
+                  <img src={logo.url} alt={logo.alt || wordmark} className="h-9 w-auto max-w-[140px] object-contain" />
+                ) : (
+                  <MonogramAC className="w-9 h-9 text-[var(--gold-light)]" />
+                )}
+                <span className="font-serif text-lg text-[var(--ivory)]">{wordmark}</span>
               </Link>
               <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2 -mr-2">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" strokeWidth="1.2">
