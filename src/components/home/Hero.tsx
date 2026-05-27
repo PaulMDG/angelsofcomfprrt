@@ -13,18 +13,27 @@ const trustItems = [
 export function Hero() {
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden bg-[var(--navy-deep)]">
+      {/* Photo on the right; left side stays dark navy for the headline */}
       <div className="absolute inset-0">
         <img
           src={heroImg}
           alt="A caregiver and elderly woman sitting together in a sunlit living room"
-          className="w-full h-full object-cover object-[70%_center]"
+          className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
           fetchPriority="high"
         />
+        {/* Strong dark wash that fully covers the left third, then fades to reveal the photo */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(95deg, rgba(14,27,46,0.96) 0%, rgba(14,27,46,0.88) 30%, rgba(14,27,46,0.55) 55%, rgba(14,27,46,0.1) 100%)",
+              "linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-deep) 38%, rgba(14,27,46,0.92) 46%, rgba(14,27,46,0.55) 58%, rgba(14,27,46,0.15) 72%, rgba(14,27,46,0) 88%)",
+          }}
+        />
+        {/* Subtle top fade so the fixed nav stays legible across the image */}
+        <div
+          className="absolute inset-x-0 top-0 h-32"
+          style={{
+            background: "linear-gradient(to bottom, rgba(14,27,46,0.55), transparent)",
           }}
         />
         <div
@@ -34,7 +43,9 @@ export function Hero() {
       </div>
 
       <div className="relative container-editorial pt-40 pb-20 lg:pb-28">
-        <div className="max-w-[640px]">
+        {/* Two-column scaffold reserves the right half for the photo on desktop */}
+        <div className="grid lg:grid-cols-2 gap-12">
+          <div className="max-w-[560px]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -55,7 +66,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
             className="mt-8 font-serif text-[var(--ivory)] leading-[1.02] tracking-[-0.02em] font-medium"
-            style={{ fontSize: "clamp(48px, 7vw, 96px)" }}
+            style={{ fontSize: "clamp(44px, 5.6vw, 84px)" }}
           >
             Care that<br />
             feels like <span className="gold-italic">home.</span>
@@ -71,7 +82,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-6 text-[18px] leading-[1.7] text-[var(--cream)] max-w-[520px] font-light"
+            className="mt-6 text-[17px] leading-[1.7] text-[var(--cream)] max-w-[460px] font-light"
           >
             Compassionate in-home care for Maryland families. Support your loved one with dignity,
             understanding, and a familiar face — every day.
@@ -90,6 +101,9 @@ export function Hero() {
               Explore Care Services
             </Link>
           </motion.div>
+          </div>
+          {/* Right column intentionally left empty on desktop so the photo shows through */}
+          <div className="hidden lg:block" aria-hidden="true" />
         </div>
       </div>
 
