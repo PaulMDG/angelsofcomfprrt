@@ -18,12 +18,20 @@ export function Hero() {
         <img
           src={heroImg}
           alt="A caregiver and elderly woman sitting together in a sunlit living room"
-          className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
+          className="absolute inset-0 w-full h-full object-cover object-[85%_center] sm:object-[80%_center] lg:object-[75%_center]"
           fetchPriority="high"
         />
-        {/* Strong dark wash that fully covers the left third, then fades to reveal the photo */}
+        {/* Mobile/tablet: vertical wash keeps the headline area dark while letting the photo breathe below */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 lg:hidden"
+          style={{
+            background:
+              "linear-gradient(180deg, var(--navy-deep) 0%, var(--navy-deep) 38%, rgba(14,27,46,0.88) 55%, rgba(14,27,46,0.55) 72%, rgba(14,27,46,0.2) 88%, rgba(14,27,46,0) 100%)",
+          }}
+        />
+        {/* Desktop: horizontal wash covers the left column, photo on the right */}
+        <div
+          className="absolute inset-0 hidden lg:block"
           style={{
             background:
               "linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-deep) 38%, rgba(14,27,46,0.92) 46%, rgba(14,27,46,0.55) 58%, rgba(14,27,46,0.15) 72%, rgba(14,27,46,0) 88%)",
