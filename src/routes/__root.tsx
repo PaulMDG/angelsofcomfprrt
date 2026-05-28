@@ -13,6 +13,28 @@ import { Navigation } from "@/components/site/Navigation";
 import { Footer } from "@/components/site/Footer";
 import { useRouterState } from "@tanstack/react-router";
 import { BotanicalSprig, MonogramAC } from "@/components/site/Botanical";
+import { supabase } from "@/integrations/supabase/client";
+
+const FALLBACK_OG_IMAGE =
+  "https://storage.googleapis.com/gpt-engineer-file-uploads/G4nk8Ki590hArMdSGQqxXa6F5LF2/social-images/social-1779632121975-logo.webp";
+
+async function fetchLogoForHead(): Promise<{ url: string; alt: string; wordmark: string }> {
+  try {
+    const { data } = await supabase
+      .from("site_settings")
+      .select("value")
+      .eq("key", "logo")
+      .maybeSingle();
+    const v = (data?.value as { url?: string; alt?: string; wordmark?: string } | null) ?? null;
+    return {
+      url: v?.url || FALLBACK_OG_IMAGE,
+      alt: v?.alt || v?.wordmark || "Angels of Comfort",
+      wordmark: v?.wordmark || "Angels of Comfort",
+    };
+  } catch {
+    return { url: FALLBACK_OG_IMAGE, alt: "Angels of Comfort", wordmark: "Angels of Comfort" };
+  }
+}
 
 function NotFoundComponent() {
   return (
@@ -82,7 +104,18 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData({
+      queryKey: ["public", "site_settings", "logo"],
+      queryFn: fetchLogoForHead,
+    }),
+  head: ({ loaderData }) => {
+    const logo = (loaderData as { url: string; alt: string; wordmark: string } | undefined) ?? {
+      url: FALLBACK_OG_IMAGE,
+      alt: "Angels of Comfort",
+      wordmark: "Angels of Comfort",
+    };
+    return ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -92,12 +125,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Angels of Comfort" },
       { property: "og:description", content: "Angels of Comfort offers premium in-home care services with a focus on dignity, trust, and compassion." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { property: "og:site_name", content: logo.wordmark },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Angels of Comfort" },
       { name: "twitter:description", content: "Angels of Comfort offers premium in-home care services with a focus on dignity, trust, and compassion." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/G4nk8Ki590hArMdSGQqxXa6F5LF2/social-images/social-1779632121975-logo.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/G4nk8Ki590hArMdSGQqxXa6F5LF2/social-images/social-1779632121975-logo.webp" },
+      { property: "og:image", content: logo.url },
+      { property: "og:image:alt", content: logo.alt },
+      { name: "twitter:image", content: logo.url },
+      { name: "twitter:image:alt", content: logo.alt },
     ],
     links: [
       {
@@ -105,7 +141,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
     ],
-  }),
+    });
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
