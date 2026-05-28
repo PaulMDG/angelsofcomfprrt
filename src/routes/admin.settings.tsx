@@ -58,6 +58,9 @@ function LogoEditor() {
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
+  const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/svg+xml", "image/webp"];
+  const MAX_BYTES = 2 * 1024 * 1024; // 2 MB
+
   const { data: current } = useQuery({
     queryKey: ["admin", "settings", "logo"],
     queryFn: async () => {
@@ -76,10 +79,21 @@ function LogoEditor() {
 
   const onUpload = async (file: File) => {
     setMsg(null);
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setMsg(`Unsupported file type "${file.type || "unknown"}". Use PNG, JPEG, SVG, or WebP.`);
+      if (fileRef.current) fileRef.current.value = "";
+      return;
+    }
+    if (file.size > MAX_BYTES) {
+      setMsg(`File is too large (${(file.size / 1024 / 1024).toFixed(2)} MB). Max is 2 MB.`);
+      if (fileRef.current) fileRef.current.value = "";
+      return;
+    }
     setUploading(true);
     try {
       const { url: u } = await uploadMedia(file, "logo");
       setUrl(u);
+      setMsg("Image uploaded. Click Save logo to apply.");
     } catch (e) {
       setMsg((e as Error).message);
     } finally {
