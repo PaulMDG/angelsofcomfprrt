@@ -76,8 +76,6 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
 
   const queryClient = useQueryClient();
   const { data: logo } = useLogo();
-  const wordmark = logo?.wordmark || "Angels of Comfort";
-  const tagline = logo?.tagline || "In-Home Care";
 
   const { data: services = [], isLoading: servicesLoading } = useQuery({
     queryKey: ["public", "services", "nav"],
