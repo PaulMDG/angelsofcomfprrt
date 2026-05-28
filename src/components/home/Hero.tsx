@@ -18,7 +18,7 @@ export function Hero() {
         <img
           src={heroImg}
           alt="A caregiver and elderly woman sitting together in a sunlit living room"
-          className="absolute inset-0 w-full h-full object-cover object-[85%_center] sm:object-[80%_center] lg:object-[75%_center]"
+          className="absolute inset-0 w-full h-full object-cover object-[85%_center] sm:object-[80%_center] lg:object-[60%_center]"
           fetchPriority="high"
         />
         {/* Mobile/tablet: vertical wash keeps the headline area dark while letting the photo breathe below */}
@@ -34,7 +34,7 @@ export function Hero() {
           className="absolute inset-0 hidden lg:block"
           style={{
             background:
-              "linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-deep) 38%, rgba(14,27,46,0.92) 46%, rgba(14,27,46,0.55) 58%, rgba(14,27,46,0.15) 72%, rgba(14,27,46,0) 88%)",
+              "linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-deep) 32%, rgba(14,27,46,0.85) 40%, rgba(14,27,46,0.35) 48%, rgba(14,27,46,0) 58%)",
           }}
         />
         {/* Subtle top fade so the fixed nav stays legible across the image */}
