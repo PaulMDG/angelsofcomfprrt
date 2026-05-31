@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchAllNavItems, type NavItem } from "@/lib/nav";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,6 +19,7 @@ const MENU_OPTIONS = [
 type Draft = {
   id?: string;
   menu_key: string;
+  parent_id: string | null;
   label: string;
   url: string;
   link_type: string;
@@ -28,7 +29,7 @@ type Draft = {
 };
 
 const emptyDraft = (menu_key: string): Draft => ({
-  menu_key, label: "", url: "/", link_type: "internal",
+  menu_key, parent_id: null, label: "", url: "/", link_type: "internal",
   open_in_new_tab: false, sort_order: 100, published: true,
 });
 
@@ -64,9 +65,61 @@ function NavigationManager() {
     queryFn: () => fetchAllNavItems(menuKey),
   });
 
+  // Resource catalogs for the picker
+  const { data: pages = [] } = useQuery({
+    queryKey: ["admin", "nav_resources", "pages"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("pages").select("page_key,title").order("title");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const { data: servicesList = [] } = useQuery({
+    queryKey: ["admin", "nav_resources", "services"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("services").select("slug,name").order("sort_order");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const { data: posts = [] } = useQuery({
+    queryKey: ["admin", "nav_resources", "blog"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("blog_posts").select("slug,title").order("title");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const parentOptions = useMemo(
+    () => items.filter((i) => !i.parent_id && i.id !== editing?.id),
+    [items, editing?.id],
+  );
+  const itemById = useMemo(() => {
+    const m = new Map<string, NavItem>();
+    items.forEach((i) => m.set(i.id, i));
+    return m;
+  }, [items]);
+
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ["admin", "nav_items"] });
     qc.invalidateQueries({ queryKey: ["public", "nav_items"] });
+  };
+
+  // Build URL from a picked resource based on link_type
+  const setResource = (value: string) => {
+    if (!editing) return;
+    if (!value) return setEditing({ ...editing, url: "/" });
+    if (editing.link_type === "page") {
+      const p = pages.find((x: any) => x.page_key === value);
+      setEditing({ ...editing, url: value === "home" ? "/" : `/${value}`, label: editing.label || p?.title || "" });
+    } else if (editing.link_type === "service") {
+      const s = servicesList.find((x: any) => x.slug === value);
+      setEditing({ ...editing, url: `/services/${value}`, label: editing.label || s?.name || "" });
+    } else if (editing.link_type === "blog") {
+      const b = posts.find((x: any) => x.slug === value);
+      setEditing({ ...editing, url: `/resources/${value}`, label: editing.label || b?.title || "" });
+    }
   };
 
   const save = async (e: React.FormEvent) => {
@@ -85,6 +138,7 @@ function NavigationManager() {
     try {
       const payload = {
         menu_key: editing.menu_key,
+        parent_id: editing.parent_id,
         label: parsed.data.label,
         url: parsed.data.url,
         link_type: editing.link_type,
@@ -166,8 +220,15 @@ function NavigationManager() {
               <tr key={it.id} className="border-t border-[var(--gold)]/15">
                 <td className="px-5 py-4 text-[14px] text-[var(--warm-gray)]">{it.sort_order}</td>
                 <td className="px-5 py-4">
-                  <div className="font-serif text-[17px] text-[var(--navy-deep)]">{it.label}</div>
-                  <div className="text-[11px] text-[var(--warm-gray)] mt-0.5">{it.link_type}{it.open_in_new_tab ? " · new tab" : ""}</div>
+                  <div className="font-serif text-[17px] text-[var(--navy-deep)]">
+                    {it.parent_id ? <span className="text-[var(--gold-muted)] mr-1">↳</span> : null}
+                    {it.label}
+                  </div>
+                  <div className="text-[11px] text-[var(--warm-gray)] mt-0.5">
+                    {it.link_type}
+                    {it.parent_id ? ` · child of ${itemById.get(it.parent_id)?.label ?? "—"}` : ""}
+                    {it.open_in_new_tab ? " · new tab" : ""}
+                  </div>
                 </td>
                 <td className="px-5 py-4 text-[13px] text-[var(--warm-gray)] font-mono">{it.url}</td>
                 <td className="px-5 py-4">
@@ -179,7 +240,7 @@ function NavigationManager() {
                   </button>
                 </td>
                 <td className="px-5 py-4 text-right space-x-4">
-                  <button onClick={() => setEditing({ ...it, label: it.label, url: it.url })}
+                  <button onClick={() => setEditing({ ...it })}
                     className="text-[12px] tracking-[0.16em] uppercase text-[var(--gold-muted)] hover:text-[var(--navy-deep)]">
                     Edit
                   </button>
@@ -213,8 +274,17 @@ function NavigationManager() {
             <div>
               <label className="text-[11px] tracking-[0.2em] uppercase text-[var(--gold-muted)] block mb-2">Menu</label>
               <select className="form-input w-full" value={editing.menu_key}
-                onChange={(e) => setEditing({ ...editing, menu_key: e.target.value })}>
+                onChange={(e) => setEditing({ ...editing, menu_key: e.target.value, parent_id: null })}>
                 {MENU_OPTIONS.map((m) => <option key={m.key} value={m.key}>{m.label}</option>)}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-[11px] tracking-[0.2em] uppercase text-[var(--gold-muted)] block mb-2">Parent (for sub-items)</label>
+              <select className="form-input w-full" value={editing.parent_id ?? ""}
+                onChange={(e) => setEditing({ ...editing, parent_id: e.target.value || null })}>
+                <option value="">— None (top-level)</option>
+                {parentOptions.map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}
               </select>
             </div>
 
@@ -224,20 +294,15 @@ function NavigationManager() {
                 onChange={(e) => setEditing({ ...editing, label: e.target.value })} />
             </div>
 
-            <div>
-              <label className="text-[11px] tracking-[0.2em] uppercase text-[var(--gold-muted)] block mb-2">URL</label>
-              <input required className="form-input w-full font-mono text-[14px]" value={editing.url}
-                placeholder="/services or https://..."
-                onChange={(e) => setEditing({ ...editing, url: e.target.value })} />
-            </div>
-
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-[11px] tracking-[0.2em] uppercase text-[var(--gold-muted)] block mb-2">Link type</label>
                 <select className="form-input w-full" value={editing.link_type}
                   onChange={(e) => setEditing({ ...editing, link_type: e.target.value })}>
-                  <option value="internal">Internal page</option>
+                  <option value="internal">Internal route (custom URL)</option>
+                  <option value="page">Page (CMS)</option>
                   <option value="service">Service</option>
+                  <option value="blog">Blog / Article</option>
                   <option value="external">External URL</option>
                   <option value="anchor">Anchor / section</option>
                 </select>
@@ -247,6 +312,36 @@ function NavigationManager() {
                 <input type="number" className="form-input w-full" value={editing.sort_order}
                   onChange={(e) => setEditing({ ...editing, sort_order: Number(e.target.value) })} />
               </div>
+            </div>
+
+            {(editing.link_type === "page" || editing.link_type === "service" || editing.link_type === "blog") && (
+              <div>
+                <label className="text-[11px] tracking-[0.2em] uppercase text-[var(--gold-muted)] block mb-2">
+                  Pick {editing.link_type}
+                </label>
+                <select className="form-input w-full" value="" onChange={(e) => setResource(e.target.value)}>
+                  <option value="">— Select to fill URL & label —</option>
+                  {editing.link_type === "page" && pages.map((p: any) => (
+                    <option key={p.page_key} value={p.page_key}>{p.title} ({p.page_key})</option>
+                  ))}
+                  {editing.link_type === "service" && servicesList.map((s: any) => (
+                    <option key={s.slug} value={s.slug}>{s.name}</option>
+                  ))}
+                  {editing.link_type === "blog" && posts.map((b: any) => (
+                    <option key={b.slug} value={b.slug}>{b.title}</option>
+                  ))}
+                </select>
+                <p className="text-[11px] text-[var(--warm-gray)] mt-1.5">
+                  Picking a resource auto-fills the URL below. You can still tweak it manually.
+                </p>
+              </div>
+            )}
+
+            <div>
+              <label className="text-[11px] tracking-[0.2em] uppercase text-[var(--gold-muted)] block mb-2">URL</label>
+              <input required className="form-input w-full font-mono text-[14px]" value={editing.url}
+                placeholder="/services or https://..."
+                onChange={(e) => setEditing({ ...editing, url: e.target.value })} />
             </div>
 
             <div className="flex items-center gap-6">
