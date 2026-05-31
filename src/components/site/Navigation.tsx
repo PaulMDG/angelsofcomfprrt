@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MonogramAC } from "./Botanical";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchNavServices } from "@/lib/cms-services";
+import { fetchNavItems, type NavItem as DbNavItem } from "@/lib/nav";
 import { supabase } from "@/integrations/supabase/client";
 import { useLogo } from "@/lib/site-settings";
 import brandLogo from "@/assets/logo.jpeg";
@@ -23,6 +24,8 @@ type MegaColumn = {
 type NavItem = {
   to: string;
   label: string;
+  external?: boolean;
+  newTab?: boolean;
   mega?: {
     tagline: string;
     italic: string;
@@ -86,6 +89,12 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
     staleTime: 60_000,
   });
 
+  const { data: dbNav = [] } = useQuery({
+    queryKey: ["public", "nav_items", "header"],
+    queryFn: () => fetchNavItems("header"),
+    staleTime: 60_000,
+  });
+
   // Live-update the megamenu when services are toggled in the admin
   useEffect(() => {
     const channel = supabase
@@ -98,33 +107,83 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
           queryClient.invalidateQueries({ queryKey: ["public", "services"] });
         },
       )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "nav_items" },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["public", "nav_items"] });
+        },
+      )
       .subscribe();
     return () => {
       supabase.removeChannel(channel);
     };
   }, [queryClient]);
 
-  const servicesMega: NavItem["mega"] = {
-    ...servicesMegaBase,
-    columns: [
-      {
-        heading: "Services",
-        items: services.map((s) => ({
-          label: s.nav_label || s.name,
-          desc: s.tagline ?? undefined,
-          to: "/services/$slug" as const,
-          params: { slug: s.slug },
-        })),
-      },
-    ],
-  };
-
-  const navLinks: NavItem[] = [
-    { to: "/services", label: "Services", mega: servicesMega },
-    { to: "/family-portal", label: "Family Portal" },
-    { to: "/resources", label: "Resources", mega: resourcesMega },
-    { to: "/about", label: "About Us" },
-  ];
+  // Build nav from DB (header menu). Fallback to hardcoded defaults if empty.
+  const navLinks: NavItem[] = (() => {
+    if (dbNav.length === 0) {
+      // Fallback: keep current site working before admin seeds menu
+      const servicesMega: NavItem["mega"] = {
+        ...servicesMegaBase,
+        columns: [
+          {
+            heading: "Services",
+            items: services.map((s) => ({
+              label: s.nav_label || s.name,
+              desc: s.tagline ?? undefined,
+              to: "/services/$slug" as const,
+              params: { slug: s.slug },
+            })),
+          },
+        ],
+      };
+      return [
+        { to: "/services", label: "Services", mega: servicesMega },
+        { to: "/family-portal", label: "Family Portal" },
+        { to: "/resources", label: "Resources", mega: resourcesMega },
+        { to: "/about", label: "About Us" },
+      ];
+    }
+    const tops = dbNav.filter((n) => !n.parent_id);
+    const childrenOf = (id: string) =>
+      dbNav.filter((n) => n.parent_id === id).sort((a, b) => a.sort_order - b.sort_order);
+    return tops.map<NavItem>((top) => {
+      const kids = childrenOf(top.id);
+      const isExternal = top.link_type === "external" || /^https?:\/\//i.test(top.url);
+      const base: NavItem = {
+        to: top.url,
+        label: top.label,
+        external: isExternal,
+        newTab: top.open_in_new_tab,
+      };
+      if (kids.length === 0) return base;
+      return {
+        ...base,
+        mega: {
+          tagline:
+            top.label.toLowerCase() === "services"
+              ? servicesMegaBase.tagline
+              : "Quiet guidance for",
+          italic:
+            top.label.toLowerCase() === "services"
+              ? servicesMegaBase.italic
+              : "every step.",
+          columns: [
+            {
+              heading: top.label,
+              items: kids.map((k) => ({
+                label: k.label,
+                // Force string-based URLs (typed `to` won't apply to dynamic DB URLs)
+                to: k.url as any,
+              })),
+            },
+          ],
+          cta: { label: `Explore all ${top.label.toLowerCase()}`, to: top.url },
+        },
+      };
+    });
+  })();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 80);
