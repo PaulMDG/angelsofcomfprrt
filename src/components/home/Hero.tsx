@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import heroImg from "@/assets/hero-caregiver.jpg";
+import heroAsset from "@/assets/comfort-link.jpeg.asset.json";
+const heroImg = heroAsset.url;
 
 const trustItems = [
   { label: "Maryland RSA Licensed", icon: ShieldIcon },
