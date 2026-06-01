@@ -1,8 +1,9 @@
+import type { ReactElement } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { useHomeSection } from "@/lib/homepage-content";
 
-const ICONS: Record<string, (p: { className?: string }) => JSX.Element> = {
+const ICONS: Record<string, (p: { className?: string }) => ReactElement> = {
   shield: ShieldIcon,
   people: PeopleIcon,
   heart: HeartIcon,
