@@ -5,6 +5,7 @@ import { MonogramAC } from "@/components/site/Botanical";
 type NavItem = { to: string; label: string; exact?: boolean };
 const navItems: NavItem[] = [
   { to: "/admin", label: "Dashboard", exact: true },
+  { to: "/admin/homepage", label: "Homepage" },
   { to: "/admin/pages", label: "Pages" },
   { to: "/admin/services", label: "Services" },
   { to: "/admin/navigation", label: "Navigation" },
