@@ -3,8 +3,10 @@ import { Link } from "@tanstack/react-router";
 import featured from "@/assets/resources-featured.jpg";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPublishedBlog } from "@/lib/cms";
+import { useHomeSection } from "@/lib/homepage-content";
 
 export function Resources() {
+  const s = useHomeSection("resources");
   const { data: posts = [] } = useQuery({
     queryKey: ["public", "blog"],
     queryFn: fetchPublishedBlog,
@@ -16,14 +18,14 @@ export function Resources() {
       <div className="container-editorial section-pad">
         <div className="flex items-end justify-between flex-wrap gap-6 mb-16">
           <Reveal>
-            <Eyebrow>From Our Journal</Eyebrow>
+            <Eyebrow>{s.eyebrow}</Eyebrow>
             <h2 className="mt-6 font-serif font-medium leading-[1.05] text-[var(--navy-deep)]"
               style={{ fontSize: "clamp(36px, 4vw, 56px)" }}>
-              Guidance for the <span className="gold-italic">journey.</span>
+              {s.heading} <span className="gold-italic">{s.italic_word}</span>
             </h2>
           </Reveal>
           <Reveal>
-            <Link to="/resources" className="link-gold">Visit the Journal →</Link>
+            <Link to="/resources" className="link-gold">{s.link_label}</Link>
           </Reveal>
         </div>
 

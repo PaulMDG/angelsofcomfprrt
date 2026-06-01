@@ -1,17 +1,19 @@
+import type { ReactElement } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import heroAsset from "@/assets/comfort-link.jpeg.asset.json";
-const heroImg = heroAsset.url;
+import { useHomeSection } from "@/lib/homepage-content";
 
-const trustItems = [
-  { label: "Maryland RSA Licensed", icon: ShieldIcon },
-  { label: "Background-Checked Caregivers", icon: PeopleIcon },
-  { label: "Personalized Care Plans", icon: HeartIcon },
-  { label: "Family Communication Portal", icon: ChatIcon },
-  { label: "Serving Maryland Families", icon: PinIcon },
-];
+const ICONS: Record<string, (p: { className?: string }) => ReactElement> = {
+  shield: ShieldIcon,
+  people: PeopleIcon,
+  heart: HeartIcon,
+  chat: ChatIcon,
+  pin: PinIcon,
+};
 
 export function Hero() {
+  const hero = useHomeSection("hero");
+  const heroImg = hero.image_url;
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden bg-[var(--navy-deep)]">
       {/* Photo on the right; left side stays dark navy for the headline */}
@@ -61,7 +63,7 @@ export function Hero() {
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
             className="eyebrow text-[var(--gold-light)]"
           >
-            Maryland Licensed In-Home Care
+            {hero.eyebrow}
           </motion.div>
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
@@ -77,8 +79,8 @@ export function Hero() {
             className="mt-8 font-serif text-[var(--ivory)] leading-[1.02] tracking-[-0.02em] font-medium"
             style={{ fontSize: "clamp(44px, 5.6vw, 84px)" }}
           >
-            Care that<br />
-            feels like <span className="gold-italic">home.</span>
+            {hero.headline_line1}<br />
+            {hero.headline_line2} <span className="gold-italic">{hero.headline_italic}</span>
           </motion.h1>
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
@@ -93,8 +95,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mt-6 text-[17px] leading-[1.7] text-[var(--cream)] max-w-[460px] font-light"
           >
-            Compassionate in-home care for Maryland families. Support your loved one with dignity,
-            understanding, and a familiar face — every day.
+            {hero.body}
           </motion.p>
 
           <motion.div
@@ -103,11 +104,11 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-10 flex flex-wrap gap-4"
           >
-            <Link to="/consultation" className="btn-primary">
-              Schedule Consultation
+            <Link to={hero.primary_cta.url} className="btn-primary">
+              {hero.primary_cta.label}
             </Link>
-            <Link to="/services" className="btn-outline btn-outline-light">
-              Explore Care Services
+            <Link to={hero.secondary_cta.url} className="btn-outline btn-outline-light">
+              {hero.secondary_cta.label}
             </Link>
           </motion.div>
           </div>
@@ -124,14 +125,17 @@ export function Hero() {
       >
         <div className="container-editorial py-6">
           <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
-            {trustItems.map((it) => (
-              <div key={it.label} className="flex items-center gap-3">
-                <it.icon className="w-5 h-5 text-[var(--gold-light)] shrink-0" />
-                <span className="text-[10px] tracking-[0.18em] uppercase text-[var(--cream)] font-medium">
-                  {it.label}
-                </span>
-              </div>
-            ))}
+            {hero.trust_items.map((it) => {
+              const Icon = ICONS[it.icon] ?? ShieldIcon;
+              return (
+                <div key={it.label} className="flex items-center gap-3">
+                  <Icon className="w-5 h-5 text-[var(--gold-light)] shrink-0" />
+                  <span className="text-[10px] tracking-[0.18em] uppercase text-[var(--cream)] font-medium">
+                    {it.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </motion.div>
