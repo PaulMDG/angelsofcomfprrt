@@ -21,23 +21,15 @@ export function Hero() {
         <img
           src={heroImg}
           alt="A caregiver and elderly woman sitting together in a sunlit living room"
-          className="absolute inset-0 w-full h-full object-cover object-[80%_center] sm:object-[70%_center] lg:object-[55%_center]"
+          className="absolute inset-0 w-full h-full object-cover object-[75%_center] lg:object-[55%_center]"
           fetchPriority="high"
         />
-        {/* Mobile/tablet: vertical wash keeps the headline area dark while letting the photo breathe below */}
+        {/* Horizontal wash on every breakpoint — keeps the left column dark for the headline, lets the photo breathe on the right */}
         <div
-          className="absolute inset-0 lg:hidden"
+          className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, var(--navy-deep) 0%, var(--navy-deep) 38%, rgba(14,27,46,0.88) 55%, rgba(14,27,46,0.55) 72%, rgba(14,27,46,0.2) 88%, rgba(14,27,46,0) 100%)",
-          }}
-        />
-        {/* Desktop: horizontal wash covers the left column, photo on the right */}
-        <div
-          className="absolute inset-0 hidden lg:block"
-          style={{
-            background:
-              "linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-deep) 24%, rgba(14,27,46,0.82) 34%, rgba(14,27,46,0.35) 44%, rgba(14,27,46,0) 55%)",
+              "linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-deep) 28%, rgba(14,27,46,0.85) 42%, rgba(14,27,46,0.4) 58%, rgba(14,27,46,0) 75%)",
           }}
         />
         {/* Subtle top fade so the fixed nav stays legible across the image */}
@@ -54,9 +46,9 @@ export function Hero() {
       </div>
 
       <div className="relative container-editorial pt-40 pb-20 lg:pb-28">
-        {/* Two-column scaffold reserves the right half for the photo on desktop */}
-        <div className="grid lg:grid-cols-2 gap-12">
-          <div className="max-w-[560px]">
+        {/* Two-column scaffold reserves the right half for the photo at every breakpoint */}
+        <div className="grid grid-cols-[3fr_2fr] lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12">
+          <div className="max-w-[560px] col-span-1">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -77,7 +69,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
             className="mt-8 font-serif text-[var(--ivory)] leading-[1.02] tracking-[-0.02em] font-medium"
-            style={{ fontSize: "clamp(44px, 5.6vw, 84px)" }}
+            style={{ fontSize: "clamp(38px, 5.6vw, 84px)" }}
           >
             {hero.headline_line1}<br />
             {hero.headline_line2} <span className="gold-italic">{hero.headline_italic}</span>
