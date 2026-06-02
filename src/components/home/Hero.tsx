@@ -115,14 +115,17 @@ export function Hero() {
         transition={{ duration: 0.8, delay: 0.9 }}
         className="relative border-t border-[var(--gold)]/20"
       >
-        <div className="container-editorial py-6">
-          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
+        <div className="container-editorial py-5 sm:py-6">
+          <div className="flex flex-nowrap items-center justify-between gap-2 sm:gap-6 lg:gap-8">
             {hero.trust_items.map((it) => {
               const Icon = ICONS[it.icon] ?? ShieldIcon;
               return (
-                <div key={it.label} className="flex items-center gap-3">
+                <div
+                  key={it.label}
+                  className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 text-center sm:text-left min-w-0"
+                >
                   <Icon className="w-5 h-5 text-[var(--gold-light)] shrink-0" />
-                  <span className="text-[10px] tracking-[0.18em] uppercase text-[var(--cream)] font-medium">
+                  <span className="text-[9px] sm:text-[10px] leading-tight tracking-[0.14em] sm:tracking-[0.18em] uppercase text-[var(--cream)] font-medium">
                     {it.label}
                   </span>
                 </div>
