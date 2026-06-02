@@ -179,7 +179,7 @@ export function useHomepageContent(): HomeContent {
 
   useEffect(() => {
     const ch = supabase
-      .channel("pages-home")
+      .channel(`pages-home-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "pages", filter: "page_key=eq.home" },
