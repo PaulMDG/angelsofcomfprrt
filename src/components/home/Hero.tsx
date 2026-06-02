@@ -47,7 +47,7 @@ export function Hero() {
 
       <div className="relative container-editorial pt-40 pb-20 lg:pb-28">
         {/* Two-column scaffold reserves the right half for the photo at every breakpoint */}
-        <div className="grid grid-cols-2 gap-6 lg:gap-12">
+        <div className="grid grid-cols-[3fr_2fr] lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12">
           <div className="max-w-[560px] col-span-1">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -69,7 +69,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
             className="mt-8 font-serif text-[var(--ivory)] leading-[1.02] tracking-[-0.02em] font-medium"
-            style={{ fontSize: "clamp(44px, 5.6vw, 84px)" }}
+            style={{ fontSize: "clamp(38px, 5.6vw, 84px)" }}
           >
             {hero.headline_line1}<br />
             {hero.headline_line2} <span className="gold-italic">{hero.headline_italic}</span>
