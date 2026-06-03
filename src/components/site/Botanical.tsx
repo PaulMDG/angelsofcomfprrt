@@ -8,18 +8,22 @@ export function BotanicalSprig({ className, ...props }: SVGProps<SVGSVGElement>)
       stroke="currentColor"
       strokeWidth="1"
       strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
       aria-hidden="true"
       {...props}
     >
-      <path d="M5 20 Q 35 18, 60 20 T 115 20" />
-      <path d="M20 20 Q 22 12, 30 10" />
-      <path d="M30 20 Q 32 28, 40 30" />
-      <path d="M45 20 Q 47 11, 56 9" />
-      <path d="M58 20 Q 60 29, 68 31" />
-      <path d="M72 20 Q 74 12, 82 10" />
-      <path d="M85 20 Q 87 28, 95 30" />
-      <ellipse cx="60" cy="20" rx="2" ry="1" fill="currentColor" opacity="0.5" />
+      {/* Central stem, gently arching like a real twig */}
+      <path d="M8 22 Q 60 16, 112 22" />
+      {/* Upper leaves — paired ovals along the stem */}
+      <path d="M34 19 Q 30 12, 36 8 Q 42 11, 40 18 Z" fill="currentColor" opacity="0.85" />
+      <path d="M58 17 Q 54 10, 60 6 Q 66 9, 64 16 Z" fill="currentColor" opacity="0.85" />
+      <path d="M82 18 Q 78 11, 84 7 Q 90 10, 88 17 Z" fill="currentColor" opacity="0.85" />
+      {/* Lower leaves — mirrored beneath the stem */}
+      <path d="M46 23 Q 50 30, 44 34 Q 38 31, 40 24 Z" fill="currentColor" opacity="0.85" />
+      <path d="M70 23 Q 74 30, 68 34 Q 62 31, 64 24 Z" fill="currentColor" opacity="0.85" />
+      {/* Tip leaf */}
+      <path d="M104 21 Q 110 16, 116 18 Q 114 24, 106 24 Z" fill="currentColor" opacity="0.85" />
     </svg>
   );
 }
