@@ -33,18 +33,12 @@ export function Footer() {
       <div className="container-editorial py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-4 space-y-5">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center">
               {logo?.url ? (
                 <img src={logo.url} alt={logo.alt || wordmark} className="h-14 w-auto max-w-[200px] object-contain" />
               ) : (
                 <MonogramAC className="w-14 h-14 text-[var(--gold-light)]" />
               )}
-              <div>
-                <div className="font-serif text-2xl">{wordmark}</div>
-                <div className="text-[10px] tracking-[0.28em] uppercase text-[var(--gold-light)]">
-                  {tagline}
-                </div>
-              </div>
             </div>
             <div className="divider-gold" />
             <p className="font-serif italic text-lg text-[var(--gold-light)]">
