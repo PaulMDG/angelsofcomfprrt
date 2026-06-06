@@ -29,7 +29,7 @@ export function Hero() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-deep) 28%, rgba(14,27,46,0.85) 42%, rgba(14,27,46,0.4) 58%, rgba(14,27,46,0) 75%)",
+              "linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-deep) 35%, rgba(14,27,46,0.9) 55%, rgba(14,27,46,0.55) 72%, rgba(14,27,46,0.15) 90%)",
           }}
         />
         {/* Subtle top fade so the fixed nav stays legible across the image */}
@@ -47,7 +47,7 @@ export function Hero() {
 
       <div className="relative container-editorial pt-40 pb-20 lg:pb-28">
         {/* Two-column scaffold reserves the right half for the photo at every breakpoint */}
-        <div className="grid grid-cols-[3fr_2fr] lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12">
           <div className="max-w-[560px] col-span-1">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -69,7 +69,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
             className="mt-8 font-serif text-[var(--ivory)] leading-[1.02] tracking-[-0.02em] font-medium"
-            style={{ fontSize: "clamp(38px, 5.6vw, 84px)" }}
+            style={{ fontSize: "clamp(54px, 9vw, 84px)" }}
           >
             {hero.headline_line1}<br />
             {hero.headline_line2} <span className="gold-italic">{hero.headline_italic}</span>
@@ -116,16 +116,16 @@ export function Hero() {
         className="relative border-t border-[var(--gold)]/20"
       >
         <div className="container-editorial py-5 sm:py-6">
-          <div className="flex flex-nowrap items-center justify-between gap-2 sm:gap-6 lg:gap-8">
+          <div className="flex flex-nowrap items-stretch justify-between gap-0 sm:gap-6 lg:gap-8 rounded-xl sm:rounded-none bg-[rgba(8,16,30,0.7)] sm:bg-transparent ring-1 ring-[var(--gold)]/15 sm:ring-0 px-1 sm:px-0 py-3 sm:py-0 divide-x divide-[var(--gold)]/15 sm:divide-x-0">
             {hero.trust_items.map((it) => {
               const Icon = ICONS[it.icon] ?? ShieldIcon;
               return (
                 <div
                   key={it.label}
-                  className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 text-center sm:text-left min-w-0"
+                  className="flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center sm:text-left min-w-0 px-1.5 sm:px-0"
                 >
-                  <Icon className="w-5 h-5 text-[var(--gold-light)] shrink-0" />
-                  <span className="text-[9px] sm:text-[10px] leading-tight tracking-[0.14em] sm:tracking-[0.18em] uppercase text-[var(--cream)] font-medium">
+                  <Icon className="w-6 h-6 sm:w-5 sm:h-5 text-[var(--gold-light)] shrink-0" />
+                  <span className="text-[10px] sm:text-[10px] leading-[1.25] tracking-[0.14em] sm:tracking-[0.18em] uppercase text-[var(--cream)] font-medium">
                     {it.label}
                   </span>
                 </div>

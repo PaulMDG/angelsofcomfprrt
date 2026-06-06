@@ -18,8 +18,7 @@ export function CTA() {
       </div>
       <div className="relative container-editorial section-pad text-center flex flex-col items-center">
         <Reveal>
-          <MonogramAC className="w-14 h-14 text-[var(--gold-light)] mx-auto" />
-          <div className="mt-8 inline-flex eyebrow eyebrow-center text-[var(--gold-light)]">
+          <div className="inline-flex eyebrow eyebrow-center text-[var(--gold-light)]">
             {s.eyebrow}
           </div>
           <h2 className="mt-8 font-serif font-medium leading-[1.05] max-w-3xl mx-auto"
