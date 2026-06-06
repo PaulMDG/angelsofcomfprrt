@@ -218,7 +218,7 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
             <img
               src={logoSrc}
               alt={logo?.alt || wordmark}
-              className="h-14 md:h-16 w-auto object-contain"
+              className="h-20 md:h-24 w-auto object-contain"
               style={{ mixBlendMode: "screen" }}
             />
           </Link>
@@ -422,7 +422,7 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
                 <img
                   src={logoSrc}
                   alt={logo?.alt || wordmark}
-                  className="h-12 w-auto object-contain"
+                  className="h-20 w-auto object-contain"
                   style={{ mixBlendMode: "screen" }}
                 />
               </Link>
