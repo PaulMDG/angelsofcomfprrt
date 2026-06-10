@@ -78,7 +78,6 @@ export const HOME_DEFAULTS: HomeContent = {
       { label: "Maryland RSA Licensed", icon: "shield" },
       { label: "BACKGROUND-CHECKED CAREGIVERS", icon: "people" },
       { label: "Personalized Care Plans", icon: "heart" },
-      { label: "Family Communication Portal", icon: "chat" },
       { label: "Serving Maryland Families", icon: "pin" },
     ],
   },
