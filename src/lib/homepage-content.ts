@@ -76,7 +76,7 @@ export const HOME_DEFAULTS: HomeContent = {
     secondary_cta: { label: "Explore Care Services", url: "/services" },
     trust_items: [
       { label: "Maryland RSA Licensed", icon: "shield" },
-      { label: "Background-Checked Caregivers", icon: "people" },
+      { label: "BACKGROUND-CHECKED CAREGIVERS", icon: "people" },
       { label: "Personalized Care Plans", icon: "heart" },
       { label: "Family Communication Portal", icon: "chat" },
       { label: "Serving Maryland Families", icon: "pin" },
