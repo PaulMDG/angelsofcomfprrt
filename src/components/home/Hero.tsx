@@ -116,7 +116,7 @@ export function Hero() {
         className="relative border-t border-[var(--gold)]/20"
       >
         <div className="container-editorial py-6 sm:py-6">
-          <div className="grid grid-cols-5 gap-1 sm:gap-6 lg:gap-8 rounded-xl sm:rounded-none bg-[rgba(8,16,30,0.7)] sm:bg-transparent ring-1 ring-[var(--gold)]/15 sm:ring-0 px-2 sm:px-0 py-5 sm:py-0 divide-x divide-[var(--gold)]/15 sm:divide-x-0">
+          <div className="grid grid-cols-4 gap-2 sm:gap-6 lg:gap-8 rounded-xl sm:rounded-none bg-[rgba(8,16,30,0.7)] sm:bg-transparent ring-1 ring-[var(--gold)]/15 sm:ring-0 px-2 sm:px-0 py-5 sm:py-0 divide-x divide-[var(--gold)]/15 sm:divide-x-0">
             {hero.trust_items.map((it) => {
               const Icon = ICONS[it.icon] ?? ShieldIcon;
               return (
