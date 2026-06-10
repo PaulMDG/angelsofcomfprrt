@@ -115,17 +115,17 @@ export function Hero() {
         transition={{ duration: 0.8, delay: 0.9 }}
         className="relative border-t border-[var(--gold)]/20"
       >
-        <div className="container-editorial py-5 sm:py-6">
-          <div className="grid grid-cols-5 gap-0 sm:gap-6 lg:gap-8 rounded-xl sm:rounded-none bg-[rgba(8,16,30,0.7)] sm:bg-transparent ring-1 ring-[var(--gold)]/15 sm:ring-0 px-1 sm:px-0 py-4 sm:py-0 divide-x divide-[var(--gold)]/15 sm:divide-x-0">
+        <div className="container-editorial py-6 sm:py-6">
+          <div className="grid grid-cols-5 gap-1 sm:gap-6 lg:gap-8 rounded-xl sm:rounded-none bg-[rgba(8,16,30,0.7)] sm:bg-transparent ring-1 ring-[var(--gold)]/15 sm:ring-0 px-2 sm:px-0 py-5 sm:py-0 divide-x divide-[var(--gold)]/15 sm:divide-x-0">
             {hero.trust_items.map((it) => {
               const Icon = ICONS[it.icon] ?? ShieldIcon;
               return (
                 <div
                   key={it.label}
-                  className="flex flex-col sm:flex-row items-center justify-start sm:justify-center gap-2 sm:gap-3 text-center sm:text-left min-w-0 px-1.5 sm:px-0"
+                  className="flex flex-col sm:flex-row items-center justify-start sm:justify-center gap-2.5 sm:gap-3 text-center sm:text-left min-w-0 px-1 sm:px-0"
                 >
-                  <Icon className="w-6 h-6 sm:w-5 sm:h-5 text-[var(--gold-light)] shrink-0" />
-                  <span className="block text-[10px] sm:text-[10px] leading-[1.3] tracking-[0.12em] sm:tracking-[0.18em] uppercase text-[var(--cream)] font-medium break-words hyphens-auto">
+                  <Icon className="w-5 h-5 sm:w-5 sm:h-5 text-[var(--gold-light)] shrink-0" />
+                  <span className="block text-[9px] sm:text-[10px] leading-[1.45] sm:leading-[1.3] tracking-[0.1em] sm:tracking-[0.18em] uppercase text-[var(--cream)] font-medium break-words hyphens-auto">
                     {it.label}
                   </span>
                 </div>
