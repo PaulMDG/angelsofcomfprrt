@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { useHomeSection } from "@/lib/homepage-content";
 import { EditableSection } from "@/components/site/InlineEdit";
+import { ResponsiveImage } from "@/components/site/ResponsiveImage";
 
 const ICONS: Record<string, (p: { className?: string }) => ReactElement> = {
   shield: ShieldIcon,
@@ -20,11 +21,12 @@ export function Hero() {
     <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden bg-[var(--navy-deep)]">
       {/* Photo on the right; left side stays dark navy for the headline */}
       <div className="absolute inset-0">
-        <img
+        <ResponsiveImage
           src={heroImg}
           alt="A caregiver and elderly woman sitting together in a sunlit living room"
           className="absolute inset-0 w-full h-full object-cover object-[75%_center] lg:object-[55%_center]"
           fetchPriority="high"
+          sizes="100vw"
         />
         {/* Horizontal wash on every breakpoint — keeps the left column dark for the headline, lets the photo breathe on the right */}
         <div
