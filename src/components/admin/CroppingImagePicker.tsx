@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import Cropper, { type Area } from "react-easy-crop";
 import { supabase } from "@/integrations/supabase/client";
-import { uploadMedia } from "@/lib/cms";
+import { uploadMedia, uploadResponsiveVariants } from "@/lib/cms";
 import { inputCls } from "@/components/admin/AdminHeader";
 import {
   Dialog,
@@ -98,9 +98,17 @@ export function CroppingImagePicker({
     if (!cropSrc || !pixelCrop) return;
     setSaving(true);
     try {
-      const blob = await cropImageToBlob(cropSrc, pixelCrop);
-      const file = new File([blob], `crop-${Date.now()}.jpg`, { type: "image/jpeg" });
-      await persistFile(file);
+      const canvas = await cropImageToCanvas(cropSrc, pixelCrop);
+      const { url, path, variants } = await uploadResponsiveVariants(canvas, folder);
+      const largest = variants[variants.length - 1];
+      await supabase.from("media_assets").insert({
+        path,
+        url,
+        mime_type: "image/jpeg",
+        size_bytes: largest.bytes,
+        alt: `Cropped image (${variants.map((v) => v.width + "w").join(", ")})`,
+      });
+      onChange(url);
       setCropOpen(false);
       setCropSrc(null);
     } catch (e) {
@@ -267,29 +275,14 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-async function cropImageToBlob(src: string, area: Area): Promise<Blob> {
+async function cropImageToCanvas(src: string, area: Area): Promise<HTMLCanvasElement> {
   const img = await loadImage(src);
   const canvas = document.createElement("canvas");
   canvas.width = Math.max(1, Math.round(area.width));
   canvas.height = Math.max(1, Math.round(area.height));
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Canvas not available");
-  ctx.drawImage(
-    img,
-    area.x,
-    area.y,
-    area.width,
-    area.height,
-    0,
-    0,
-    canvas.width,
-    canvas.height,
-  );
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (b) => (b ? resolve(b) : reject(new Error("Failed to encode cropped image"))),
-      "image/jpeg",
-      0.92,
-    );
-  });
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(img, area.x, area.y, area.width, area.height, 0, 0, canvas.width, canvas.height);
+  return canvas;
 }
