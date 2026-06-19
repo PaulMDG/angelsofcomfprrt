@@ -33,7 +33,7 @@ export function PageHeader({
             {eyebrow}
           </div>
           <h1
-            className="mt-8 font-serif font-medium leading-[1.05]"
+            className="mt-8 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
             style={{
               fontSize: "clamp(42px, 5.5vw, 80px)",
               color: isDark ? "var(--ivory)" : "var(--navy-deep)",

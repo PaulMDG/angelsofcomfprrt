@@ -98,7 +98,7 @@ export function ResourcesPage() {
           <Reveal className="max-w-2xl">
             <Eyebrow>From the Journal</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium text-[var(--navy-deep)] leading-[1.05]"
+              className="mt-6 font-serif font-medium text-[var(--navy-deep)] leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
               style={{ fontSize: "clamp(32px, 3.5vw, 48px)" }}
             >
               Honest writing, gently <span className="gold-italic">offered.</span>
@@ -156,7 +156,7 @@ export function ResourcesPage() {
           <Reveal>
             <Eyebrow className="justify-center">Stay in Touch</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.05]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
               style={{ fontSize: "clamp(30px, 3.5vw, 44px)" }}
             >
               A monthly letter, written with <span className="gold-italic">care.</span>

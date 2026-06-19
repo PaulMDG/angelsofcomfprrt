@@ -44,7 +44,7 @@ export function AboutPage() {
           <Reveal delay={0.1} className="lg:col-span-6">
             <Eyebrow>A Letter From Our Founder</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.05] text-[var(--navy-deep)]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
               style={{ fontSize: "clamp(32px, 3.5vw, 48px)" }}
             >
               We started with a single <span className="gold-italic">family.</span>
@@ -77,7 +77,7 @@ export function AboutPage() {
           <Reveal className="text-center max-w-2xl mx-auto">
             <Eyebrow className="justify-center">Our Promise</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.05]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}
             >
               Four values, in every <span className="gold-italic">visit.</span>
@@ -128,7 +128,7 @@ export function AboutPage() {
           <Reveal className="lg:col-span-5 order-2 lg:order-1">
             <Eyebrow>How We Hire</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.05] text-[var(--navy-deep)]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
               style={{ fontSize: "clamp(30px, 3vw, 44px)" }}
             >
               We hire for <span className="gold-italic">heart</span> first.

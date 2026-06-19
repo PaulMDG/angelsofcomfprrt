@@ -18,7 +18,7 @@ export function Promise() {
         <div className="lg:col-span-7">
           <Reveal>
             <Eyebrow>{s.eyebrow}</Eyebrow>
-            <h2 className="mt-6 font-serif font-medium leading-[1.05]"
+            <h2 className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
               style={{ fontSize: "clamp(40px, 5vw, 72px)", color: "var(--ivory)" }}>
               {s.heading} <span className="gold-italic">{s.italic_word}</span>
             </h2>

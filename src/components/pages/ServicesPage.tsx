@@ -27,7 +27,7 @@ export function ServicesPage() {
               <Reveal>
                 <Eyebrow>What We Provide</Eyebrow>
                 <h2
-                  className="mt-6 font-serif font-medium leading-[1.05] text-[var(--navy-deep)]"
+                  className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
                   style={{ fontSize: "clamp(30px, 3vw, 44px)" }}
                 >
                   Seven services, <span className="gold-italic">one promise.</span>
@@ -107,7 +107,7 @@ export function ServicesPage() {
           <Reveal>
             <Eyebrow>Not sure where to begin?</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.05]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}
             >
               We'll help you find the <span className="gold-italic">right care.</span>

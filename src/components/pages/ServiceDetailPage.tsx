@@ -97,7 +97,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
           <Reveal>
             <Eyebrow>Ready to talk?</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.05]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}
             >
               Let's design the right <span className="gold-italic">care plan.</span>

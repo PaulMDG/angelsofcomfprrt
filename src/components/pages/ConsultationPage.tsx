@@ -158,7 +158,7 @@ export function ConsultationPage() {
                   <MonogramAC className="w-14 h-14 text-[var(--gold)] mx-auto" />
                   <div className="mt-8 eyebrow eyebrow-center justify-center">Thank you</div>
                   <h2
-                    className="mt-6 font-serif font-medium text-[var(--navy-deep)] leading-[1.05]"
+                    className="mt-6 font-serif font-medium text-[var(--navy-deep)] leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
                     style={{ fontSize: "clamp(32px, 4vw, 52px)" }}
                   >
                     Your message is <span className="gold-italic">on its way.</span>

@@ -21,7 +21,7 @@ export function CTA() {
           <div className="inline-flex eyebrow eyebrow-center text-[var(--gold-light)]">
             {s.eyebrow}
           </div>
-          <h2 className="mt-8 font-serif font-medium leading-[1.05] max-w-3xl mx-auto"
+          <h2 className="mt-8 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] max-w-3xl mx-auto"
             style={{ fontSize: "clamp(44px, 6vw, 88px)", color: "var(--ivory)" }}>
             {s.heading} <span className="gold-italic">{s.italic_word}</span>
           </h2>

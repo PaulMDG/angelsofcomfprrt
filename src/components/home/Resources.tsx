@@ -19,7 +19,7 @@ export function Resources() {
         <div className="flex items-end justify-between flex-wrap gap-6 mb-16">
           <Reveal>
             <Eyebrow>{s.eyebrow}</Eyebrow>
-            <h2 className="mt-6 font-serif font-medium leading-[1.05] text-[var(--navy-deep)]"
+            <h2 className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
               style={{ fontSize: "clamp(36px, 4vw, 56px)" }}>
               {s.heading} <span className="gold-italic">{s.italic_word}</span>
             </h2>
