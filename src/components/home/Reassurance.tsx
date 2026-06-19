@@ -3,11 +3,13 @@ import { BotanicalSprig, HeartOutline } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
 import img from "@/assets/reassurance-family.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
+import { EditableSection } from "@/components/site/InlineEdit";
 
 export function Reassurance() {
   const s = useHomeSection("reassurance");
   const image = s.image_url || img;
   return (
+    <EditableSection sectionKey="reassurance" label="Reassurance">
     <section className="bg-[var(--ivory)]">
       <div className="container-editorial section-pad grid lg:grid-cols-2 gap-16 items-center">
         <Reveal className="max-w-xl">
@@ -49,5 +51,6 @@ export function Reassurance() {
         </div>
       </div>
     </section>
+    </EditableSection>
   );
 }
