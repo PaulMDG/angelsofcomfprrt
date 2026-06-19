@@ -14,6 +14,7 @@ import { Footer } from "@/components/site/Footer";
 import { useRouterState } from "@tanstack/react-router";
 import { BotanicalSprig, MonogramAC } from "@/components/site/Botanical";
 import { supabase } from "@/integrations/supabase/client";
+import { InlineEditProvider } from "@/components/site/InlineEdit";
 
 const FALLBACK_OG_IMAGE =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/G4nk8Ki590hArMdSGQqxXa6F5LF2/social-images/social-1779632121975-logo.webp";
@@ -177,11 +178,19 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isChrome && <Navigation overHero={overHero} />}
-      <main className="min-h-screen">
-        <Outlet />
-      </main>
-      {isChrome && <Footer />}
+      {isChrome ? (
+        <InlineEditProvider>
+          <Navigation overHero={overHero} />
+          <main className="min-h-screen">
+            <Outlet />
+          </main>
+          <Footer />
+        </InlineEditProvider>
+      ) : (
+        <main className="min-h-screen">
+          <Outlet />
+        </main>
+      )}
     </QueryClientProvider>
   );
 }
