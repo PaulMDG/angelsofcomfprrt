@@ -2,11 +2,13 @@ import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { Link } from "@tanstack/react-router";
 import phone from "@/assets/portal-hands-phone.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
+import { EditableSection } from "@/components/site/InlineEdit";
 
 export function Portal() {
   const s = useHomeSection("portal");
   const image = s.image_url || phone;
   return (
+    <EditableSection sectionKey="portal" label="Portal">
     <section className="bg-[var(--navy-mid)] text-[var(--ivory)]">
       <div className="container-editorial section-pad grid lg:grid-cols-2 gap-16 items-center">
         <Reveal>
@@ -41,5 +43,6 @@ export function Portal() {
         </Reveal>
       </div>
     </section>
+    </EditableSection>
   );
 }
