@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/lib/use-is-admin";
@@ -118,6 +118,7 @@ export function InlineEditProvider({ children }: { children: React.ReactNode }) 
   return (
     <Ctx.Provider value={value}>
       {children}
+      {isAdmin && <AutoPageAdminBar />}
       <Sheet open={!!openKey} onOpenChange={(o) => !o && close()}>
         <SheetContent
           side="right"
@@ -215,6 +216,37 @@ export function PageAdminBar({
       </span>
       <Link
         to={to}
+        className="rounded-full bg-[var(--gold)] text-[var(--navy-deep)] text-[11px] tracking-[0.18em] uppercase font-medium px-3.5 py-2"
+      >
+        Open editor
+      </Link>
+    </div>
+  );
+}
+
+/* Maps the current public route to the admin area that controls it. */
+const ROUTE_ADMIN_MAP: { match: (p: string) => boolean; to: string; label: string }[] = [
+  { match: (p) => p === "/", to: "/admin/homepage", label: "homepage" },
+  { match: (p) => p === "/about", to: "/admin/staff", label: "staff & about" },
+  { match: (p) => p === "/services", to: "/admin/services", label: "services" },
+  { match: (p) => p.startsWith("/services/"), to: "/admin/services", label: "this service" },
+  { match: (p) => p === "/resources", to: "/admin/blog", label: "journal posts" },
+  { match: (p) => p === "/family-portal", to: "/admin/pages", label: "this page" },
+  { match: (p) => p === "/consultation", to: "/admin/consultations", label: "consultations" },
+];
+
+function AutoPageAdminBar() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const target = ROUTE_ADMIN_MAP.find((r) => r.match(pathname));
+  // Skip on home: inline section edit buttons already cover it.
+  if (!target || pathname === "/") return null;
+  return (
+    <div className="fixed bottom-6 right-6 z-[70] flex items-center gap-3 rounded-full bg-[var(--navy-deep)] text-[var(--ivory)] pl-4 pr-1.5 py-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.35)]">
+      <span className="text-[11px] tracking-[0.18em] uppercase">
+        Manage {target.label}
+      </span>
+      <Link
+        to={target.to as any}
         className="rounded-full bg-[var(--gold)] text-[var(--navy-deep)] text-[11px] tracking-[0.18em] uppercase font-medium px-3.5 py-2"
       >
         Open editor
