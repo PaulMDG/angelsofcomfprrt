@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { useHomeSection } from "@/lib/homepage-content";
+import { EditableSection } from "@/components/site/InlineEdit";
 
 const ICONS: Record<string, (p: { className?: string }) => ReactElement> = {
   shield: ShieldIcon,
@@ -15,6 +16,7 @@ export function Hero() {
   const hero = useHomeSection("hero");
   const heroImg = hero.image_url;
   return (
+    <EditableSection sectionKey="hero" label="Hero">
     <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden bg-[var(--navy-deep)]">
       {/* Photo on the right; left side stays dark navy for the headline */}
       <div className="absolute inset-0">
@@ -129,6 +131,7 @@ export function Hero() {
         </div>
       </motion.div>
     </section>
+    </EditableSection>
   );
 }
 
