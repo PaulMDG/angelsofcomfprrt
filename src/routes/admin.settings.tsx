@@ -7,6 +7,37 @@ import { fetchAll, uploadMedia, type SiteSetting } from "@/lib/cms";
 
 export const Route = createFileRoute("/admin/settings")({ component: SettingsAdmin });
 
+/**
+ * Removes every file under the `logo/` folder in cms-media except the one
+ * currently referenced, and deletes their media_assets rows. Keeps a single
+ * logo on disk and in the catalog.
+ */
+async function pruneOldLogos(currentUrl: string) {
+  const { data: files, error: listErr } = await supabase.storage
+    .from("cms-media")
+    .list("logo", { limit: 1000 });
+  if (listErr) throw listErr;
+
+  const keepPath = currentUrl ? extractStoragePath(currentUrl) : null;
+  const toDelete = (files ?? [])
+    .map((f) => `logo/${f.name}`)
+    .filter((p) => p !== keepPath);
+
+  if (toDelete.length === 0) return;
+
+  const { error: rmErr } = await supabase.storage.from("cms-media").remove(toDelete);
+  if (rmErr) throw rmErr;
+
+  await supabase.from("media_assets").delete().in("path", toDelete);
+}
+
+function extractStoragePath(publicUrl: string): string | null {
+  const marker = "/cms-media/";
+  const i = publicUrl.indexOf(marker);
+  if (i === -1) return null;
+  return publicUrl.slice(i + marker.length);
+}
+
 function SettingsAdmin() {
   const qc = useQueryClient();
   const { data } = useQuery({ queryKey: ["admin","settings"], queryFn: () => fetchAll("site_settings", { col: "key", asc: true }) as Promise<SiteSetting[]> });
@@ -106,8 +137,18 @@ function LogoEditor() {
     setMsg(null);
     const value = { url: url || null, alt: alt || null, wordmark: wordmark || null, tagline: tagline || null };
     const { error } = await supabase.from("site_settings").upsert({ key: "logo", value }, { onConflict: "key" });
+    if (error) {
+      setSaving(false);
+      return setMsg(error.message);
+    }
+    // Enforce single logo: remove every other file/record in the logo folder.
+    try {
+      await pruneOldLogos(url);
+    } catch (e) {
+      // Non-fatal: the new logo is saved; cleanup will retry on next save.
+      console.warn("Logo cleanup failed:", e);
+    }
     setSaving(false);
-    if (error) return setMsg(error.message);
     qc.invalidateQueries({ queryKey: ["admin", "settings"] });
     qc.invalidateQueries({ queryKey: ["admin", "settings", "logo"] });
     qc.invalidateQueries({ queryKey: ["public", "site_settings", "logo"] });
