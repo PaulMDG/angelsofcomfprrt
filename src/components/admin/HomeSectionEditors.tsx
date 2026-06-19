@@ -1,8 +1,14 @@
-import { useRef, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { uploadMedia } from "@/lib/cms";
 import { inputCls, labelCls } from "@/components/admin/AdminHeader";
 import type { HomeContent } from "@/lib/homepage-content";
+import { CroppingImagePicker } from "@/components/admin/CroppingImagePicker";
+
+/**
+ * Backwards-compatible re-export so other files that still import
+ * `ImagePicker` continue to work — it just always uses the cropping flow now.
+ */
+export const ImagePicker = (props: { value: string; onChange: (v: string) => void }) => (
+  <CroppingImagePicker {...props} />
+);
 
 export type SectionKey = keyof HomeContent;
 
@@ -55,59 +61,6 @@ export function CtaEditorRow({ value, onChange, label }: { value: { label: strin
   );
 }
 
-export function ImagePicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
-  const onUpload = async (f: File) => {
-    setUploading(true);
-    try {
-      const { path, url } = await uploadMedia(f, "homepage");
-      await supabase.from("media_assets").insert({ path, url, mime_type: f.type, size_bytes: f.size, alt: f.name });
-      onChange(url);
-    } catch (e) {
-      alert((e as Error).message);
-    } finally {
-      setUploading(false);
-    }
-  };
-  return (
-    <div className="space-y-2">
-      <div className="flex gap-3 items-start">
-        {value ? (
-          <img src={value} alt="" className="w-32 h-20 object-cover rounded border border-[var(--gold)]/20" />
-        ) : (
-          <div className="w-32 h-20 flex items-center justify-center bg-[var(--cream)] text-[var(--gold-muted)] text-[10px] tracking-[0.18em] uppercase rounded border border-dashed border-[var(--gold)]/30">
-            Default
-          </div>
-        )}
-        <div className="flex-1 space-y-2">
-          <Text value={value} onChange={onChange} placeholder="Paste an image URL or upload below" />
-          <div className="flex gap-2">
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) onUpload(f);
-                e.target.value = "";
-              }}
-            />
-            <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="text-[11px] tracking-[0.16em] uppercase text-[var(--gold-muted)] hover:text-[var(--navy-deep)]">
-              {uploading ? "Uploading…" : "Upload new"}
-            </button>
-            {value && (
-              <button type="button" onClick={() => onChange("")} className="text-[11px] tracking-[0.16em] uppercase text-red-600">
-                Reset
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function StringList({ items, onChange, placeholder }: { items: string[]; onChange: (v: string[]) => void; placeholder?: string }) {
   return (
