@@ -107,13 +107,9 @@ export async function uploadResponsiveVariants(
   const id = crypto.randomUUID();
   const maxSourceW = sourceCanvas.width;
   // Always include at least the source width, capped by our widest preset.
-  const targets = Array.from(
-    new Set(
-      RESPONSIVE_WIDTHS.filter((w) => w <= maxSourceW).concat(
-        maxSourceW < RESPONSIVE_WIDTHS[0] ? [maxSourceW] : [],
-      ),
-    ),
-  ).sort((a, b) => a - b);
+  const base: number[] = RESPONSIVE_WIDTHS.filter((w) => w <= maxSourceW);
+  if (base.length === 0) base.push(maxSourceW);
+  const targets = Array.from(new Set(base)).sort((a, b) => a - b);
 
   const variants: ResponsiveUpload["variants"] = [];
   for (const width of targets) {
