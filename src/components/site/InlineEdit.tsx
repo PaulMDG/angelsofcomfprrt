@@ -142,7 +142,9 @@ export function InlineEditProvider({ children }: { children: React.ReactNode }) 
               <SectionEditor
                 sectionKey={openKey}
                 value={draft[openKey]}
-                onChange={(v) => setDraft({ ...draft, [openKey]: v })}
+                onChange={(v) =>
+                  setDraft((d) => (d ? { ...d, [openKey]: v } : d))
+                }
               />
             )}
           </div>
