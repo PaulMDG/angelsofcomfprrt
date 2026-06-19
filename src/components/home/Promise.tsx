@@ -3,6 +3,7 @@ import { BotanicalSprig } from "@/components/site/Botanical";
 import img from "@/assets/promise-values.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
 import { EditableSection } from "@/components/site/InlineEdit";
+import { ResponsiveImage } from "@/components/site/ResponsiveImage";
 
 export function Promise() {
   const s = useHomeSection("promise");
@@ -13,8 +14,8 @@ export function Promise() {
       <div className="container-editorial section-pad grid lg:grid-cols-12 gap-16 items-center">
         <Reveal className="lg:col-span-5">
           <div className="overflow-hidden rounded-[6px]">
-            <img src={image} alt="Caregiver gently holding the hand of an elder" loading="lazy"
-              className="w-full h-[620px] object-cover" />
+            <ResponsiveImage src={image} alt="Caregiver gently holding the hand of an elder" loading="lazy"
+              className="w-full h-[620px] object-cover" sizes="(min-width: 1024px) 42vw, 100vw" />
           </div>
         </Reveal>
         <div className="lg:col-span-7">
