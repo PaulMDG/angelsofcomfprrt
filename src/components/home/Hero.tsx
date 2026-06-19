@@ -57,12 +57,6 @@ export function Hero() {
           >
             {hero.eyebrow}
           </motion.div>
-          <motion.div
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ scaleX: 1, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.25, ease: [0.4, 0, 0.2, 1] }}
-            className="mt-5 h-px w-16 bg-[var(--gold)] origin-left"
-          />
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
