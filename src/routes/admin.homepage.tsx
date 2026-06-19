@@ -1,23 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { AdminHeader, AdminCard, inputCls, labelCls } from "@/components/admin/AdminHeader";
+import { AdminHeader, AdminCard } from "@/components/admin/AdminHeader";
 import { HOME_DEFAULTS, type HomeContent } from "@/lib/homepage-content";
-import { uploadMedia } from "@/lib/cms";
+import {
+  SECTIONS,
+  HeroEditor,
+  ReassuranceEditor,
+  PromiseEditor,
+  PortalEditor,
+  ResourcesEditor,
+  CtaEditor,
+  type SectionKey,
+} from "@/components/admin/HomeSectionEditors";
 
 export const Route = createFileRoute("/admin/homepage")({ component: HomepageAdmin });
-
-type SectionKey = keyof HomeContent;
-
-const SECTIONS: { key: SectionKey; label: string; description: string }[] = [
-  { key: "hero", label: "Hero", description: "The first thing visitors see." },
-  { key: "reassurance", label: "Reassurance", description: "Empathetic intro after the hero." },
-  { key: "promise", label: "Our Promise", description: "Values shown over the dark band." },
-  { key: "portal", label: "Family Portal", description: "Promo for the family portal." },
-  { key: "resources", label: "Resources / Journal", description: "Header for the journal section." },
-  { key: "cta", label: "Call to Action", description: "Closing band at the bottom of the page." },
-];
 
 async function fetchHomeRow() {
   const { data } = await supabase
