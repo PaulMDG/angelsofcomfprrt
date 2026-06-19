@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -128,6 +129,35 @@ function HomepageAdmin() {
             </AdminCard>
           );
         })}
+      </div>
+
+      <div className="mt-10">
+        <div className="mb-3">
+          <div className="text-[11px] tracking-[0.18em] uppercase text-[var(--gold-muted)]">Managed elsewhere</div>
+          <p className="text-[12px] text-[var(--warm-gray)] mt-1">
+            These homepage sections are powered by their own collections. Edit them in their dedicated admin areas.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-3">
+          {[
+            { label: "Services", description: "Cards in the Services section.", to: "/admin/services" },
+            { label: "Testimonials", description: "Quotes in the Testimonials section.", to: "/admin/testimonials" },
+            { label: "FAQs", description: "Questions in the FAQ section.", to: "/admin/faqs" },
+          ].map((c) => (
+            <AdminCard key={c.to} className="p-5 flex flex-col gap-3">
+              <div>
+                <div className="font-serif text-[18px] text-[var(--navy-deep)]">{c.label}</div>
+                <div className="text-[12px] text-[var(--warm-gray)]">{c.description}</div>
+              </div>
+              <Link
+                to={c.to}
+                className="text-[11px] tracking-[0.16em] uppercase text-[var(--gold-muted)] hover:text-[var(--navy-deep)] self-start"
+              >
+                Manage {c.label} →
+              </Link>
+            </AdminCard>
+          ))}
+        </div>
       </div>
     </div>
   );
