@@ -2,11 +2,13 @@ import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { BotanicalSprig } from "@/components/site/Botanical";
 import img from "@/assets/promise-values.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
+import { EditableSection } from "@/components/site/InlineEdit";
 
 export function Promise() {
   const s = useHomeSection("promise");
   const image = s.image_url || img;
   return (
+    <EditableSection sectionKey="promise" label="Promise">
     <section className="bg-[var(--navy-deep)] text-[var(--ivory)] relative overflow-hidden">
       <div className="container-editorial section-pad grid lg:grid-cols-12 gap-16 items-center">
         <Reveal className="lg:col-span-5">
@@ -41,5 +43,6 @@ export function Promise() {
         </div>
       </div>
     </section>
+    </EditableSection>
   );
 }
