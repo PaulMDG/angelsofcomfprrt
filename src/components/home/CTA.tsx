@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import bg from "@/assets/cta-living-room.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
 import { EditableSection } from "@/components/site/InlineEdit";
+import { ResponsiveImage } from "@/components/site/ResponsiveImage";
 
 export function CTA() {
   const s = useHomeSection("cta");
@@ -14,7 +15,7 @@ export function CTA() {
     <EditableSection sectionKey="cta" label="CTA">
     <section className="relative overflow-hidden bg-[var(--navy-deep)] text-[var(--ivory)]">
       <div className="absolute inset-0">
-        <img src={image} alt="" loading="lazy" className="w-full h-full object-cover opacity-30" />
+        <ResponsiveImage src={image} alt="" loading="lazy" className="w-full h-full object-cover opacity-30" sizes="100vw" />
         <div className="absolute inset-0"
           style={{ background: "linear-gradient(180deg, rgba(14,27,46,0.85), rgba(14,27,46,0.95))" }} />
       </div>
