@@ -110,7 +110,7 @@ export function HeroEditor({ value, onChange }: { value: HomeContent["hero"]; on
         <Field label="Italic word"><Text value={value.headline_italic} onChange={(v) => set({ headline_italic: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Hero image"><ImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} /></Field>
+      <Field label="Hero image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={16 / 9} /></Field>
       <CtaEditorRow label="Primary button" value={value.primary_cta} onChange={(v) => set({ primary_cta: v })} />
       <CtaEditorRow label="Secondary button" value={value.secondary_cta} onChange={(v) => set({ secondary_cta: v })} />
       <Field label="Trust strip (icon + label)">
@@ -157,7 +157,7 @@ export function ReassuranceEditor({ value, onChange }: { value: HomeContent["rea
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Image"><ImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} /></Field>
+      <Field label="Image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={4 / 3} /></Field>
       <CtaEditorRow label="Primary button" value={value.primary_cta} onChange={(v) => set({ primary_cta: v })} />
       <CtaEditorRow label="Secondary button" value={value.secondary_cta} onChange={(v) => set({ secondary_cta: v })} />
       <div className="grid md:grid-cols-2 gap-3">
@@ -178,7 +178,7 @@ export function PromiseEditor({ value, onChange }: { value: HomeContent["promise
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Image"><ImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} /></Field>
+      <Field label="Image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={4 / 5} /></Field>
       <Field label="Values">
         <div className="space-y-3">
           {value.values.map((v, i) => (
@@ -206,7 +206,7 @@ export function PortalEditor({ value, onChange }: { value: HomeContent["portal"]
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Image"><ImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} /></Field>
+      <Field label="Image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={3 / 4} /></Field>
       <Field label="Features"><StringList items={value.features} onChange={(v) => set({ features: v })} placeholder="Feature description" /></Field>
       <CtaEditorRow label="Button" value={value.cta} onChange={(v) => set({ cta: v })} />
     </>
@@ -238,7 +238,7 @@ export function CtaEditor({ value, onChange }: { value: HomeContent["cta"]; onCh
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Background image"><ImagePicker value={value.background_image_url} onChange={(v) => set({ background_image_url: v })} /></Field>
+      <Field label="Background image"><CroppingImagePicker value={value.background_image_url} onChange={(v) => set({ background_image_url: v })} defaultAspect={16 / 9} /></Field>
       <CtaEditorRow label="Primary button" value={value.primary_cta} onChange={(v) => set({ primary_cta: v })} />
       <CtaEditorRow label="Secondary button" value={value.secondary_cta} onChange={(v) => set({ secondary_cta: v })} />
       <Field label="Footnote"><Text value={value.footnote} onChange={(v) => set({ footnote: v })} /></Field>
