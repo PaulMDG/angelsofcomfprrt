@@ -4,6 +4,7 @@ import featured from "@/assets/resources-featured.jpg";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPublishedBlog } from "@/lib/cms";
 import { useHomeSection } from "@/lib/homepage-content";
+import { EditableSection } from "@/components/site/InlineEdit";
 
 export function Resources() {
   const s = useHomeSection("resources");
@@ -14,6 +15,7 @@ export function Resources() {
   const featuredPost = posts[0];
   const sidePosts = posts.slice(1, 4);
   return (
+    <EditableSection sectionKey="resources" label="Resources">
     <section className="bg-[var(--ivory)]">
       <div className="container-editorial section-pad">
         <div className="flex items-end justify-between flex-wrap gap-6 mb-16">
@@ -70,5 +72,6 @@ export function Resources() {
         </div>
       </div>
     </section>
+    </EditableSection>
   );
 }
