@@ -17,7 +17,7 @@ export function FAQ() {
       <div className="container-editorial section-pad grid lg:grid-cols-12 gap-16">
         <Reveal className="lg:col-span-5">
           <Eyebrow>Frequently Asked</Eyebrow>
-          <h2 className="mt-6 font-serif font-medium leading-[1.05] text-[var(--navy-deep)]"
+          <h2 className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
             style={{ fontSize: "clamp(36px, 4vw, 56px)" }}>
             Answers, with <span className="gold-italic">care.</span>
           </h2>

@@ -62,7 +62,7 @@ export function FamilyPortalPage() {
           <Reveal className="max-w-2xl">
             <Eyebrow>What You'll See</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium text-[var(--navy-deep)] leading-[1.05]"
+              className="mt-6 font-serif font-medium text-[var(--navy-deep)] leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}
             >
               Everything you'd want to know, <span className="gold-italic">in one place.</span>
@@ -99,7 +99,7 @@ export function FamilyPortalPage() {
           <Reveal className="lg:col-span-7">
             <Eyebrow>Privacy & Security</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium text-[var(--navy-deep)] leading-[1.05]"
+              className="mt-6 font-serif font-medium text-[var(--navy-deep)] leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
               style={{ fontSize: "clamp(28px, 3vw, 40px)" }}
             >
               HIPAA-compliant. Encrypted end-to-end. <span className="gold-italic">Always.</span>

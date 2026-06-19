@@ -13,7 +13,7 @@ export function Reassurance() {
         <Reveal className="max-w-xl">
           <Eyebrow>{s.eyebrow}</Eyebrow>
           <h2
-            className="mt-6 font-serif font-medium leading-[1.05] text-[var(--navy-deep)]"
+            className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
             style={{ fontSize: "clamp(40px, 5vw, 72px)" }}
           >
             {s.heading} <span className="gold-italic">{s.italic_word}</span>

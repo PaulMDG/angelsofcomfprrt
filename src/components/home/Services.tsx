@@ -16,7 +16,7 @@ export function Services() {
         <div className="lg:col-span-5">
           <Reveal>
             <Eyebrow>Our Care Services</Eyebrow>
-            <h2 className="mt-6 font-serif font-medium leading-[1.08] text-[var(--navy-deep)]"
+            <h2 className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.08] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}>
               Personalized care for every stage of the <span className="gold-italic">journey.</span>
             </h2>

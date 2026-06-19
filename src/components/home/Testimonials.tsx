@@ -14,7 +14,7 @@ export function Testimonials() {
       <div className="container-editorial section-pad">
         <Reveal className="text-center max-w-2xl mx-auto">
           <div className="inline-flex eyebrow eyebrow-center">From the Families We Serve</div>
-          <h2 className="mt-6 font-serif font-medium leading-[1.05] text-[var(--navy-deep)]"
+          <h2 className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
             style={{ fontSize: "clamp(40px, 5vw, 64px)" }}>
             Stories told with <span className="gold-italic">love.</span>
           </h2>
