@@ -1,8 +1,14 @@
-import { useRef, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { uploadMedia } from "@/lib/cms";
 import { inputCls, labelCls } from "@/components/admin/AdminHeader";
 import type { HomeContent } from "@/lib/homepage-content";
+import { CroppingImagePicker } from "@/components/admin/CroppingImagePicker";
+
+/**
+ * Backwards-compatible re-export so other files that still import
+ * `ImagePicker` continue to work — it just always uses the cropping flow now.
+ */
+export const ImagePicker = (props: { value: string; onChange: (v: string) => void }) => (
+  <CroppingImagePicker {...props} />
+);
 
 export type SectionKey = keyof HomeContent;
 
@@ -55,59 +61,6 @@ export function CtaEditorRow({ value, onChange, label }: { value: { label: strin
   );
 }
 
-export function ImagePicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
-  const onUpload = async (f: File) => {
-    setUploading(true);
-    try {
-      const { path, url } = await uploadMedia(f, "homepage");
-      await supabase.from("media_assets").insert({ path, url, mime_type: f.type, size_bytes: f.size, alt: f.name });
-      onChange(url);
-    } catch (e) {
-      alert((e as Error).message);
-    } finally {
-      setUploading(false);
-    }
-  };
-  return (
-    <div className="space-y-2">
-      <div className="flex gap-3 items-start">
-        {value ? (
-          <img src={value} alt="" className="w-32 h-20 object-cover rounded border border-[var(--gold)]/20" />
-        ) : (
-          <div className="w-32 h-20 flex items-center justify-center bg-[var(--cream)] text-[var(--gold-muted)] text-[10px] tracking-[0.18em] uppercase rounded border border-dashed border-[var(--gold)]/30">
-            Default
-          </div>
-        )}
-        <div className="flex-1 space-y-2">
-          <Text value={value} onChange={onChange} placeholder="Paste an image URL or upload below" />
-          <div className="flex gap-2">
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) onUpload(f);
-                e.target.value = "";
-              }}
-            />
-            <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="text-[11px] tracking-[0.16em] uppercase text-[var(--gold-muted)] hover:text-[var(--navy-deep)]">
-              {uploading ? "Uploading…" : "Upload new"}
-            </button>
-            {value && (
-              <button type="button" onClick={() => onChange("")} className="text-[11px] tracking-[0.16em] uppercase text-red-600">
-                Reset
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function StringList({ items, onChange, placeholder }: { items: string[]; onChange: (v: string[]) => void; placeholder?: string }) {
   return (
@@ -157,7 +110,7 @@ export function HeroEditor({ value, onChange }: { value: HomeContent["hero"]; on
         <Field label="Italic word"><Text value={value.headline_italic} onChange={(v) => set({ headline_italic: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Hero image"><ImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} /></Field>
+      <Field label="Hero image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={16 / 9} /></Field>
       <CtaEditorRow label="Primary button" value={value.primary_cta} onChange={(v) => set({ primary_cta: v })} />
       <CtaEditorRow label="Secondary button" value={value.secondary_cta} onChange={(v) => set({ secondary_cta: v })} />
       <Field label="Trust strip (icon + label)">
@@ -204,7 +157,7 @@ export function ReassuranceEditor({ value, onChange }: { value: HomeContent["rea
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Image"><ImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} /></Field>
+      <Field label="Image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={4 / 3} /></Field>
       <CtaEditorRow label="Primary button" value={value.primary_cta} onChange={(v) => set({ primary_cta: v })} />
       <CtaEditorRow label="Secondary button" value={value.secondary_cta} onChange={(v) => set({ secondary_cta: v })} />
       <div className="grid md:grid-cols-2 gap-3">
@@ -225,7 +178,7 @@ export function PromiseEditor({ value, onChange }: { value: HomeContent["promise
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Image"><ImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} /></Field>
+      <Field label="Image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={4 / 5} /></Field>
       <Field label="Values">
         <div className="space-y-3">
           {value.values.map((v, i) => (
@@ -253,7 +206,7 @@ export function PortalEditor({ value, onChange }: { value: HomeContent["portal"]
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Image"><ImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} /></Field>
+      <Field label="Image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={3 / 4} /></Field>
       <Field label="Features"><StringList items={value.features} onChange={(v) => set({ features: v })} placeholder="Feature description" /></Field>
       <CtaEditorRow label="Button" value={value.cta} onChange={(v) => set({ cta: v })} />
     </>
@@ -285,7 +238,7 @@ export function CtaEditor({ value, onChange }: { value: HomeContent["cta"]; onCh
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
-      <Field label="Background image"><ImagePicker value={value.background_image_url} onChange={(v) => set({ background_image_url: v })} /></Field>
+      <Field label="Background image"><CroppingImagePicker value={value.background_image_url} onChange={(v) => set({ background_image_url: v })} defaultAspect={16 / 9} /></Field>
       <CtaEditorRow label="Primary button" value={value.primary_cta} onChange={(v) => set({ primary_cta: v })} />
       <CtaEditorRow label="Secondary button" value={value.secondary_cta} onChange={(v) => set({ secondary_cta: v })} />
       <Field label="Footnote"><Text value={value.footnote} onChange={(v) => set({ footnote: v })} /></Field>
