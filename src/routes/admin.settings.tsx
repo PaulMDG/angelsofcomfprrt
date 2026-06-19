@@ -106,8 +106,18 @@ function LogoEditor() {
     setMsg(null);
     const value = { url: url || null, alt: alt || null, wordmark: wordmark || null, tagline: tagline || null };
     const { error } = await supabase.from("site_settings").upsert({ key: "logo", value }, { onConflict: "key" });
+    if (error) {
+      setSaving(false);
+      return setMsg(error.message);
+    }
+    // Enforce single logo: remove every other file/record in the logo folder.
+    try {
+      await pruneOldLogos(url);
+    } catch (e) {
+      // Non-fatal: the new logo is saved; cleanup will retry on next save.
+      console.warn("Logo cleanup failed:", e);
+    }
     setSaving(false);
-    if (error) return setMsg(error.message);
     qc.invalidateQueries({ queryKey: ["admin", "settings"] });
     qc.invalidateQueries({ queryKey: ["admin", "settings", "logo"] });
     qc.invalidateQueries({ queryKey: ["public", "site_settings", "logo"] });
