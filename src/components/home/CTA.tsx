@@ -3,6 +3,7 @@ import { BotanicalSprig, MonogramAC } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
 import bg from "@/assets/cta-living-room.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
+import { EditableSection } from "@/components/site/InlineEdit";
 
 export function CTA() {
   const s = useHomeSection("cta");
@@ -10,6 +11,7 @@ export function CTA() {
   const isExternalPrimary = /^(https?:|mailto:|tel:)/.test(s.primary_cta.url);
   const isExternalSecondary = /^(https?:|mailto:|tel:)/.test(s.secondary_cta.url);
   return (
+    <EditableSection sectionKey="cta" label="CTA">
     <section className="relative overflow-hidden bg-[var(--navy-deep)] text-[var(--ivory)]">
       <div className="absolute inset-0">
         <img src={image} alt="" loading="lazy" className="w-full h-full object-cover opacity-30" />
@@ -57,5 +59,6 @@ export function CTA() {
         </Reveal>
       </div>
     </section>
+    </EditableSection>
   );
 }
