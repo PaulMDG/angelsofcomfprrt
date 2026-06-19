@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import phone from "@/assets/portal-hands-phone.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
 import { EditableSection } from "@/components/site/InlineEdit";
+import { ResponsiveImage } from "@/components/site/ResponsiveImage";
 
 export function Portal() {
   const s = useHomeSection("portal");
@@ -37,8 +38,9 @@ export function Portal() {
         </Reveal>
         <Reveal delay={0.15}>
           <div className="overflow-hidden rounded-[6px] shadow-[0_30px_90px_rgba(0,0,0,0.4)]">
-            <img src={image} alt="Hands holding a phone showing care updates"
-              loading="lazy" className="w-full h-[600px] object-cover" />
+            <ResponsiveImage src={image} alt="Hands holding a phone showing care updates"
+              loading="lazy" className="w-full h-[600px] object-cover"
+              sizes="(min-width: 1024px) 50vw, 100vw" />
           </div>
         </Reveal>
       </div>

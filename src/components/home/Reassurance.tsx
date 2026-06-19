@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import img from "@/assets/reassurance-family.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
 import { EditableSection } from "@/components/site/InlineEdit";
+import { ResponsiveImage } from "@/components/site/ResponsiveImage";
 
 export function Reassurance() {
   const s = useHomeSection("reassurance");
@@ -31,8 +32,8 @@ export function Reassurance() {
         </Reveal>
         <Reveal delay={0.15}>
           <div className="overflow-hidden rounded-[6px] shadow-[0_24px_80px_rgba(14,27,46,0.12)]">
-            <img src={image} alt="Family caregiver comforting an elderly mother" loading="lazy"
-              className="w-full h-[560px] object-cover" />
+            <ResponsiveImage src={image} alt="Family caregiver comforting an elderly mother" loading="lazy"
+              className="w-full h-[560px] object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
           </div>
         </Reveal>
       </div>
