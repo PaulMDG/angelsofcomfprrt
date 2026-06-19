@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import img from "@/assets/reassurance-family.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
 import { EditableSection } from "@/components/site/InlineEdit";
+import { ResponsiveImage } from "@/components/site/ResponsiveImage";
 
 export function Reassurance() {
   const s = useHomeSection("reassurance");
