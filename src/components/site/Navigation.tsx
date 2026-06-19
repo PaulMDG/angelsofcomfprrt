@@ -430,12 +430,14 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
           >
             <div className="container-editorial flex items-center justify-between py-5">
               <Link to="/" onClick={() => setOpen(false)} className="flex items-center" aria-label={wordmark}>
-                <img
-                  src={logoSrc}
-                  alt={logo?.alt || wordmark}
-                  className="h-20 w-auto object-contain"
-                  style={{ mixBlendMode: "screen" }}
-                />
+                {logoSrc && (
+                  <img
+                    src={logoSrc}
+                    alt={logo?.alt || wordmark}
+                    className="h-20 w-auto object-contain"
+                    style={{ mixBlendMode: "screen" }}
+                  />
+                )}
               </Link>
               <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2 -mr-2">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" strokeWidth="1.2">
