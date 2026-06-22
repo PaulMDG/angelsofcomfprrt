@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MonogramAC, BotanicalSprig } from "./Botanical";
+import { MonogramAC } from "./Botanical";
 import { useLogo } from "@/lib/site-settings";
 
 const services: [string, string][] = [
@@ -40,7 +40,6 @@ export function Footer() {
                 <MonogramAC className="w-14 h-14 text-[var(--gold-light)]" />
               )}
             </div>
-            <div className="divider-gold" />
             <p className="font-serif italic text-lg text-[var(--gold-light)]">
               Compassionate care. Trusted by families.
             </p>
@@ -68,7 +67,6 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col items-center gap-4">
-          <BotanicalSprig className="w-32 h-10 text-[var(--gold)] opacity-60" />
           <p className="font-serif italic text-lg text-[var(--gold-light)]">
             Thoughtful care begins with understanding.
           </p>

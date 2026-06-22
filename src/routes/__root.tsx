@@ -78,7 +78,6 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
       style={{ background: "var(--cream)", color: "var(--navy-deep)" }}
     >
       <div className="max-w-lg text-center">
-        <BotanicalSprig className="w-16 h-6 mx-auto text-[var(--gold)]" />
         <h1 className="mt-8 font-serif text-3xl" style={{ color: "var(--navy-deep)" }}>
           Something went wrong
         </h1>

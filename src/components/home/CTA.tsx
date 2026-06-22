@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/site/Reveal";
-import { BotanicalSprig, MonogramAC } from "@/components/site/Botanical";
+import { MonogramAC } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
 import bg from "@/assets/cta-living-room.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
@@ -28,7 +28,6 @@ export function CTA() {
             style={{ fontSize: "clamp(44px, 6vw, 88px)", color: "var(--ivory)" }}>
             {s.heading} <span className="gold-italic">{s.italic_word}</span>
           </h2>
-          <BotanicalSprig className="w-32 h-10 text-[var(--gold-light)] mx-auto mt-8" />
           <p className="mt-8 text-[18px] leading-[1.8] text-[var(--cream)]/85 max-w-xl mx-auto font-light">
             {s.body}
           </p>
