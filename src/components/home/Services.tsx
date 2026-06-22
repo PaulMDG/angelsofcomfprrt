@@ -1,5 +1,4 @@
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
 import stillLifeAsset from "@/assets/services-stilllife-new.jpg.asset.json";
 import { useQuery } from "@tanstack/react-query";
@@ -20,7 +19,6 @@ export function Services() {
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}>
               Personalized care for every stage of the <span className="gold-italic">journey.</span>
             </h2>
-            <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mt-6" />
             <p className="editorial-body mt-6">
               Every family's situation is unique. Our services are built around your loved one's
               needs, preferences, and comfort — so they can feel safe, supported, and truly at home.

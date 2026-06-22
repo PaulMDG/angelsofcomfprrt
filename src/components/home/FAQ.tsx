@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 import { AnimatePresence, motion } from "framer-motion";
 import faqImg from "@/assets/faq-books.jpg";
 import { useQuery } from "@tanstack/react-query";
@@ -21,7 +20,6 @@ export function FAQ() {
             style={{ fontSize: "clamp(36px, 4vw, 56px)" }}>
             Answers, with <span className="gold-italic">care.</span>
           </h2>
-          <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mt-6" />
           <p className="editorial-body mt-6 max-w-md">
             Choosing care is deeply personal. Here are the answers families ask most — and we're
             always available for the conversations that aren't on this page.

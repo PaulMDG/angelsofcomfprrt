@@ -12,7 +12,7 @@ import appCss from "../styles.css?url";
 import { Navigation } from "@/components/site/Navigation";
 import { Footer } from "@/components/site/Footer";
 import { useRouterState } from "@tanstack/react-router";
-import { BotanicalSprig, MonogramAC } from "@/components/site/Botanical";
+import { MonogramAC } from "@/components/site/Botanical";
 import { supabase } from "@/integrations/supabase/client";
 import { InlineEditProvider } from "@/components/site/InlineEdit";
 

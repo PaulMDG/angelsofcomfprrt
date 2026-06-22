@@ -1,5 +1,4 @@
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 import img from "@/assets/promise-values.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
 import { EditableSection } from "@/components/site/InlineEdit";
@@ -25,7 +24,6 @@ export function Promise() {
               style={{ fontSize: "clamp(40px, 5vw, 72px)", color: "var(--ivory)" }}>
               {s.heading} <span className="gold-italic">{s.italic_word}</span>
             </h2>
-            <BotanicalSprig className="w-28 h-8 text-[var(--gold-light)] mt-6" />
             <p className="mt-6 text-[17px] leading-[1.8] text-[var(--cream)]/80 max-w-xl font-light">
               {s.body}
             </p>
