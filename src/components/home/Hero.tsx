@@ -70,7 +70,8 @@ export function Hero() {
             style={{ fontSize: "clamp(44px, 8.5vw, 84px)" }}
           >
             {hero.headline_line1}<br />
-            {hero.headline_line2} <span className="gold-italic">{hero.headline_italic}</span>
+            {hero.headline_line2} <span className="gold-italic block sm:inline">{hero.headline_italic}</span>
+
           </motion.h1>
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
