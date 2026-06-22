@@ -8,8 +8,14 @@ import { Portal } from "@/components/home/Portal";
 import { Resources } from "@/components/home/Resources";
 import { FAQ } from "@/components/home/FAQ";
 import { CTA } from "@/components/home/CTA";
+import { fetchHomeSections } from "@/lib/homepage-content";
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData({
+      queryKey: ["public", "pages", "home"],
+      queryFn: fetchHomeSections,
+    }),
   head: () => ({
     meta: [
       { title: "Angels of Comfort — Compassionate In-Home Care in Maryland" },

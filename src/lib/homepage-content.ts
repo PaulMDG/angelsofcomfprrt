@@ -159,7 +159,7 @@ function deepMerge<T>(base: T, override: any): T {
   return out as T;
 }
 
-async function fetchHomeSections(): Promise<Record<string, any>> {
+export async function fetchHomeSections(): Promise<Record<string, any>> {
   const { data } = await supabase
     .from("pages")
     .select("sections")
