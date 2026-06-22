@@ -111,11 +111,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       queryFn: fetchLogoForHead,
     }),
   head: ({ loaderData }) => {
-    const logo = (loaderData as { url: string; alt: string; wordmark: string } | undefined) ?? {
-      url: FALLBACK_OG_IMAGE,
+    const logo = (loaderData as { url: string | null; alt: string; wordmark: string } | undefined) ?? {
+      url: null,
       alt: "Angels of Comfort",
       wordmark: "Angels of Comfort",
     };
+    const ogImage = logo.url ?? FALLBACK_OG_IMAGE;
     return ({
     meta: [
       { charSet: "utf-8" },
@@ -131,9 +132,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Angels of Comfort" },
       { name: "twitter:description", content: "Angels of Comfort offers premium in-home care services with a focus on dignity, trust, and compassion." },
-      { property: "og:image", content: logo.url },
+      { property: "og:image", content: ogImage },
       { property: "og:image:alt", content: logo.alt },
-      { name: "twitter:image", content: logo.url },
+      { name: "twitter:image", content: ogImage },
       { name: "twitter:image:alt", content: logo.alt },
     ],
     links: [
@@ -150,6 +151,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     });
   },
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
