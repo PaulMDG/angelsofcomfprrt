@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 import { PageHeader } from "./PageHeader";
 import { useQuery } from "@tanstack/react-query";
 import { fetchServiceBySlug } from "@/lib/cms-services";
@@ -52,7 +51,6 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
             <div className="lg:col-span-4">
               <Reveal>
                 <Eyebrow>What's included</Eyebrow>
-                <BotanicalSprig className="w-24 h-7 text-[var(--gold)] mt-6" />
                 <ul className="mt-8 space-y-3">
                   {service.includes.map((f) => (
                     <li key={f} className="flex items-start gap-3 text-[14px] text-[var(--warm-gray)]">
