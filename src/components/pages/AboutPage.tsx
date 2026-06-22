@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig, HeartOutline } from "@/components/site/Botanical";
+import { HeartOutline } from "@/components/site/Botanical";
 import { PageHeader } from "./PageHeader";
 import hero from "@/assets/about-hero.jpg";
 import promiseImg from "@/assets/promise-values.jpg";
@@ -49,7 +49,6 @@ export function AboutPage() {
             >
               We started with a single <span className="gold-italic">family.</span>
             </h2>
-            <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mt-6" />
             <div className="mt-6 space-y-5 text-[16px] leading-[1.85] text-[var(--text-body)] font-light">
               <p>
                 When my grandmother began to forget her way home from the corner store, our family
@@ -82,7 +81,6 @@ export function AboutPage() {
             >
               Four values, in every <span className="gold-italic">visit.</span>
             </h2>
-            <BotanicalSprig className="w-28 h-8 text-[var(--gold-light)] mx-auto mt-6" />
           </Reveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mt-16">
             {values.map((v, i) => (
@@ -133,7 +131,6 @@ export function AboutPage() {
             >
               We hire for <span className="gold-italic">heart</span> first.
             </h2>
-            <BotanicalSprig className="w-24 h-7 text-[var(--gold)] mt-6" />
             <p className="editorial-body mt-6 max-w-md">
               Skills can be taught. Patience, kindness, and the instinct to treat a stranger like
               family — those come from somewhere deeper. Every caregiver we hire is:

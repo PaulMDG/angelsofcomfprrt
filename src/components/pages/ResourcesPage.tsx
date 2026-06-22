@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
 import { PageHeader } from "./PageHeader";
 import featured from "@/assets/resources-featured.jpg";
@@ -82,7 +81,6 @@ export function ResourcesPage() {
                 >
                   {articles[0].title}
                 </h2>
-                <BotanicalSprig className="w-20 h-6 text-[var(--gold)] mt-5" />
                 <p className="editorial-body mt-5 max-w-md">{articles[0].excerpt}</p>
                 <Link to="/resources" className="link-gold mt-8 inline-flex">
                   Read the essay →

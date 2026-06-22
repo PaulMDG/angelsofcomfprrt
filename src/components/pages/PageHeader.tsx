@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 
 export function PageHeader({
   eyebrow,
@@ -41,10 +40,6 @@ export function PageHeader({
           >
             {title} <span className="gold-italic">{italic}</span>
           </h1>
-          <BotanicalSprig
-            className="w-32 h-10 mx-auto mt-8"
-            style={{ color: isDark ? "var(--gold-light)" : "var(--gold)" }}
-          />
           {intro ? (
             <p
               className="mt-8 text-[18px] leading-[1.8] font-light max-w-xl mx-auto"

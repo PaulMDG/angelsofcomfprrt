@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 import { PageHeader } from "./PageHeader";
 import phone from "@/assets/portal-hands-phone.jpg";
 
@@ -67,7 +66,6 @@ export function FamilyPortalPage() {
             >
               Everything you'd want to know, <span className="gold-italic">in one place.</span>
             </h2>
-            <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mt-6" />
           </Reveal>
 
           <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-14">

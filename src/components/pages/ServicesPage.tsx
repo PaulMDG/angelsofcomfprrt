@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 import { PageHeader } from "./PageHeader";
 import stillLife from "@/assets/services-stilllife.jpg";
 import { useQuery } from "@tanstack/react-query";
@@ -32,7 +31,6 @@ export function ServicesPage() {
                 >
                   Seven services, <span className="gold-italic">one promise.</span>
                 </h2>
-                <BotanicalSprig className="w-24 h-7 text-[var(--gold)] mt-6" />
                 <p className="editorial-body mt-6 max-w-sm">
                   Care plans are crafted with you, not handed to you. We listen first — and then we
                   build something that fits your family.

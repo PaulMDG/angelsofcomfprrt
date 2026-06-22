@@ -1,5 +1,5 @@
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig, HeartOutline } from "@/components/site/Botanical";
+import { HeartOutline } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
 import img from "@/assets/reassurance-family.jpg";
 import { useHomeSection } from "@/lib/homepage-content";
@@ -24,7 +24,6 @@ export function Reassurance() {
           <p className="editorial-body mt-6">
             {s.body}
           </p>
-          <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mt-8" />
           <div className="mt-8 flex flex-wrap gap-4">
             <Link to={s.primary_cta.url} className="btn-primary">{s.primary_cta.label}</Link>
             <Link to={s.secondary_cta.url} className="btn-outline">{s.secondary_cta.label}</Link>
@@ -41,9 +40,7 @@ export function Reassurance() {
       <div style={{ background: "var(--beige)" }} className="border-y border-[var(--gold)]/15">
         <div className="container-editorial py-12 flex flex-col items-center text-center gap-3">
           <div className="flex items-center gap-5 text-[var(--gold)]">
-            <BotanicalSprig className="w-20 h-6" />
             <HeartOutline className="w-6 h-6" />
-            <BotanicalSprig className="w-20 h-6 -scale-x-100" />
           </div>
           <p className="font-serif text-[var(--navy-deep)]" style={{ fontSize: "clamp(24px, 3vw, 36px)" }}>
             {s.banner_line1}

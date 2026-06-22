@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig, MonogramAC } from "@/components/site/Botanical";
+import { MonogramAC } from "@/components/site/Botanical";
 import { PageHeader } from "./PageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import still from "@/assets/consultation-still.jpg";
@@ -136,7 +136,7 @@ export function ConsultationPage() {
                     </p>
                   </li>
                 </ul>
-                <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mt-10" />
+                
                 <p className="mt-6 font-serif italic text-[18px] text-[var(--gold-muted)] leading-[1.5]">
                   "Every family we meet teaches us something new about love."
                 </p>
@@ -163,7 +163,6 @@ export function ConsultationPage() {
                   >
                     Your message is <span className="gold-italic">on its way.</span>
                   </h2>
-                  <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mx-auto mt-6" />
                   <p className="editorial-body mt-6 max-w-md mx-auto">
                     A senior care advisor will reach out personally within one business day.
                     If your situation is urgent, please call us at{" "}

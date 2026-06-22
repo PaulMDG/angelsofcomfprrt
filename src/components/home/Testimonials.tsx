@@ -1,5 +1,4 @@
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
-import { BotanicalSprig } from "@/components/site/Botanical";
 import journal from "@/assets/testimonials-journal.jpg";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPublishedTestimonials } from "@/lib/cms";
@@ -18,7 +17,6 @@ export function Testimonials() {
             style={{ fontSize: "clamp(40px, 5vw, 64px)" }}>
             Stories told with <span className="gold-italic">love.</span>
           </h2>
-          <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mx-auto mt-6" />
         </Reveal>
 
         <div className="mt-20 grid lg:grid-cols-12 gap-12 items-start">
