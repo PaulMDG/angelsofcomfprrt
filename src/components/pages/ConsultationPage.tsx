@@ -136,7 +136,7 @@ export function ConsultationPage() {
                     </p>
                   </li>
                 </ul>
-                <BotanicalSprig className="w-28 h-8 text-[var(--gold)] mt-10" />
+                
                 <p className="mt-6 font-serif italic text-[18px] text-[var(--gold-muted)] leading-[1.5]">
                   "Every family we meet teaches us something new about love."
                 </p>
