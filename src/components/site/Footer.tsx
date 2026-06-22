@@ -1,6 +1,8 @@
-import { Link } from "@tanstack/react-router";
+import { Link, getRouteApi } from "@tanstack/react-router";
 import { MonogramAC } from "./Botanical";
-import { useLogo } from "@/lib/site-settings";
+
+const rootRoute = getRouteApi("__root__");
+
 
 const services: [string, string][] = [
   ["Dementia Care", "/services"],
@@ -25,21 +27,23 @@ const areas: [string, string][] = [
 ];
 
 export function Footer() {
-  const { data: logo } = useLogo();
-  const wordmark = logo?.wordmark || "Angels of Comfort";
-  const tagline = logo?.tagline || "Home Care";
+  const logoData = rootRoute.useLoaderData();
+  const wordmark = logoData?.wordmark || "Angels of Comfort";
+  const logoSrc = logoData?.url ?? null;
   return (
+
     <footer style={{ background: "var(--navy-deep)" }} className="text-[var(--ivory)]">
       <div className="container-editorial py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-4 space-y-5">
             <div className="flex items-center">
-              {logo?.url ? (
-                <img src={logo.url} alt={logo.alt || wordmark} className="h-14 w-auto max-w-[200px] object-contain" />
+              {logoSrc ? (
+                <img src={logoSrc} alt={logoData?.alt || wordmark} className="h-14 w-auto max-w-[200px] object-contain" />
               ) : (
                 <MonogramAC className="w-14 h-14 text-[var(--gold-light)]" />
               )}
             </div>
+
             <p className="font-serif italic text-lg text-[var(--gold-light)]">
               Compassionate care. Trusted by families.
             </p>

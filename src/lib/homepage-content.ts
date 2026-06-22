@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import heroAsset from "@/assets/comfort-link.jpeg.asset.json";
+
+const indexRoute = getRouteApi("/");
+
 
 export type CtaLink = { label: string; url: string };
 
@@ -170,9 +174,11 @@ export async function fetchHomeSections(): Promise<Record<string, any>> {
 
 export function useHomepageContent(): HomeContent {
   const qc = useQueryClient();
+  const initialSections = indexRoute.useLoaderData();
   const { data } = useQuery({
     queryKey: ["public", "pages", "home"],
     queryFn: fetchHomeSections,
+    initialData: initialSections,
     staleTime: 30_000,
   });
 
@@ -192,6 +198,7 @@ export function useHomepageContent(): HomeContent {
 
   return deepMerge(HOME_DEFAULTS, data ?? {});
 }
+
 
 export function useHomeSection<K extends keyof HomeContent>(key: K): HomeContent[K] {
   return useHomepageContent()[key];

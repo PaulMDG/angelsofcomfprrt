@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, getRouteApi } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchNavServices } from "@/lib/cms-services";
 import { fetchNavItems, type NavItem as DbNavItem } from "@/lib/nav";
 import { supabase } from "@/integrations/supabase/client";
-import { useLogo } from "@/lib/site-settings";
+
+const rootRoute = getRouteApi("__root__");
+
 
 type MegaColumn = {
   heading: string;
@@ -77,12 +79,12 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
-  const { data: logo, isLoading: logoLoading } = useLogo();
-  const wordmark = logo?.wordmark || "Angels of Comfort";
-  // Only the saved logo is shown. While the lookup is in flight we reserve
-  // the space (transparent) so there's no flash of a bundled placeholder
-  // logo getting replaced by the real one a moment later.
-  const logoSrc = logo?.url ?? null;
+  const logoData = rootRoute.useLoaderData();
+  const wordmark = logoData?.wordmark || "Angels of Comfort";
+  // Only the saved logo is shown. The root loader seeds the same value on
+  // the server and client so the initial render matches during hydration.
+  const logoSrc = logoData?.url ?? null;
+
 
   const { data: services = [], isLoading: servicesLoading } = useQuery({
     queryKey: ["public", "services", "nav"],
@@ -219,20 +221,20 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
             {logoSrc ? (
               <img
                 src={logoSrc}
-                alt={logo?.alt || wordmark}
+                alt={logoData?.alt || wordmark}
                 className="h-20 md:h-24 w-auto object-contain"
                 style={{ mixBlendMode: "screen" }}
               />
             ) : (
-              // Reserved space — keeps layout stable while logo loads, and
-              // shows nothing if no logo has been uploaded yet.
+              // Reserved space — keeps layout stable if no logo has been uploaded yet.
               <span
                 aria-hidden="true"
                 className="block h-20 md:h-24"
-                style={{ width: logoLoading ? "180px" : "0px" }}
+                style={{ width: "0px" }}
               />
             )}
           </Link>
+
 
           <nav className="hidden lg:flex items-center gap-10">
             {navLinks.map((l) => (
@@ -429,16 +431,17 @@ export function Navigation({ overHero = true }: { overHero?: boolean }) {
             className="fixed inset-0 z-[60] bg-[var(--navy-deep)] flex flex-col"
           >
             <div className="container-editorial flex items-center justify-between py-5">
-              <Link to="/" onClick={() => setOpen(false)} className="flex items-center" aria-label={wordmark}>
-                {logoSrc && (
-                  <img
-                    src={logoSrc}
-                    alt={logo?.alt || wordmark}
-                    className="h-20 w-auto object-contain"
-                    style={{ mixBlendMode: "screen" }}
-                  />
-                )}
-              </Link>
+            <Link to="/" onClick={() => setOpen(false)} className="flex items-center" aria-label={wordmark}>
+              {logoSrc && (
+                <img
+                  src={logoSrc}
+                  alt={logoData?.alt || wordmark}
+                  className="h-20 w-auto object-contain"
+                  style={{ mixBlendMode: "screen" }}
+                />
+              )}
+            </Link>
+
               <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2 -mr-2">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" strokeWidth="1.2">
                   <path d="M18 6L6 18M6 6l12 12" />
