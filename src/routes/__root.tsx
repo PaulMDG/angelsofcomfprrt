@@ -19,7 +19,7 @@ import { InlineEditProvider } from "@/components/site/InlineEdit";
 const FALLBACK_OG_IMAGE =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/G4nk8Ki590hArMdSGQqxXa6F5LF2/social-images/social-1779632121975-logo.webp";
 
-async function fetchLogoForHead(): Promise<{ url: string; alt: string; wordmark: string }> {
+async function fetchLogoForHead(): Promise<{ url: string | null; alt: string; wordmark: string }> {
   try {
     const { data } = await supabase
       .from("site_settings")
@@ -28,14 +28,15 @@ async function fetchLogoForHead(): Promise<{ url: string; alt: string; wordmark:
       .maybeSingle();
     const v = (data?.value as { url?: string; alt?: string; wordmark?: string } | null) ?? null;
     return {
-      url: v?.url || FALLBACK_OG_IMAGE,
+      url: v?.url || null,
       alt: v?.alt || v?.wordmark || "Angels of Comfort",
       wordmark: v?.wordmark || "Angels of Comfort",
     };
   } catch {
-    return { url: FALLBACK_OG_IMAGE, alt: "Angels of Comfort", wordmark: "Angels of Comfort" };
+    return { url: null, alt: "Angels of Comfort", wordmark: "Angels of Comfort" };
   }
 }
+
 
 function NotFoundComponent() {
   return (
