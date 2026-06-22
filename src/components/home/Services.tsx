@@ -1,7 +1,7 @@
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { BotanicalSprig } from "@/components/site/Botanical";
 import { Link } from "@tanstack/react-router";
-import stillLife from "@/assets/services-stilllife.jpg";
+import stillLifeAsset from "@/assets/services-stilllife-new.jpg.asset.json";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPublishedServices } from "@/lib/cms-services";
 
@@ -30,7 +30,7 @@ export function Services() {
               <Link to="/services" className="link-gold">View All Services →</Link>
             </div>
             <div className="mt-12 overflow-hidden rounded-[6px]">
-              <img src={stillLife} alt="Warm home interior with mugs and olive branch" loading="lazy"
+              <img src={stillLifeAsset.url} alt="Angels of Comfort mug, framed photo of an elderly couple, journal with glasses, and an olive sprig on a wooden table" loading="lazy"
                 className="w-full h-[340px] object-cover" />
             </div>
           </Reveal>
