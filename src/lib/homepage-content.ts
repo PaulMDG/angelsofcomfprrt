@@ -174,9 +174,11 @@ export async function fetchHomeSections(): Promise<Record<string, any>> {
 
 export function useHomepageContent(): HomeContent {
   const qc = useQueryClient();
+  const initialSections = indexRoute.useLoaderData();
   const { data } = useQuery({
     queryKey: ["public", "pages", "home"],
     queryFn: fetchHomeSections,
+    initialData: initialSections,
     staleTime: 30_000,
   });
 
@@ -196,6 +198,7 @@ export function useHomepageContent(): HomeContent {
 
   return deepMerge(HOME_DEFAULTS, data ?? {});
 }
+
 
 export function useHomeSection<K extends keyof HomeContent>(key: K): HomeContent[K] {
   return useHomepageContent()[key];
