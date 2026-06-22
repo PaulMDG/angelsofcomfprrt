@@ -1,9 +1,11 @@
 import type { ReactElement } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
+import { Calendar, ArrowRight } from "lucide-react";
 import { useHomeSection } from "@/lib/homepage-content";
 import { EditableSection } from "@/components/site/InlineEdit";
 import { ResponsiveImage } from "@/components/site/ResponsiveImage";
+
 
 const ICONS: Record<string, (p: { className?: string }) => ReactElement> = {
   shield: ShieldIcon,
@@ -53,15 +55,6 @@ export function Hero() {
         {/* Two-column scaffold reserves the right half for the photo at every breakpoint */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12">
           <div className="max-w-[560px] col-span-1">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-            className="eyebrow text-[var(--gold-light)]"
-          >
-            {hero.eyebrow}
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -69,6 +62,7 @@ export function Hero() {
             className="mt-8 font-serif text-[var(--ivory)] leading-[1.08] sm:leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] tracking-[-0.02em] font-medium [text-wrap:balance]"
             style={{ fontSize: "clamp(44px, 8.5vw, 84px)" }}
           >
+
             {hero.headline_line1}<br />
             {hero.headline_line2} <span className="gold-italic block sm:inline">{hero.headline_italic}</span>
 
@@ -96,11 +90,14 @@ export function Hero() {
             className="mt-10 flex flex-wrap gap-4"
           >
             <Link to={hero.primary_cta.url} className="btn-primary">
+              <Calendar className="w-4 h-4" />
               {hero.primary_cta.label}
             </Link>
             <Link to={hero.secondary_cta.url} className="btn-outline btn-outline-light">
               {hero.secondary_cta.label}
+              <ArrowRight className="w-4 h-4" />
             </Link>
+
           </motion.div>
           </div>
           {/* Right column intentionally left empty on desktop so the photo shows through */}
