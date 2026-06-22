@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import heroAsset from "@/assets/comfort-link.jpeg.asset.json";
+
+const indexRoute = getRouteApi("/");
+
 
 export type CtaLink = { label: string; url: string };
 
