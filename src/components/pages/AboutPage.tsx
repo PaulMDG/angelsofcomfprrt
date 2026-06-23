@@ -13,9 +13,9 @@ const values = [
 ];
 
 const stats = [
-  ["12+", "Years caring for Maryland families"],
-  ["98%", "Family satisfaction across surveys"],
-  ["24/7", "Care availability when you need us"],
+  ["RSA", "MARYLAND LICENSED AGENCY"],
+  ["24/7", "CARE AVAILABILITY WHEN YOU NEED US"],
+  ["24/7", "CARE AVAILABLE WHEN YOU NEED US"],
   ["RSA", "Fully licensed in the state of Maryland"],
 ];
 
