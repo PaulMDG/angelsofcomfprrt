@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { HeartOutline } from "@/components/site/Botanical";
 import { PageHeader } from "./PageHeader";
-import hero from "@/assets/about-hero.jpg";
+import founderAsset from "@/assets/founder-veronica.jpg.asset.json";
 import promiseImg from "@/assets/promise-values.jpg";
 
 const values = [
@@ -12,12 +12,29 @@ const values = [
   { word: "Devotion", desc: "We show up. Again and again. For the families who depend on us." },
 ];
 
-const stats = [
-  ["RSA", "MARYLAND LICENSED AGENCY"],
-  ["24/7", "CARE AVAILABILITY WHEN YOU NEED US"],
-  ["24/7", "CARE AVAILABLE WHEN YOU NEED US"],
-  ["RSA", "Fully licensed in the state of Maryland"],
+type Stat = { value: string; label: string; icon: "shield" | "clock" | "heart" | "chat" };
+const stats: Stat[] = [
+  { value: "RSA", label: "Maryland Licensed Agency", icon: "shield" },
+  { value: "24/7", label: "Care Available When You Need Us", icon: "clock" },
+  { value: "1:1", label: "Personalized Care Plans", icon: "heart" },
+  { value: "PORTAL", label: "Family Updates & Communication", icon: "chat" },
 ];
+
+function StatIcon({ name, className }: { name: Stat["icon"]; className?: string }) {
+  const common = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className };
+  if (name === "shield") return (
+    <svg {...common}><path d="M12 2 L4 5 V12 C4 17 7.5 20.5 12 22 C16.5 20.5 20 17 20 12 V5 Z" /><path d="M8.5 12 L11 14.5 L15.5 10" /></svg>
+  );
+  if (name === "clock") return (
+    <svg {...common}><circle cx="12" cy="12" r="9" /><path d="M12 7 V12 L15 14" /></svg>
+  );
+  if (name === "heart") return (
+    <svg {...common}><path d="M12 20.5 C 7 16, 3 13, 3 8.5 A 4.5 4.5 0 0 1 12 7 A 4.5 4.5 0 0 1 21 8.5 C 21 13, 17 16, 12 20.5 Z" /></svg>
+  );
+  return (
+    <svg {...common}><path d="M21 12 C 21 16, 17 19, 12 19 C 10.5 19 9 18.7 7.7 18.2 L 3 19.5 L 4.3 15.8 C 3.5 14.7 3 13.4 3 12 C 3 8 7 5 12 5 C 17 5 21 8 21 12 Z" /><circle cx="8.5" cy="12" r="0.8" fill="currentColor" /><circle cx="12" cy="12" r="0.8" fill="currentColor" /><circle cx="15.5" cy="12" r="0.8" fill="currentColor" /></svg>
+  );
+}
 
 export function AboutPage() {
   return (
