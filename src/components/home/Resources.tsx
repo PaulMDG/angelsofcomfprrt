@@ -1,6 +1,5 @@
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { Link } from "@tanstack/react-router";
-import featuredAsset from "@/assets/resources-featured-new.jpg.asset.json";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPublishedBlog } from "@/lib/cms";
 import { useHomeSection } from "@/lib/homepage-content";
@@ -35,7 +34,7 @@ export function Resources() {
           <Reveal className="lg:col-span-7">
             <Link to="/resources" className="group block">
               <div className="overflow-hidden rounded-[6px]">
-                <img src={featuredPost?.cover_image_url || featuredAsset.url} alt={featuredPost?.title || "Editorial still life with notebook, olive sprig, and Angels of Comfort mug"}
+                <img src={featuredPost?.cover_image_url || s.featured_image_url} alt={featuredPost?.title || "Editorial still life with notebook, olive sprig, and Angels of Comfort mug"}
                   className="w-full h-[480px] object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
               </div>
               <div className="mt-6">
