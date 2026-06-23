@@ -111,9 +111,9 @@ export function AboutPage() {
                   >
                     {num}
                   </div>
-                  <p className="mt-3 text-[12px] tracking-[0.18em] uppercase text-[var(--cream)]/70">
+                  <span className="mt-3 text-[12px] tracking-[0.18em] uppercase text-[var(--cream)]/70 block">
                     {label}
-                  </p>
+                  </span>
                 </div>
               </Reveal>
             ))}
