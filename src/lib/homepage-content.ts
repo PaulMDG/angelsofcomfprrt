@@ -3,6 +3,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import heroAsset from "@/assets/comfort-link.jpeg.asset.json";
+import servicesStillAsset from "@/assets/services-stilllife-new.jpg.asset.json";
+import resourcesFeaturedAsset from "@/assets/resources-featured-new.jpg.asset.json";
 
 const indexRoute = getRouteApi("/");
 
@@ -49,11 +51,22 @@ export type HomeContent = {
     image_url: string;
     cta: CtaLink;
   };
+  services: {
+    eyebrow: string;
+    heading: string;
+    italic_word: string;
+    body: string;
+    image_url: string;
+    primary_cta: CtaLink;
+    secondary_cta: CtaLink;
+    side_eyebrow: string;
+  };
   resources: {
     eyebrow: string;
     heading: string;
     italic_word: string;
     link_label: string;
+    featured_image_url: string;
   };
   cta: {
     eyebrow: string;
@@ -127,11 +140,23 @@ export const HOME_DEFAULTS: HomeContent = {
     image_url: "",
     cta: { label: "Explore the Portal", url: "/family-portal" },
   },
+  services: {
+    eyebrow: "Our Care Services",
+    heading: "Personalized care for every stage of the",
+    italic_word: "journey.",
+    body:
+      "Every family's situation is unique. Our services are built around your loved one's needs, preferences, and comfort — so they can feel safe, supported, and truly at home.",
+    image_url: servicesStillAsset.url,
+    primary_cta: { label: "Schedule a Consultation", url: "/consultation" },
+    secondary_cta: { label: "View All Services →", url: "/services" },
+    side_eyebrow: "Care That Adapts to Life",
+  },
   resources: {
     eyebrow: "From Our Journal",
     heading: "Guidance for the",
     italic_word: "journey.",
     link_label: "Visit the Journal →",
+    featured_image_url: resourcesFeaturedAsset.url,
   },
   cta: {
     eyebrow: "Begin When You're Ready",
