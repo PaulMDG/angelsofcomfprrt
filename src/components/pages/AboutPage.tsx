@@ -93,7 +93,7 @@ export function AboutPage() {
           <Reveal className="text-center max-w-2xl mx-auto">
             <Eyebrow className="justify-center">Our Promise</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--ivory)]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}
             >
               Four values, in every <span className="gold-italic">visit.</span>

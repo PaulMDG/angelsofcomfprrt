@@ -154,7 +154,7 @@ export function ResourcesPage() {
           <Reveal>
             <Eyebrow className="justify-center">Stay in Touch</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--ivory)]"
               style={{ fontSize: "clamp(30px, 3.5vw, 44px)" }}
             >
               A monthly letter, written with <span className="gold-italic">care.</span>
