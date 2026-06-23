@@ -1,10 +1,11 @@
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { Link } from "@tanstack/react-router";
-import stillLifeAsset from "@/assets/services-stilllife-new.jpg.asset.json";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPublishedServices } from "@/lib/cms-services";
+import { useHomeSection } from "@/lib/homepage-content";
 
 export function Services() {
+  const s = useHomeSection("services");
   const { data: services = [] } = useQuery({
     queryKey: ["public", "services"],
     queryFn: fetchPublishedServices,
@@ -14,21 +15,18 @@ export function Services() {
       <div className="container-editorial section-pad grid lg:grid-cols-12 gap-16">
         <div className="lg:col-span-5">
           <Reveal>
-            <Eyebrow>Our Care Services</Eyebrow>
+            <Eyebrow>{s.eyebrow}</Eyebrow>
             <h2 className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.08] tracking-[-0.015em] [text-wrap:balance] text-[var(--navy-deep)]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}>
-              Personalized care for every stage of the <span className="gold-italic">journey.</span>
+              {s.heading} <span className="gold-italic">{s.italic_word}</span>
             </h2>
-            <p className="editorial-body mt-6">
-              Every family's situation is unique. Our services are built around your loved one's
-              needs, preferences, and comfort — so they can feel safe, supported, and truly at home.
-            </p>
+            <p className="editorial-body mt-6">{s.body}</p>
             <div className="mt-8 flex flex-col sm:flex-row gap-5 sm:items-center">
-              <Link to="/consultation" className="btn-primary">Schedule a Consultation</Link>
-              <Link to="/services" className="link-gold">View All Services →</Link>
+              <a href={s.primary_cta.url} className="btn-primary">{s.primary_cta.label}</a>
+              <a href={s.secondary_cta.url} className="link-gold">{s.secondary_cta.label}</a>
             </div>
             <div className="mt-12 overflow-hidden rounded-[6px]">
-              <img src={stillLifeAsset.url} alt="Angels of Comfort mug, framed photo of an elderly couple, journal with glasses, and an olive sprig on a wooden table" loading="lazy"
+              <img src={s.image_url} alt="Angels of Comfort care services" loading="lazy"
                 className="w-full h-[340px] object-cover" />
             </div>
           </Reveal>
@@ -36,7 +34,7 @@ export function Services() {
 
         <div className="lg:col-span-7">
           <Reveal>
-            <Eyebrow>Care That Adapts to Life</Eyebrow>
+            <Eyebrow>{s.side_eyebrow}</Eyebrow>
           </Reveal>
           <div className="mt-8 divide-y divide-[var(--gold)]/25">
             {services.map((s, i) => (
