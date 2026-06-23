@@ -23,7 +23,7 @@ export function Services() {
             <p className="editorial-body mt-6">{s.body}</p>
             <div className="mt-8 flex flex-col sm:flex-row gap-5 sm:items-center">
               <a href={s.primary_cta.url} className="btn-primary">{s.primary_cta.label}</a>
-              <a href={s.secondary_cta.url} className="link-gold">{s.secondary_cta.label}</a>
+              <a href={s.secondary_cta.url} className="link-gold text-[15px]">{s.secondary_cta.label}</a>
             </div>
             <div className="mt-12 overflow-hidden rounded-[6px]">
               <img src={s.image_url} alt="Angels of Comfort care services" loading="lazy"
