@@ -103,14 +103,14 @@ export function ServicesPage() {
       <section className="bg-[var(--navy-deep)] text-[var(--ivory)]">
         <div className="container-editorial section-pad text-center max-w-2xl mx-auto">
           <Reveal>
-            <Eyebrow>Not sure where to begin?</Eyebrow>
+            <Eyebrow className="text-[var(--ivory)]">Not sure where to begin?</Eyebrow>
             <h2
               className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--ivory)]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}
             >
               We'll help you find the <span className="gold-italic">right care.</span>
             </h2>
-            <p className="mt-6 text-[var(--cream)]/80 font-light leading-[1.8]">
+            <p className="mt-6 text-[var(--ivory)]/90 font-light leading-[1.8]">
               A free consultation with one of our care advisors. No pressure, no obligation —
               just a thoughtful conversation about what your family needs.
             </p>
