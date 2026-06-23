@@ -105,7 +105,7 @@ export function ServicesPage() {
           <Reveal>
             <Eyebrow>Not sure where to begin?</Eyebrow>
             <h2
-              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance]"
+              className="mt-6 font-serif font-medium leading-[1.14] sm:leading-[1.06] tracking-[-0.015em] [text-wrap:balance] text-[var(--ivory)]"
               style={{ fontSize: "clamp(34px, 4vw, 56px)" }}
             >
               We'll help you find the <span className="gold-italic">right care.</span>
