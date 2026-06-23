@@ -51,8 +51,8 @@ export function AboutPage() {
           <Reveal className="lg:col-span-6">
             <div className="overflow-hidden rounded-[6px] shadow-[0_30px_90px_rgba(14,27,46,0.18)]">
               <img
-                src={hero}
-                alt="A caregiver gently holding an elderly woman's hand"
+                src={founderAsset.url}
+                alt="Veronica Karendi, Founder of Angels of Comfort"
                 loading="lazy"
                 className="w-full h-[640px] object-cover"
               />
@@ -118,22 +118,26 @@ export function AboutPage() {
               </Reveal>
             ))}
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mt-20 pt-16 border-t border-[var(--gold-light)]/20">
-            {stats.map(([num, label]) => (
-              <Reveal key={label}>
-                <div className="text-center">
-                  <div
-                    className="font-serif text-[var(--gold-light)] leading-none"
-                    style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
-                  >
-                    {num}
+          <div className="mt-20 rounded-[10px] border border-[var(--gold-light)]/30 p-8 sm:p-12">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 lg:gap-y-0 lg:divide-x lg:divide-[var(--gold-light)]/25">
+              {stats.map((s, i) => (
+                <Reveal key={s.value} delay={i * 0.06}>
+                  <div className="text-center px-4 lg:px-8">
+                    <StatIcon name={s.icon} className="w-10 h-10 text-[var(--gold-light)] mx-auto" />
+                    <div
+                      className="mt-6 font-serif text-[var(--gold-light)] leading-none tracking-[0.02em]"
+                      style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
+                    >
+                      {s.value}
+                    </div>
+                    <div className="w-10 h-px bg-[var(--gold-light)]/60 mx-auto mt-5" />
+                    <p className="mt-6 text-[15px] leading-[1.6] text-[var(--ivory)] font-light max-w-[200px] mx-auto">
+                      {s.label}
+                    </p>
                   </div>
-                  <span className="mt-3 text-[12px] tracking-[0.18em] uppercase text-[var(--cream)]/70 block">
-                    {label}
-                  </span>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
