@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Reveal, Eyebrow } from "@/components/site/Reveal";
 import { HeartOutline } from "@/components/site/Botanical";
 import { PageHeader } from "./PageHeader";
-import hero from "@/assets/about-hero.jpg";
+import founderAsset from "@/assets/founder-veronica.jpg.asset.json";
 import promiseImg from "@/assets/promise-values.jpg";
 
 const values = [
@@ -12,12 +12,29 @@ const values = [
   { word: "Devotion", desc: "We show up. Again and again. For the families who depend on us." },
 ];
 
-const stats = [
-  ["RSA", "MARYLAND LICENSED AGENCY"],
-  ["24/7", "CARE AVAILABILITY WHEN YOU NEED US"],
-  ["24/7", "CARE AVAILABLE WHEN YOU NEED US"],
-  ["RSA", "Fully licensed in the state of Maryland"],
+type Stat = { value: string; label: string; icon: "shield" | "clock" | "heart" | "chat" };
+const stats: Stat[] = [
+  { value: "RSA", label: "Maryland Licensed Agency", icon: "shield" },
+  { value: "24/7", label: "Care Available When You Need Us", icon: "clock" },
+  { value: "1:1", label: "Personalized Care Plans", icon: "heart" },
+  { value: "PORTAL", label: "Family Updates & Communication", icon: "chat" },
 ];
+
+function StatIcon({ name, className }: { name: Stat["icon"]; className?: string }) {
+  const common = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className };
+  if (name === "shield") return (
+    <svg {...common}><path d="M12 2 L4 5 V12 C4 17 7.5 20.5 12 22 C16.5 20.5 20 17 20 12 V5 Z" /><path d="M8.5 12 L11 14.5 L15.5 10" /></svg>
+  );
+  if (name === "clock") return (
+    <svg {...common}><circle cx="12" cy="12" r="9" /><path d="M12 7 V12 L15 14" /></svg>
+  );
+  if (name === "heart") return (
+    <svg {...common}><path d="M12 20.5 C 7 16, 3 13, 3 8.5 A 4.5 4.5 0 0 1 12 7 A 4.5 4.5 0 0 1 21 8.5 C 21 13, 17 16, 12 20.5 Z" /></svg>
+  );
+  return (
+    <svg {...common}><path d="M21 12 C 21 16, 17 19, 12 19 C 10.5 19 9 18.7 7.7 18.2 L 3 19.5 L 4.3 15.8 C 3.5 14.7 3 13.4 3 12 C 3 8 7 5 12 5 C 17 5 21 8 21 12 Z" /><circle cx="8.5" cy="12" r="0.8" fill="currentColor" /><circle cx="12" cy="12" r="0.8" fill="currentColor" /><circle cx="15.5" cy="12" r="0.8" fill="currentColor" /></svg>
+  );
+}
 
 export function AboutPage() {
   return (
@@ -34,8 +51,8 @@ export function AboutPage() {
           <Reveal className="lg:col-span-6">
             <div className="overflow-hidden rounded-[6px] shadow-[0_30px_90px_rgba(14,27,46,0.18)]">
               <img
-                src={hero}
-                alt="A caregiver gently holding an elderly woman's hand"
+                src={founderAsset.url}
+                alt="Veronica Karendi, Founder of Angels of Comfort"
                 loading="lazy"
                 className="w-full h-[640px] object-cover"
               />
@@ -101,22 +118,26 @@ export function AboutPage() {
               </Reveal>
             ))}
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mt-20 pt-16 border-t border-[var(--gold-light)]/20">
-            {stats.map(([num, label]) => (
-              <Reveal key={label}>
-                <div className="text-center">
-                  <div
-                    className="font-serif text-[var(--gold-light)] leading-none"
-                    style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
-                  >
-                    {num}
+          <div className="mt-20 rounded-[10px] border border-[var(--gold-light)]/30 p-8 sm:p-12">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 lg:gap-y-0 lg:divide-x lg:divide-[var(--gold-light)]/25">
+              {stats.map((s, i) => (
+                <Reveal key={s.value} delay={i * 0.06}>
+                  <div className="text-center px-4 lg:px-8">
+                    <StatIcon name={s.icon} className="w-10 h-10 text-[var(--gold-light)] mx-auto" />
+                    <div
+                      className="mt-6 font-serif text-[var(--gold-light)] leading-none tracking-[0.02em]"
+                      style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
+                    >
+                      {s.value}
+                    </div>
+                    <div className="w-10 h-px bg-[var(--gold-light)]/60 mx-auto mt-5" />
+                    <p className="mt-6 text-[15px] leading-[1.6] text-[var(--ivory)] font-light max-w-[200px] mx-auto">
+                      {s.label}
+                    </p>
                   </div>
-                  <span className="mt-3 text-[12px] tracking-[0.18em] uppercase text-[var(--cream)]/70 block">
-                    {label}
-                  </span>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
