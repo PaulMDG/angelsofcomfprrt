@@ -93,7 +93,7 @@ export function Hero() {
               <Calendar className="w-4 h-4" />
               {hero.primary_cta.label}
             </Link>
-            <Link to={hero.secondary_cta.url} className="btn-outline">
+            <Link to={hero.secondary_cta.url} className="btn-outline btn-outline-gold">
               {hero.secondary_cta.label}
               <ArrowRight className="w-4 h-4" />
             </Link>
