@@ -168,8 +168,9 @@
     gap: 12px;
     font-family: var(--font-sans);
   font-size: 15px;
+    line-height: 1.5;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold);
   }
