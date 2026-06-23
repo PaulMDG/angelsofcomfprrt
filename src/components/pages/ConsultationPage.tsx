@@ -120,10 +120,10 @@ export function ConsultationPage() {
                       By Email
                     </div>
                     <a
-                      href="mailto:hello@angelsofcomfort.com"
+                      href="mailto:care@angelsofcomfort.com"
                       className="font-serif text-[18px] text-[var(--navy-deep)] hover:text-[var(--gold-muted)] transition-colors"
                     >
-                      hello@angelsofcomfort.com
+                      care@angelsofcomfort.com
                     </a>
                   </li>
                   <li>
