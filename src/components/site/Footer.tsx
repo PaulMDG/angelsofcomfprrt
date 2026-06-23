@@ -61,7 +61,7 @@ export function Footer() {
             <FooterHeading>Contact</FooterHeading>
             <ul className="space-y-3 text-sm text-[var(--cream)] opacity-90">
               <li>(240) 426-3304</li>
-              <li>hello@angelsofcomfort.com</li>
+              <li>care@angelsofcomfort.com</li>
               <li>Mon–Fri: 8am – 6pm</li>
               <li className="opacity-80">
                 10400 Little Patuxent Pkwy<br />Suite 300, Columbia, MD 21044
