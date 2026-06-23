@@ -81,7 +81,7 @@ export function AboutPage() {
                 "Care should feel like home, because it happens at home."
               </p>
               <p className="text-sm tracking-[0.18em] uppercase text-[var(--gold)]">
-                — Founder, Angels of Comfort
+                — VERONICA KARENDI, FOUNDER, ANGELS OF COMFORT
               </p>
             </div>
           </Reveal>
