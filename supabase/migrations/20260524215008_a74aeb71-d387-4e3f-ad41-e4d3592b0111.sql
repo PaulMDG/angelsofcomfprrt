@@ -173,6 +173,6 @@ CREATE TRIGGER settings_set_updated_at BEFORE UPDATE ON public.site_settings FOR
 
 -- Seed defaults
 INSERT INTO public.site_settings (key, value) VALUES
-  ('contact', '{"phone":"(555) 123-4567","email":"hello@angelsofcomfort.com","address":""}'::jsonb),
+  ('contact', '{"phone":"(555) 123-4567","email":"care@angelsofcomfort.com","address":""}'::jsonb),
   ('social', '{"instagram":"","facebook":"","linkedin":""}'::jsonb)
 ON CONFLICT (key) DO NOTHING;
