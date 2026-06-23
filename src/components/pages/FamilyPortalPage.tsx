@@ -126,7 +126,7 @@ export function FamilyPortalPage() {
           <Reveal delay={0.1} className="lg:col-span-5">
             <div className="bg-[var(--navy-deep)] text-[var(--ivory)] p-12 rounded-[6px] shadow-[0_30px_90px_rgba(14,27,46,0.25)]">
               <Eyebrow className="justify-center text-center">Request Portal Access</Eyebrow>
-              <h3 className="mt-6 font-serif text-3xl text-center leading-[1.15]">
+              <h3 className="mt-6 font-serif text-3xl text-center leading-[1.15] text-[var(--ivory)]">
                 Already with us? <span className="gold-italic">Welcome in.</span>
               </h3>
               <p className="mt-5 text-[14px] leading-[1.8] text-[var(--cream)]/75 font-light text-center">
