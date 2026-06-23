@@ -13,6 +13,7 @@ import {
   PortalEditor,
   ResourcesEditor,
   CtaEditor,
+  ServicesEditor,
   type SectionKey,
 } from "@/components/admin/HomeSectionEditors";
 
@@ -108,6 +109,9 @@ function HomepageAdmin() {
                   )}
                   {s.key === "portal" && (
                     <PortalEditor value={content.portal} onChange={(v) => updateSection("portal", v)} />
+                  )}
+                  {s.key === "services" && (
+                    <ServicesEditor value={content.services} onChange={(v) => updateSection("services", v)} />
                   )}
                   {s.key === "resources" && (
                     <ResourcesEditor value={content.resources} onChange={(v) => updateSection("resources", v)} />

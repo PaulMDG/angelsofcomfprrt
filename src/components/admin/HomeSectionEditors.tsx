@@ -17,6 +17,7 @@ export const SECTIONS: { key: SectionKey; label: string; description: string }[]
   { key: "reassurance", label: "Reassurance", description: "Empathetic intro after the hero." },
   { key: "promise", label: "Our Promise", description: "Values shown over the dark band." },
   { key: "portal", label: "Family Portal", description: "Promo for the family portal." },
+  { key: "services", label: "Services", description: "Care services section with image and CTAs." },
   { key: "resources", label: "Resources / Journal", description: "Header for the journal section." },
   { key: "cta", label: "Call to Action", description: "Closing band at the bottom of the page." },
 ];
@@ -224,6 +225,28 @@ export function ResourcesEditor({ value, onChange }: { value: HomeContent["resou
         <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
       </div>
       <Field label="Link label"><Text value={value.link_label} onChange={(v) => set({ link_label: v })} /></Field>
+      <Field label="Featured image (fallback when no blog post cover is set)">
+        <CroppingImagePicker value={value.featured_image_url} onChange={(v) => set({ featured_image_url: v })} defaultAspect={4 / 3} />
+      </Field>
+    </>
+  );
+}
+
+export function ServicesEditor({ value, onChange }: { value: HomeContent["services"]; onChange: (v: HomeContent["services"]) => void }) {
+  const set = (patch: Partial<HomeContent["services"]>) => onChange({ ...value, ...patch });
+  return (
+    <>
+      <p className="text-[12px] text-[var(--warm-gray)]">The list of services on the right is pulled from your Services admin.</p>
+      <Field label="Eyebrow"><Text value={value.eyebrow} onChange={(v) => set({ eyebrow: v })} /></Field>
+      <div className="grid md:grid-cols-2 gap-3">
+        <Field label="Heading"><Text value={value.heading} onChange={(v) => set({ heading: v })} /></Field>
+        <Field label="Italic word"><Text value={value.italic_word} onChange={(v) => set({ italic_word: v })} /></Field>
+      </div>
+      <Field label="Body"><Area value={value.body} onChange={(v) => set({ body: v })} /></Field>
+      <Field label="Image"><CroppingImagePicker value={value.image_url} onChange={(v) => set({ image_url: v })} defaultAspect={16 / 9} /></Field>
+      <CtaEditorRow label="Primary button" value={value.primary_cta} onChange={(v) => set({ primary_cta: v })} />
+      <CtaEditorRow label="Secondary link" value={value.secondary_cta} onChange={(v) => set({ secondary_cta: v })} />
+      <Field label="Right-column eyebrow"><Text value={value.side_eyebrow} onChange={(v) => set({ side_eyebrow: v })} /></Field>
     </>
   );
 }
@@ -258,6 +281,8 @@ export function SectionEditor<K extends SectionKey>({ sectionKey, value, onChang
       return <PortalEditor value={value as HomeContent["portal"]} onChange={onChange as any} />;
     case "resources":
       return <ResourcesEditor value={value as HomeContent["resources"]} onChange={onChange as any} />;
+    case "services":
+      return <ServicesEditor value={value as HomeContent["services"]} onChange={onChange as any} />;
     case "cta":
       return <CtaEditor value={value as HomeContent["cta"]} onChange={onChange as any} />;
     default:
