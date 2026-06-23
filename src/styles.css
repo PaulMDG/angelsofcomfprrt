@@ -256,6 +256,24 @@
     color: var(--navy-deep);
   }
 
+  /* Transparent outline button with gold fill on hover/active (dark backgrounds) */
+  .btn-outline-gold {
+    background: transparent;
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .btn-outline-gold:hover {
+    background: var(--gold);
+    color: var(--navy-deep);
+    border-color: var(--gold);
+  }
+  .btn-outline-gold:active {
+    background: var(--gold-muted);
+    color: var(--navy-deep);
+    border-color: var(--gold-muted);
+  }
+
+
   .link-gold {
     color: var(--gold);
     font-family: var(--font-sans);
